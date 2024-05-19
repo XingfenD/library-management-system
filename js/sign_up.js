@@ -23,7 +23,6 @@ function info_send() {
             async:true,
             dataType:"json",
             success:function(res) {  // if get the return successfully
-                alert(res.status);
                 console.log(res);
             },
             error:function(res) { // if failed
