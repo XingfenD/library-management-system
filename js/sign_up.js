@@ -20,7 +20,7 @@ function info_send() {
             data: data,
             async:true,
             dataType:"json",
-            success:function(res) {  // get the return successfully
+            success:function(res) {  // if get the return successfully
                 alert("success");
                 console.log("send json success");
             },

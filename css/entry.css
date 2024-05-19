@@ -10,7 +10,7 @@ body {
 }
 .container {
     height: 100%;
-    background-image: url('../image/Minecraft_Trails&Tales_.Net_2048x2048.png');
+    background-image: url('../image/entry_background.png');
     /* background-repeat:repeat-x; */
     background-size:100% 190%;
     background-position:100%
