@@ -1,4 +1,5 @@
 function info_send() {
+    // get the value in inputbox
     var uname = document.getElementById('username').value;
     var psd = document.getElementById('password1').value;
     var re_psd = document.getElementById('password2').value;
@@ -11,22 +12,22 @@ function info_send() {
     } else if (!(psd === re_psd)) {
         alert('两次输入的密码不相同!');
     } else {
-        // send ajax request to the back end
-        const data = {
+        // else send ajax request to the back end
+        const data = { // construct the json data
             "username": uname
         };
 
         $.ajax({
         type:"POST",
-        url:"../php/sign_up_backend.php", // send ajax post to back-end script
+        url:"../php/sign_up_backend.php", // the corresponding back-end script
         data: data,
-        async:true,            
-        dataType:"json",       
-        success:function(res) { 
+        async:true,
+        dataType:"json",
+        success:function(res) {  // get the return successfully
             alert("success");
             console.log("send json success");
         },
-        error:function(res) {
+        error:function(res) { // if failed
             console.log(res);
             alert('error');
         }
