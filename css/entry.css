@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+}
+.container {
+    height: 100%;
+    background-image: url('../image/Minecraft_Trails&Tales_.Net_2048x2048.png');
+    /* background-repeat:repeat-x; */
+    background-size:100% 190%;
+    background-position:100%
+}
+.form-wrapper {
+    background-color: white;
+    width: 358px;
+    height: 488px;
+    border-radius: 15px;
+    padding: 0 50px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.header {
+    font-size: 38px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 200px;
+}
+.input-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 0;
+    padding: 10px;
+    border-bottom: 1px solid rgb(128, 125, 125);
+    font-size: 15px;
+    outline: none;
+}
+.input-item:placeholder {
+    text-transform: uppercase;
+}
+button {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: 2px solid #4CAF50;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+button[name="button2"] {
+    margin-top:24px;
+}
+
+input[value="注册"] {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: 2px solid #4CAF50;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+input[value="注册"]:hover {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+a {
+    text-decoration-line: none;
+    color: green;
+}
