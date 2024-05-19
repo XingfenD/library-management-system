@@ -24,12 +24,17 @@ function info_send() {
             dataType:"json",
             success:function(res) {  // if get the return successfully
                 console.log(res);
-                alert("注册成功, 正在重定向...");
-                window.location.replace('../index.html');
+                if (res['status'] != 0) {
+                    alert(res['msg']);
+                } else {
+                    alert("注册成功, 正在重定向...");
+                    window.location.replace('../index.html');
+                }
             },
             error:function(res) { // if failed
-                console.log(res);
-                alert('error');
+                var str_array = res['responseText'].split('\n');
+                var msg_json = $.parseJSON(str_array[str_array.length - 1]);
+                alert(msg_json['msg']);
             }
         })
     }
