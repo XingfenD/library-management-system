@@ -1,14 +1,56 @@
 <?php
-header('Content-type:text/json;charset=utf-8');//这个类型声明非常关键
-require_once '../private/mysql-conn-config.php';
+    header('Content-type:text/json;charset=utf-8');//这个类型声明非常关键
+    require_once '../private/mysql-conn-config.php';
+    $rt_msg = array('status'=>0, 'msg'=>'Sign up successfuly');
+    
 
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-$privateKey = file_get_contents('../private/key-pair/private_key.pem');
-$username=$_POST['username'];
-$encryptedPassword=$_POST['password'];
-$decryptedPassword = '';
+    if ($_POST['request'] == 'signup') { // sign up a new account
+        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        if (!$conn) {
+            $rt_msg['status'] = 1;
+            $rt_msg['msg'] = 'Connect database failed';
+        } else {
+            $privateKey = file_get_contents('../private/key-pair/private_key.pem');
+            $username=$_POST['username'];
+            $encryptedPassword=$_POST['password'];
+            $decryptedPassword = ''; // define a var
 
-openssl_private_decrypt(base64_decode($encryptedPassword), $decryptedPassword, $privateKey);
+            $decrypt_rst = openssl_private_decrypt(base64_decode($encryptedPassword), $decryptedPassword, $privateKey);
 
-$data='{"username": '.$username.', "password": "'.$decryptedPassword.'"}';//组合成json格式数据
-echo json_encode($data);//输出json数据 传数据给前台
+            if (!$decrypt_rst) {
+                // decrypt failed
+                $rt_msg['status'] = 2;
+                $rt_msg['msg'] = 'Decryption error';
+            } else { // decrypt successfuly
+                // generate uuid
+                $date = date('Ymd');
+                $new_uuid = '';
+                
+                // query the sign up users today and generate uuid
+                $sql_search = "SELECT uuid FROM user WHERE uuid LIKE '{$date}%' ORDER BY uuid DESC";
+                $rst_search = $conn->query($sql_search);
+
+                if ($rst_search->num_rows > 0) {
+                    $new_end = (int)substr($rst_search->fetch_assoc()['uuid'], 8) + 1;
+                    $new_uuid = sprintf("{$date}%04d", $new_end);
+                } else {
+                    $new_uuid = sprintf("{$date}0000");
+                }
+
+                $hashed_psd = password_hash($decryptedPassword, PASSWORD_BCRYPT);
+                $sql_insert = "INSERT INTO user (uuid, username, password) VALUES ({$new_uuid}, '{$username}', '{$hashed_psd}')";
+                 
+                if ($conn->query($sql_insert) != TRUE) {
+                    $rt_msg['status'] = 3;
+                    $rt_msg['msg'] = 'Insert into database failed';
+                }
+                 
+            }
+            // openssl_free_key($privateKey);
+            $conn->close();
+        }
+
+    } else if ($_POST['request'] == 'login') { // log in a existing account
+        
+    }
+    echo json_encode($rt_msg); // return a json data to the front-end

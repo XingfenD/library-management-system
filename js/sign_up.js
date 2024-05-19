@@ -11,6 +11,7 @@ function info_send() {
     } else {
         // if success, send ajax request to the back end
         const data = { // construct the json data
+            "request": "signup",
             "username": uname,
             "password": encryptPassword(psd)
         };
@@ -22,7 +23,7 @@ function info_send() {
             async:true,
             dataType:"json",
             success:function(res) {  // if get the return successfully
-                alert("success");
+                alert(res.status);
                 console.log(res);
             },
             error:function(res) { // if failed
