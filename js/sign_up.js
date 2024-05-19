@@ -3,7 +3,7 @@ function info_send() {
     var uname = document.getElementById('username').value;
     var psd = document.getElementById('password1').value;
     var re_psd = document.getElementById('password2').value;
-    if (uname === "") {
+    if (uname === "") { // check the username
         alert("用户名不能为空");
     } else if (uname.length <= 2 || uname.length >= 15) {
         alert("用户名长度应该在2~15之间");
