@@ -65,7 +65,7 @@ button:hover {
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-button[name="button2"] {
+button[type="button"] {
     margin-top:24px;
 }
 
@@ -88,8 +88,4 @@ input[value="注册"]:hover {
     background-color: #4CAF50;
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
-a {
-    text-decoration-line: none;
-    color: green;
 }

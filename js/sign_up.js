@@ -24,6 +24,8 @@ function info_send() {
             dataType:"json",
             success:function(res) {  // if get the return successfully
                 console.log(res);
+                alert("注册成功, 正在重定向...");
+                window.location.replace('../index.html');
             },
             error:function(res) { // if failed
                 console.log(res);
