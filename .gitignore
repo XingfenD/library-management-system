@@ -1,5 +1,8 @@
 # backup files
 *.backup
 
-# files in directory /private 
+# files in directory ./private 
 /private/*
+
+# files in directory ./php/lib
+/php/lib/**
