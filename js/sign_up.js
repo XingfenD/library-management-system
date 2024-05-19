@@ -11,7 +11,8 @@ function info_send() {
     } else {
         // if success, send ajax request to the back end
         const data = { // construct the json data
-            "username": uname
+            "username": uname,
+            "password": encryptPassword(psd)
         };
 
         $.ajax({
@@ -22,7 +23,7 @@ function info_send() {
             dataType:"json",
             success:function(res) {  // if get the return successfully
                 alert("success");
-                console.log("send json success");
+                console.log(res);
             },
             error:function(res) { // if failed
                 console.log(res);
@@ -60,3 +61,20 @@ function info_check(uname, psd, re_psd) {
 
     return msg;
 }
+
+function encryptPassword(password) {
+    const publicKey = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA63YuVyfywbFxetYN0O2i
+hy69PiWnmeBfCKfYaSmrBqXFR3BmppwNHZfnXEpFuEOuXOPzjSf2cXrYRZ/wfrgJ
+KtnJnF0PEmt8bYnSikkp2gPnoWJSe83maL/2QgDVO7Q/6lNNvSfrfFBjBCZluMWP
+P9JGDmZkwZBu7hMlPU8XEO7LRthC1baSMR6pRTifxS7IJTuRd4PwkE1fpVv8aSZp
+UN/+tvfTBokCZJ90+qVBBKR6LkS/jXwK2NU/tlcaQ+chHn0atrEOkybzbkAMMnBw
+EpqgGvZregsKIPM7I84Y3KI2lbRXDmbmNNsj5nmWVfcJWb45DjkAfl5EY0s6COBD
+RwIDAQAB
+-----END PUBLIC KEY-----
+`;
+    const encrypt = new JSEncrypt();
+    encrypt.setPublicKey(publicKey);
+    return encrypt.encrypt(password);
+}
+
