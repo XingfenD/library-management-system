@@ -3,6 +3,3 @@
 
 # files in directory ./private 
 /private/*
-
-# files in directory ./php/lib
-/php/lib/**
