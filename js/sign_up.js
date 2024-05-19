@@ -5,7 +5,10 @@ function info_send() {
     var re_psd = document.getElementById('password2').value;
 
     var msg = info_check(uname, psd, re_psd);
-    if (msg === 'true') {
+    
+    if (msg != 'true') {
+        alert(msg);
+    } else {
         // if success, send ajax request to the back end
         const data = { // construct the json data
             "username": uname
@@ -26,8 +29,6 @@ function info_send() {
                 alert('error');
             }
         })
-    } else {
-        alert(msg);
     }
 }
 
