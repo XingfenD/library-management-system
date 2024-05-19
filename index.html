@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登入</title>
     <link rel="stylesheet" type="text/css" href="./css/entry.css">
-    <link rel="icon" href="./image/favicon.ico">
+    <link rel="icon" href="./image/favicon.ico"> <!--the icon of the entry page-->
+    <script src="../js/entry.js"></script> <!--import sign_up.js-->
 </head>
 <body>
     <div class="container">
         <div class="form-wrapper">
             <div class="header">登入</div>
-            <form action ="./php/welcome.php" method="post">
+            <form>
                 <input type="text" name="username" placeholder="用户名" class="input-item">
                 <input type="password" name="password" placeholder="密码" class="input-item">
-                <button type="submit" name="button1">登录</button>
+                <input type="button" value="登录" onclick="sign_up_send()">
             </form>
             <button type="button" onclick="window.location.href='./html/sign_up.html'">注册</button>
         </div>

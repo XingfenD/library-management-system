@@ -1,4 +1,46 @@
-function info_send() {
+function log_in_send() {
+    var uname = document.getElementById('username').value;
+    var psd = document.getElementById('password').value;
+
+    var msg = info_check(uname, psd, psd);
+    if (msg != 'true') {
+        alert(msg);
+    } else {
+        // if success, send ajax request to the back end
+        const data = { // construct the json data
+            "request": "login",
+            "username": uname,
+            "password": encryptPassword(psd)
+        };
+
+        $.ajax({
+            type:"POST",
+            url:"../php/entry_backend.php", // the corresponding back-end script
+            data: data,
+            async:true,
+            dataType:"json",
+            success:function(res) {  // if get the return successfully
+                console.log(res);
+                if (res['status'] != 0) {
+                    alert(res['msg']);
+                } else {
+                    alert("注册成功, 正在重定向...");
+                    window.location.replace('../index.html');
+                }
+            },
+            error:function(res) { // if failed
+                console.log(res);
+                var str_array = res['responseText'].split('\n');
+                var msg_json = $.parseJSON(str_array[str_array.length - 1]);
+                alert(msg_json['msg']);
+            }
+        })
+    }
+
+}
+
+
+function sign_up_send() {
     // get the value in inputbox
     var uname = document.getElementById('username').value;
     var psd = document.getElementById('password1').value;
@@ -18,7 +60,7 @@ function info_send() {
 
         $.ajax({
             type:"POST",
-            url:"../php/sign_up_backend.php", // the corresponding back-end script
+            url:"../php/entry_backend.php", // the corresponding back-end script
             data: data,
             async:true,
             dataType:"json",
@@ -32,6 +74,7 @@ function info_send() {
                 }
             },
             error:function(res) { // if failed
+                console.log(res);
                 var str_array = res['responseText'].split('\n');
                 var msg_json = $.parseJSON(str_array[str_array.length - 1]);
                 alert(msg_json['msg']);
