@@ -32,6 +32,20 @@ body {
     text-align: center;
     line-height: 200px;
 }
+.arrow-button {
+    border: solid green;
+    border-width: 0 5px 5px 0px;
+    background-color: white;
+    position: absolute;
+    /* margin-left: 10px; */
+    margin-top: 9%;
+    padding: 5px;
+    cursor: pointer;
+}
+.left {
+    -webkit-transform: rotate(135deg);
+    transform: rotate(135deg);
+}
 .input-item {
     display: block;
     width: 100%;
@@ -45,7 +59,8 @@ body {
 .input-item:placeholder {
     text-transform: uppercase;
 }
-button {
+
+.button {
     background-color: white;
     border: none;
     color: black;
@@ -60,16 +75,18 @@ button {
     transition-duration: 0.4s;
     cursor: pointer;
 }
-button:hover {
+.button:hover {
     background-color: #4CAF50;
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
-button[type="button"] {
+.sec {
     margin-top:24px;
 }
-
-input[type="button"] {
+.button[value="注册"] {
+    margin-top: 18px;
+}
+/* input[type="button"] {
     background-color: white;
     border: none;
     color: black;
@@ -80,12 +97,13 @@ input[type="button"] {
     font-size: 16px;
     margin: 4px 2px;
     border: 2px solid #4CAF50;
-    -webkit-transition-duration: 0.4s; /* Safari */
+    -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
     cursor: pointer;
-}
-input[type="button"]:hover {
+} */
+
+/* input[type="button"]:hover {
     background-color: #4CAF50;
     color: white;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
+} */

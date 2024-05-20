@@ -13,9 +13,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登入</title>
-    <link rel="stylesheet" type="text/css" href="../css/entry.css">
+    <title>图书馆信息管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../css/mainpage.css">
     <link rel="icon" href="../image/favicon.ico"> <!--the icon of the entry page-->
+    <link rel="icon" href="../image/favicon.ico">  <!--page icon-->
 </head>
 <body>
     <p>你好，用户：<?php echo $username?></p>
