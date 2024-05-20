@@ -79,13 +79,21 @@
                         $rt_msg['msg'] = 'Password error';
                     } else {
                         $rt_msg['msg'] = 'Log in successfully';
-                        session_start();
-                        $rt_msg['msg'] = 'Log in successfully';
-                        $_SESSION['username'] = $username;
-                        $_SESSION['authority'] = $user_account['authority'];
                     }
                 }
             }
+        }
+
+        if ($rt_msg['status'] == 0) {
+            session_start();
+            $rt_msg['msg'] = 'Log in successfully';
+            $_SESSION['username'] = $username;
+            if ($_POST['request'] == 'signup') {
+                $_SESSION['authority'] = 19;
+            } else {
+                $_SESSION['authority'] = (int)$user_account['authority'];
+            }
+            
         }
         $conn->close();
     }

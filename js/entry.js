@@ -25,7 +25,7 @@ function log_in_send() {
                     alert(res['msg']);
                 } else {
                     alert("登录成功, 正在重定向...");
-                    window.location.replace('../php/mainpage.php');
+                    window.location.replace('../index.php');
                 }
             },
             error:function(res) { // if failed
@@ -43,7 +43,8 @@ function log_in_send() {
 function sign_up_send() {
     // get the value in inputbox
     var uname = document.getElementById('username').value;
-    var psd = document.getElementById('password').value;
+    var psd = document.getElementById('password1').value;
+    var re_psd = document.getElementById('password2').value;
 
     var msg = info_check(uname, psd, re_psd);
     
@@ -69,7 +70,7 @@ function sign_up_send() {
                     alert(res['msg']);
                 } else {
                     alert("注册成功, 正在重定向...");
-                    window.location.replace('../index.html');
+                    window.location.replace('../index.php');
                 }
             },
             error:function(res) { // if failed
