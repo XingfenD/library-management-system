@@ -59,7 +59,7 @@
             $encryptedPassword=$_POST['password'];
             $decryptedPassword = ''; // define a var
     
-            $sql_search = "SELECT username, password FROM user WHERE username='{$username}'";
+            $sql_search = "SELECT username, password,authority FROM user WHERE username='{$username}'";
             $rst_search = $conn->query($sql_search);
             if ($rst_search->num_rows == 0) {
                 $rt_msg['status'] = 5;
@@ -79,6 +79,10 @@
                         $rt_msg['msg'] = 'Password error';
                     } else {
                         $rt_msg['msg'] = 'Log in successfully';
+                        session_start();
+                        $rt_msg['msg'] = 'Log in successfully';
+                        $_SESSION['username'] = $username;
+                        $_SESSION['authority'] = $user_account['authority'];
                     }
                 }
             }

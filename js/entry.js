@@ -25,7 +25,7 @@ function log_in_send() {
                     alert(res['msg']);
                 } else {
                     alert("登录成功, 正在重定向...");
-                    // window.location.replace('../index.html');
+                    window.location.replace('../php/mainpage.php');
                 }
             },
             error:function(res) { // if failed
