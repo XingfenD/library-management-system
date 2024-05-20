@@ -24,8 +24,8 @@ function log_in_send() {
                 if (res['status'] != 0) {
                     alert(res['msg']);
                 } else {
-                    alert("注册成功, 正在重定向...");
-                    window.location.replace('../index.html');
+                    alert("登录成功, 正在重定向...");
+                    // window.location.replace('../index.html');
                 }
             },
             error:function(res) { // if failed
@@ -43,8 +43,7 @@ function log_in_send() {
 function sign_up_send() {
     // get the value in inputbox
     var uname = document.getElementById('username').value;
-    var psd = document.getElementById('password1').value;
-    var re_psd = document.getElementById('password2').value;
+    var psd = document.getElementById('password').value;
 
     var msg = info_check(uname, psd, re_psd);
     

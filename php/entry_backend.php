@@ -59,9 +59,9 @@
             $encryptedPassword=$_POST['password'];
             $decryptedPassword = ''; // define a var
     
-            $uname_search = "SELECT username FROM user WHERE username='{$username}'";
-            $rst_uname_search = $conn->query($uname_search);
-            if ($rst_uname_search->num_rows == 0) {
+            $sql_search = "SELECT username, password FROM user WHERE username='{$username}'";
+            $rst_search = $conn->query($sql_search);
+            if ($rst_search->num_rows == 0) {
                 $rt_msg['status'] = 5;
                 $rt_msg['msg'] = 'Unknown Account';
             } else {
@@ -72,9 +72,14 @@
                     $rt_msg['status'] = 2;
                     $rt_msg['msg'] = 'Decryption error';
                 } else { // decrypt successfuly
-                    $hashed_psd = password_hash($decryptedPassword, PASSWORD_BCRYPT);
                     // add verify contents
-                        
+                    $user_account = $rst_search->fetch_assoc();
+                    if (!password_verify($decryptedPassword, $user_account['password'])) {
+                        $rt_msg['status'] = 6;
+                        $rt_msg['msg'] = 'Password error';
+                    } else {
+                        $rt_msg['msg'] = 'Log in successfully';
+                    }
                 }
             }
         }
