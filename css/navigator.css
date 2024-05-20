@@ -1,0 +1,26 @@
+nav{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100px;
+    width: 100vw;
+    position: fixed;
+    background-image: url('../image/Header-background.png');
+    background-size: 100px 100px;
+    background-repeat: repeat-x;
+}
+.nav {
+    position: relative;
+    display: flex;
+}
+
+.nav li {
+    list-style: none;
+    width: 120px;
+    line-height: 40px;
+    text-align: center;
+}
+.nav li a {
+    color: black;
+    text-decoration: none;
+}
