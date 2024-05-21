@@ -15,17 +15,21 @@ for (var i = 0;i < nav_btns.length; i++) {
     })
 
     // rend the page
-    nav_btns[i].addEventListener("click", function() {
+    nav_btns[i].addEventListener("click", async function() {
         console.log('Click event triggered, starting render the content');
         // remove the former content
         var content = document.querySelector(".content");
         content.innerHTML = '';
-        rending[Number(this.getAttribute("id").substr(3))](content);
+        var loading = document.createElement("div");
+        loading.setAttribute("id", "wave1");
+        content.appendChild(loading);
+        await rending[Number(this.getAttribute("id").substr(3))](content);
+        content.removeChild(loading);
     })
 
     // move slider
     nav_btns[i].addEventListener("click", function() {
-        var slider = document.querySelector('.slider');
+        var slider = document.querySelector('.verti-slider');
         var nav_btns = document.querySelectorAll(".nav-btn");
         slider.setAttribute("style", `top:-${41 * (nav_btns.length - Number(this.getAttribute("id").substr(3)))}px`);
     })

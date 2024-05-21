@@ -3,7 +3,7 @@
     session_start();
     $rt_data = array(
         "username" => "visitor",
-        "authority" => 20
+        "authority" => 0
     );
     if (isset($_SESSION['username']) && isset($_SESSION['authority'])) {
         $rt_data['username'] = $_SESSION['username'];
