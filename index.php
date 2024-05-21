@@ -18,105 +18,26 @@
     <link rel="stylesheet" type="text/css" href="./css/mainpage.css">
     <link rel="icon" href="../image/favicon.ico"> <!--the icon of the entry page-->
     <link rel="icon" href="../image/favicon.ico">  <!--page icon-->
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <nav>
         <ul class="nav">
-            <li><a href="#" id="nav1">首页</a></li>
-            <li><a href="#content2" id="nav2">详情</a></li>
-            <li><a href="#content3" id="nav3">个人中心</a></li>
+            <li><a class="nav-btn" id="nav0" type="active">首页</a></li>
+            <li><a class="nav-btn" id="nav1" type>详情</a></li>
+            <li><a class="nav-btn" id="nav2" type>个人中心</a></li>
+            <?php
+                if ($authority != 19) {
+                    echo '<li><a class="nav-btn" id="nav3" type>管理者页面</a></li>';
+                } 
+            ?>
+            <li><a class="nav-btn" id="nav4" type>关于</a></li>
         </ul>
     </nav>
-    <div class="box">
-        <div id="content1" class="content">
-            <p class="placeholder"></p>
-            <p>首页</p>
-        </div>
-        <div id="content2" class="content">
-            <p class="placeholder"></p>
-            <p>详情</p>
-        </div>
-        <div id="content3" class="content">
-            <p class="placeholder"></p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-            <p>yuanshen</p>
-        </div>
-    </div>
+    
+    <div class="content"></div>
 </body>
+<script src="./js/mainpage_rend.js"></script>
+<script src="./js/mainpage.js"></script>
 </html>
