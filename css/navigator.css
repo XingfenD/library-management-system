@@ -2,7 +2,7 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 10%;
+    width: 12%;
     background-color: #f1f1f1;
     position: fixed;
     height: 100%;
@@ -12,17 +12,35 @@ ul {
 li a {
     display: block;
     color: #000;
+    height: 24px;
     padding: 8px 16px;
     text-decoration: none;
     cursor: pointer;
+    border: solid white;
+    border-width: 0px 0px 1px 0px;
 }
 
-li a[type="active"] {
+/* li a[type="active"] {
     background-color: #4CAF50;
     color: white;
-}
+} */
 
 li a:hover:not([type="active"]) {
     background-color: #555;
     color: white;
+}
+
+.slider {
+    position: relative;
+    height: 40px;
+    top:-200px;
+    background-color: #4CAF50;
+    transition: all ease 0.2s;
+    z-index: -1;
+}
+
+.bi {
+    position: relative;
+    top: 3px;
+    left: -4px;
 }

@@ -86,24 +86,3 @@ body {
 .button[value="注册"] {
     margin-top: 18px;
 }
-/* input[type="button"] {
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 10px;
-    width: 100%;
-    border-radius: 8px;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    border: 2px solid #4CAF50;
-    -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;
-    cursor: pointer;
-} */
-
-/* input[type="button"]:hover {
-    background-color: #4CAF50;
-    color: white;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-} */

@@ -13,7 +13,19 @@ body {
     background-size: 200px 200px; */
 }
 .content{
-    margin-left: 10%;
+    margin-left: 12%;
     padding:10px 16px;
     height:auto;
+}
+.text {
+    position: relative;
+    text-align: center;
+    /* top: 40%; */
+    /* left: 50%; */
+    /* font-style: bold;
+    font-size:larger; */
+}
+.title {
+    font-weight:bolder;
+    font-size: 34px;
 }
