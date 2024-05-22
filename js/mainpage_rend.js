@@ -1,8 +1,31 @@
 const rending = [
-    async function (content) { // 0首页
-        console.log("rending the nav0 page");
+    async function (content) { // 首页
         var uname_auth = await request_uname_auth();
-        rend_hori_bar(["1", "2", "3", "4", "1", "2", "3", "4"], content, uname_auth);
+        var btn_info_lst = {
+            "1": {
+                "authority": 1,
+                "icon": 
+                ``
+            },
+            "2": {
+                "authority": 2,
+                "icon": 
+                ``,
+            },
+            "3": {
+                "authority": 3,
+                "icon": 
+                ``
+            },
+            "4": {
+                "authority": 4,
+                "icon": 
+                ``
+            },
+        }
+
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
         var box = document.createElement("div");
         box.setAttribute("class", "box");
         var para1 = document.createElement("a");
@@ -17,31 +40,53 @@ const rending = [
         box.appendChild(para1);
         box.appendChild(para2);
         content.appendChild(box);
-        
-        // content.innerHTML = `<p>你好，用户${uname_auth['username']}</p>\n`
-            // + `<p>你的权限是${uname_auth['authority']}</p>`;
     },
-    async function (content) { // 1书库
-        console.log("rending the nav1 page");
+    async function (content) { // 书库
         var uname_auth = await request_uname_auth();
 
-        rend_hori_bar(["1", "2", "3", "4", "1", "2", "3", "4"], content, uname_auth);
+        rend_hori_bar([''], content, uname_auth);
     },
-    async function (content) { // 2个人中心
-        console.log("rending the nav2 page");
-    },
-    async function (content) { // 3设置
-        console.log("rending the nav3 page");
-    },
-    async function (content) { // 4管理者界面
-        console.log("rending the nav4 page");
-    },
-    async function (content) { // 5关于
-        console.log("rending the nav5 page");
-    }
-]
+    async function (content) { // 用户列表
 
-async function request_uname_auth() {
+    },
+    async function (content) { // 系统管理
+
+    },
+    async function (content) { // 个人中心
+        var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "借阅记录": {
+                "authority": 1,
+                "icon":
+                `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-columns" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 0 .5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 2h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 4h10a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 6h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2A.5.5 0 0 1 .5 8h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-13 2a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5Zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z"/>
+                </svg>`
+            },
+            "我的信息": {
+                "authority": 1,
+                "icon":
+                `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-vcard" viewBox="0 0 16 16">
+                    <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8Zm1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z"/>
+                    <path fill-rule="evenodd" d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z"/>
+                </svg>`
+            }
+        };
+
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+    },
+    async function (content) { // 设置
+
+    },
+    async function (content) { // 关于
+
+    }
+];
+const hori_btn_func = {
+    "借阅记录": async function () { // 
+        alert("这是借阅记录按钮");
+    }
+}
+async function request_uname_auth() { // request username & authority from the server
     var rt;
     await $.ajax({
         type: "GET",
@@ -55,21 +100,33 @@ async function request_uname_auth() {
     return rt;
 }
 
-function rend_hori_bar(btn_str_lst, content, uname_auth) {
+function rend_hori_bar(btn_info_lst, content, uname_auth) {
     var nav = document.createElement("nav");
     var ul = document.createElement("ul");
 
     // buttons on the navigator bar
     ul.setAttribute("class", "nav-hori");
-    btn_str_lst.forEach(function (item) {
-        var li = document.createElement("li");
-        var a = document.createElement("a")
-        a.setAttribute("class", "hori-button");
-        var a_text = document.createTextNode(item);
-        a.appendChild(a_text);
-        li.appendChild(a);
-        ul.appendChild(li);
-    });
+    for (const [key, value] of Object.entries(btn_info_lst)) {
+        if (uname_auth['authority'] >= value['authority']) {
+            var li = document.createElement("li");
+            var a = document.createElement("a")
+
+            // set the attribute
+            a.setAttribute("class", "hori-button");
+            var a_text = document.createTextNode(key); // the text
+            
+            // add event listener
+            if (hori_btn_func.hasOwnProperty(key)) {
+                a.addEventListener("click", hori_btn_func[key]);
+            }
+
+            // build father-son relationship
+            a.innerHTML = value['icon'].trim(); // the icon
+            a.appendChild(a_text);
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+    }
     nav.appendChild(ul);
     
 
@@ -81,17 +138,44 @@ function rend_hori_bar(btn_str_lst, content, uname_auth) {
     var user_text = document.createTextNode(`当前用户:${uname_auth['username']}`);
     var out_text = document.createTextNode("退出");
 
-
+    // set attribute
     hori_bar_info.setAttribute("class", "info");
     btn_out.setAttribute("class", "hori_btn_out")
     h_user.setAttribute("class", "h_user");
     h_out.setAttribute("class", "h_out");
 
-    // build connection
+    // add listener
+    btn_out.addEventListener("click", async function () {
+        await $.ajax ({
+            type: "POST",
+            url: "../php/logout_backend.php", // the corresponding back-end script
+            async: true,
+            data: {
+                "username": this.parentElement.previousElementSibling.textContent.substr(5)
+            },
+            success: function(res) {  // if get the return successfully
+                console.log(res);
+                if (res['status'] == 0) {
+                    alert("登出成功，正在重定向...");
+                    window.location.replace('../html/log_in.html');
+                } else {
+                    alert("登出失败");
+                }
+            },
+            error: function(res) {
+                console.log(res);
+                alert("error");
+                alert(res);
+            }
+        })
+    });
+
+    // build father-son relationship
     btn_out.appendChild(out_text);
-    btn_out.innerHTML += `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
-    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+    btn_out.innerHTML += 
+    `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
     </svg>`;
     h_user.appendChild(user_text);
     h_out.appendChild(btn_out);
