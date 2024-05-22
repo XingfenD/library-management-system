@@ -25,6 +25,13 @@
                 <!--call info_send function send the input to the back-end-->
                 <input type="button" class="button" value="注册" onclick="sign_up_send()">
             </form>
+            <script>
+                document.querySelector("#password2").addEventListener("keydown", function (event) {
+                    if (event.keyCode == 13) {
+                        document.querySelector("input.button").click();
+                    }
+                }); 
+            </script>
         </div>
     </div>
 

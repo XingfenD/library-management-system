@@ -108,4 +108,5 @@
 </body>
 <script src="./js/mainpage_rend.js"></script>
 <script src="./js/mainpage.js"></script>
+<script src="./js/box_rend.js"></script>
 </html>

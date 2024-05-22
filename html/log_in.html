@@ -21,6 +21,13 @@
                 <input type="button" class="button" value="登录" onclick="log_in_send()">
             </form>
             <button type="button" class="button sec" onclick="window.location.href='./sign_up.html'">注册</button>
+            <script>
+                document.querySelector("#password").addEventListener("keydown", function (event) {
+                    if (event.keyCode == 13) {
+                        document.querySelector("input.button").click();
+                    }
+                }); 
+            </script>
         </div>
     </div>
 </body>

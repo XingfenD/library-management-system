@@ -127,11 +127,3 @@ RwIDAQAB
     encrypt.setPublicKey(publicKey);
     return encrypt.encrypt(password);
 }
-
-document.onkeydown = function (e) {
-    var theEvent = window.event || e;
-    var code = theEvent.keyCode || theEvent.which;
-    if (code == 13) {
-        $("#button").click();
-    }
-}

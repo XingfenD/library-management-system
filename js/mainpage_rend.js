@@ -26,33 +26,22 @@ const rending = [
 
         rend_hori_bar(btn_info_lst, content, uname_auth);
         document.querySelector(".hori-button").click();
-        var box = document.createElement("div");
-        box.setAttribute("class", "box");
-        var para1 = document.createElement("a");
-        para1.setAttribute("class", "text title");
-        var text1 = document.createTextNode(`你好`);
-        var para2 = document.createElement("a");
-        para2.setAttribute("class", "text para");
-        var text2 = document.createTextNode(`${uname_auth['username']}，你的权限是${uname_auth['authority']}`);
-
-        para1.appendChild(text1);
-        para2.appendChild(text2);
-        box.appendChild(para1);
-        box.appendChild(para2);
-        content.appendChild(box);
     },
     async function (content) { // 书库
         var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "原神2.1": {
+                "authority": 1,
+            },
+            "原神2.2": {
+                "authority": 1,
+            }
+        };
 
-        rend_hori_bar([''], content, uname_auth);
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
     },
     async function (content) { // 用户列表
-
-    },
-    async function (content) { // 系统管理
-
-    },
-    async function (content) { // 个人中心
         var uname_auth = await request_uname_auth();
         var btn_info_lst = {
             "借阅记录": {
@@ -73,19 +62,66 @@ const rending = [
         };
 
         rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
+    },
+    async function (content) { // 系统管理
+        var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "原神4.1": {
+                "authority": 1,
+            },
+            "原神4.2": {
+                "authority": 1,
+            }
+        };
+
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
+    },
+    async function (content) { // 个人中心
+        var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "原神5.1": {
+                "authority": 1,
+            },
+            "原神5.2": {
+                "authority": 1,
+            }
+        };
+
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
     },
     async function (content) { // 设置
+        var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "原神6.1": {
+                "authority": 1,
+            },
+            "原神6.2": {
+                "authority": 1,
+            }
+        };
 
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
     },
     async function (content) { // 关于
+        var uname_auth = await request_uname_auth();
+        var btn_info_lst = {
+            "原神7.1": {
+                // "authority": 1,
+            },
+            "原神7.2": {
+                // "authority": 1,
+            }
+        };
 
+        rend_hori_bar(btn_info_lst, content, uname_auth);
+        document.querySelector(".hori-button").click();
     }
 ];
-const hori_btn_func = {
-    "借阅记录": async function () { // 
-        alert("这是借阅记录按钮");
-    }
-}
+
 async function request_uname_auth() { // request username & authority from the server
     var rt;
     await $.ajax({
@@ -100,16 +136,20 @@ async function request_uname_auth() { // request username & authority from the s
     return rt;
 }
 
-function rend_hori_bar(btn_info_lst, content, uname_auth) {
+function rend_hori_bar(btn_info_lst, content, uname_auth) { // rend the content actually
     var nav = document.createElement("nav");
     var ul = document.createElement("ul");
+    var box = document.createElement("div");
 
     // buttons on the navigator bar
     ul.setAttribute("class", "nav-hori");
     for (const [key, value] of Object.entries(btn_info_lst)) {
+        if (!value.hasOwnProperty('authority')) {
+            value['authority'] = 1;
+        }
         if (uname_auth['authority'] >= value['authority']) {
             var li = document.createElement("li");
-            var a = document.createElement("a")
+            var a = document.createElement("a");
 
             // set the attribute
             a.setAttribute("class", "hori-button");
@@ -117,11 +157,15 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) {
             
             // add event listener
             if (hori_btn_func.hasOwnProperty(key)) {
-                a.addEventListener("click", hori_btn_func[key]);
+                a.addEventListener("click", function() {
+                    hori_btn_func[key](uname_auth, box); // params
+                });
             }
 
             // build father-son relationship
-            a.innerHTML = value['icon'].trim(); // the icon
+            if (value.hasOwnProperty('icon')) {
+                a.innerHTML = value['icon']; // the icon
+            }
             a.appendChild(a_text);
             li.appendChild(a);
             ul.appendChild(li);
@@ -139,12 +183,13 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) {
     var out_text = document.createTextNode("退出");
 
     // set attribute
+    box.setAttribute("class", "box");
     hori_bar_info.setAttribute("class", "info");
     btn_out.setAttribute("class", "hori_btn_out")
     h_user.setAttribute("class", "h_user");
     h_out.setAttribute("class", "h_out");
 
-    // add listener
+    // add listener logout
     btn_out.addEventListener("click", async function () {
         await $.ajax ({
             type: "POST",
@@ -156,10 +201,10 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) {
             success: function(res) {  // if get the return successfully
                 console.log(res);
                 if (res['status'] == 0) {
-                    alert("登出成功，正在重定向...");
+                    alert("退出登录成功，正在重定向...");
                     window.location.replace('../html/log_in.html');
                 } else {
-                    alert("登出失败");
+                    alert("退出登录失败");
                 }
             },
             error: function(res) {
@@ -182,6 +227,6 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) {
     hori_bar_info.appendChild(h_user);
     hori_bar_info.appendChild(h_out);
     nav.appendChild(hori_bar_info);
-
     content.appendChild(nav);
+    content.appendChild(box);
 }
