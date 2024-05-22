@@ -29,10 +29,15 @@ function log_in_send() {
                 }
             },
             error:function(res) { // if failed
-                console.log(res);
-                var str_array = res['responseText'].split('\n');
-                var msg_json = $.parseJSON(str_array[str_array.length - 1]);
-                alert(msg_json['msg']);
+                if (res == undefined) {
+                    alert("The server responsed nothing");
+                } else {
+                    console.log(res);
+                    var str_array = res['responseText'].split('\n');
+                    var msg_json = $.parseJSON(str_array[str_array.length - 1]);
+                    alert(msg_json['msg']);
+                }
+
             }
         })
     }
@@ -74,10 +79,14 @@ function sign_up_send() {
                 }
             },
             error:function(res) { // if failed
-                console.log(res);
-                var str_array = res['responseText'].split('\n');
-                var msg_json = $.parseJSON(str_array[str_array.length - 1]);
-                alert(msg_json['msg']);
+                if (res == undefined) {
+                    alert("The server responsed nothing");
+                } else {
+                    console.log(res);
+                    var str_array = res['responseText'].split('\n');
+                    var msg_json = $.parseJSON(str_array[str_array.length - 1]);
+                    alert(msg_json['msg']);
+                }
             }
         })
     }

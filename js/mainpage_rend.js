@@ -104,8 +104,9 @@ function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
     var nav = document.createElement("nav");
     var ul = document.createElement("ul");
     var box = document.createElement("div");
-
+    var idx = 0;
     // buttons on the navigator bar
+
     ul.setAttribute("class", "nav-hori");
     for (const [key, value] of Object.entries(btn_info_lst)) {
         if (!value.hasOwnProperty('authority')) {
@@ -117,9 +118,19 @@ function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
 
             // set the attribute
             a.setAttribute("class", "hori-button");
+            a.setAttribute("id", `hori-nav${idx++}`);
             var a_text = document.createTextNode(key); // the text
             
             // add event listener
+            a.addEventListener("click", function() {
+                btns = this.parentElement.querySelectorAll("a[type='active']");
+                btns.forEach(function (item) {
+                    item.setAttribute("type", '');
+                });
+                this.setAttribute("type", "active");
+                slider = this.parentElement.parentElement.querySelector(".hori-slider");
+                slider.setAttribute("style", `left:${-133 * (slider.parentElement.childElementCount - 1 - Number(this.getAttribute("id").substr(8)))}px`)
+            });
             if (hori_btn_func.hasOwnProperty(key)) {
                 a.addEventListener("click", function() {
                     hori_btn_func[key](uname_auth, box); // params
@@ -135,6 +146,11 @@ function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
             ul.appendChild(li);
         }
     }
+    var hori_slider = document.createElement("div");
+
+    hori_slider.setAttribute("class", "hori-slider");
+    // hori_slider.setAttribute("style", `left:${ul.childElementCount * -133}px`);
+    ul.appendChild(hori_slider);
     nav.appendChild(ul);
     
 
@@ -142,9 +158,11 @@ function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
     var hori_bar_info = document.createElement("div");
     var h_user = document.createElement("div");
     var h_out = document.createElement("div");
+    
     var btn_out = document.createElement("a");
     var user_text = document.createTextNode(`当前用户:${uname_auth['username']}`);
     var out_text = document.createTextNode("退出");
+    
 
     // set attribute
     box.setAttribute("class", "box");
