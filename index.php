@@ -104,7 +104,14 @@
             <div class="verti-slider"></div>
         </ul>
     </nav>
-    <div class="content"></div>
+    <div class="content">
+        <nav class="hori">
+            <ul class="nav-hori">
+            </ul>
+        </nav>
+        <div class="box">
+        </div>
+    </div>
 </body>
 <script src="./js/mainpage_rend.js"></script>
 <script src="./js/mainpage.js"></script>

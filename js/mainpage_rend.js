@@ -137,12 +137,16 @@ async function request_uname_auth() { // request username & authority from the s
 }
 
 function rend_hori_bar(btn_info_lst, content, uname_auth) { // rend the content actually
-    var nav = document.createElement("nav");
-    var ul = document.createElement("ul");
-    var box = document.createElement("div");
+    var nav = document.querySelector("nav.hori");
+    var ul = document.querySelector("ul.nav-hori");
+    var box = document.querySelector("div.box");
+
+    // remove the previous elements of the nav
+    for (var i = nav.children.length - 1; i >= 0; i--) {
+        nav.children[i].remove();
+    }
 
     // buttons on the navigator bar
-    ul.setAttribute("class", "nav-hori");
     for (const [key, value] of Object.entries(btn_info_lst)) {
         if (!value.hasOwnProperty('authority')) {
             value['authority'] = 1;
@@ -171,7 +175,6 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) { // rend the content 
             ul.appendChild(li);
         }
     }
-    nav.appendChild(ul);
     
 
     // user info and logout
@@ -227,6 +230,4 @@ function rend_hori_bar(btn_info_lst, content, uname_auth) { // rend the content 
     hori_bar_info.appendChild(h_user);
     hori_bar_info.appendChild(h_out);
     nav.appendChild(hori_bar_info);
-    content.appendChild(nav);
-    content.appendChild(box);
 }

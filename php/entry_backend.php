@@ -8,6 +8,11 @@
         $rt_msg['status'] = 1;
         $rt_msg['msg'] = 'Connect database failed';
     } else {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') { // judge the request method
+            exit('Error request method!');
+        }
+
+
         if ($_POST['request'] == 'signup') { // sign up a new account
             $privateKey = file_get_contents('../private/key-pair/private_key.pem');
             $username=$_POST['username'];

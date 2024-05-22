@@ -19,7 +19,6 @@ for (var i = 0;i < nav_btns.length; i++) {
         console.log('Click event triggered, starting render the content');
         // remove the former content
         var content = document.querySelector(".content");
-        content.innerHTML = '';
         var loading = document.createElement("div");
         loading.setAttribute("id", "wave1");
         content.appendChild(loading);
