@@ -20,9 +20,10 @@ li.logo {
     height: 100px;
     display: block;
 }
-div.logo .bi{
+li.logo .bi{
     position: relative;
-    
+    left:34%;
+    top: 27%;
 }
 li a.nav-btn {
     display: block;
@@ -87,7 +88,7 @@ li a.hori-button {
     width:max-content;
     position: relative;
     float: right;
-    padding: 8px 0px;
+    padding: 9px 0px;
     right:20px;
     z-index: 2;
 }
@@ -95,10 +96,6 @@ li a.hori-button {
     display: block;
     color: white;
     float: left;
-    /* height: 74%; */
-    /* text-align: center; */
-    /* margin-top: 6.5%; */
-    /* text-align-last: center; */
 }
 .h_out {
     position: relative;
@@ -107,9 +104,10 @@ li a.hori-button {
     background-color: #4CAF50;
     cursor: pointer;
     border-radius: 10%;
+    width: 51px;
 }
-.hori_btn_out svg {
+a.hori_btn_out .bi {
     position: relative;
-    top: -3px;
-    /* left: -4px; */
+    top: 2px;
+    left: 3px;
 }

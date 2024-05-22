@@ -19,21 +19,22 @@ body {
     height:100%;
 }
 .box {
-
     width: 100%;
     position: relative;
     margin-top: 41px;
 }
 .text {
     /* position: relative; */
+    display: block;
     text-align: center;
+    width: 100%;
     /* top: 40%; */
     /* left: 50%; */
     /* font-style: bold;
     font-size:larger; */
 }
-.title {
-    /* text-align: center; */
+.text.title {
+    text-align: center;
     font-weight:bolder;
     font-size: 34px;
 }
