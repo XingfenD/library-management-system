@@ -1,7 +1,7 @@
-const rending = [
-    async function (content) { // 首页
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+async function rending(title) {
+    var uname_auth = await request_uname_auth();
+    var btn_info_lst = {
+        "首页": {
             "1": {
                 "authority": 1,
                 "icon": 
@@ -21,29 +21,17 @@ const rending = [
                 "authority": 4,
                 "icon": 
                 ``
-            },
-        }
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 书库
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+            }
+        },
+        "书库": {
             "原神2.1": {
                 "authority": 1,
             },
             "原神2.2": {
                 "authority": 1,
             }
-        };
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 用户列表
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+        },
+        "用户列表": {
             "借阅记录": {
                 "authority": 1,
                 "icon":
@@ -59,68 +47,44 @@ const rending = [
                     <path fill-rule="evenodd" d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z"/>
                 </svg>`
             }
-        };
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 系统管理
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+        },
+        "系统管理": {
             "原神4.1": {
                 "authority": 1,
             },
             "原神4.2": {
                 "authority": 1,
             }
-        };
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 个人中心
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+        },
+        "个人中心": {
             "原神5.1": {
                 "authority": 1,
             },
             "原神5.2": {
                 "authority": 1,
             }
-        };
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 设置
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+        },
+        "设置": {
             "原神6.1": {
-                "authority": 1,
+                // "authority": 1,
             },
             "原神6.2": {
-                "authority": 1,
+                // "authority": 1,
             }
-        };
-
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    },
-    async function (content) { // 关于
-        var uname_auth = await request_uname_auth();
-        var btn_info_lst = {
+        },
+        "关于": {
             "原神7.1": {
                 // "authority": 1,
             },
             "原神7.2": {
                 // "authority": 1,
             }
-        };
+        }
+    };
 
-        rend_hori_bar(btn_info_lst, content, uname_auth);
-        document.querySelector(".hori-button").click();
-    }
-];
+    rend_hori_bar(btn_info_lst[title], uname_auth);
+    document.querySelector(".hori-button").click();
+}
 
 async function request_uname_auth() { // request username & authority from the server
     var rt;
@@ -136,7 +100,8 @@ async function request_uname_auth() { // request username & authority from the s
     return rt;
 }
 
-function rend_hori_bar(btn_info_lst, content, uname_auth) { // rend the content actually
+function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
+    var content = document.querySelector(".content");
     var nav = document.createElement("nav");
     var ul = document.createElement("ul");
     var box = document.createElement("div");
