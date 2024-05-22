@@ -1,5 +1,5 @@
 const hori_btn_func = { // 设置按钮功能同时渲染box
-    "1": async function (uname_auth, box) {
+    "test": async function (uname_auth, box) {
         box.innerHTML = '';
         var para1 = document.createElement("a");
         para1.setAttribute("class", "text title");
@@ -13,7 +13,12 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.appendChild(para1);
         box.appendChild(para2);
     },
-    "借阅记录": async function (uname_auth) { // 
+    "借阅记录": async function (uname_auth, box) { // 
     
+    },
+    "用户管理": async function (name_auth, box) {
+        box.innerHTML = '';
+        var user_box = document.createAttribute("div");
+        var user_pic = document.createAttribute("img");
     }
 }
