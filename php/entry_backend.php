@@ -64,7 +64,7 @@
             if ($rst_search->num_rows == 0) {
                 $rt_msg['status'] = 5;
                 $rt_msg['msg'] = 'Unknown Account';
-            } else {
+            } else if ($rst_search->num_rows == 1){
                 $decrypt_rst = openssl_private_decrypt(base64_decode($encryptedPassword), $decryptedPassword, $privateKey);
     
                 if (!$decrypt_rst) {

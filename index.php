@@ -100,6 +100,8 @@
     </nav>
     <div class="content"></div>
 </body>
+<script src="./js/jsencrypt.min.js"></script>
+<script src="./js/entry.js"></script>
 <script src="./js/mainpage_rend.js"></script>
 <script src="./js/mainpage.js"></script>
 <script src="./js/box_rend.js"></script>

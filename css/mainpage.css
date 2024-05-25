@@ -1,4 +1,6 @@
 @import "navigator.css";
+@import "my_info.css";
+
 * {
     margin: 0;
     padding: 0;
@@ -22,6 +24,9 @@ body {
     width: 100%;
     position: relative;
     margin-top: 41px;
+    /* padding: 2% 0; */
+    /* height: 100%; */
+    /* overflow: scroll; */
 }
 .text {
     /* position: relative; */

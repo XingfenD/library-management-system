@@ -64,7 +64,7 @@ ul.nav-hori {
     list-style-type: none;
     width: 100%;
     background-color: #2c2c2c;
-    position: absolute;
+    position: fixed;
     height: auto;
     overflow: hidden;
     z-index: 1;
@@ -102,7 +102,7 @@ a.hori-button svg {
 .info {
     height: 41px;
     width:max-content;
-    position: relative;
+    position: fixed;
     float: right;
     padding: 9px 0px;
     right:20px;
