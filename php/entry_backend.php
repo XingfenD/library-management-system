@@ -13,7 +13,6 @@
             $username=$_POST['username'];
             $encryptedPassword=$_POST['password'];
             $decryptedPassword = ''; // define a var
-    
             $uname_search = "SELECT username FROM user WHERE username='{$username}'";
             $rst_uname_search = $conn->query($uname_search);
             if ($rst_uname_search->num_rows > 0) {
@@ -21,12 +20,19 @@
                 $rt_msg['msg'] = 'Duplicated Account';
             } else {
                 $decrypt_rst = openssl_private_decrypt(base64_decode($encryptedPassword), $decryptedPassword, $privateKey);
-    
+
                 if (!$decrypt_rst) {
                     // decrypt failed
                     $rt_msg['status'] = 2;
                     $rt_msg['msg'] = 'Decryption error';
                 } else { // decrypt successfuly
+                    $msg = info_check($username, $decryptedPassword, $decryptedPassword);
+                    if ($msg != "true") {
+                        $rt_msg['status'] = 7;
+                        $rt_msg['msg'] = $msg;
+                        $conn->close();
+                        exit($rt_msg);
+                    }
                     // generate uuid
                     $date = date('Ymd');
                     $new_uuid = '';
@@ -99,3 +105,32 @@
     }
 
     echo json_encode($rt_msg); // return a json data to the front-end
+
+    function info_check($uname, $psd, $re_psd) {
+        $username_pattern = '/^\w{2,16}$/';
+        $msg = "true";
+
+        if ($uname === "") { // 检查用户名
+            $msg = "用户名不能为空";
+        } elseif (strlen($uname) < 2 || strlen($uname) > 16) {
+            $msg = "用户名长度应该在2~16之间";
+        } elseif (!preg_match($username_pattern, $uname)) {
+            $msg = "用户名应该仅由字母、数字、下划线组成";
+        } else { // 检查用户名结束
+            // 检查密码
+            if ($psd === "") {
+                $msg = '密码不能为空!';
+            } elseif (strlen($psd) < 6 || strlen($psd) > 16) {
+                $msg = '密码长度应该在6~16之间';
+            } else { // 检查密码结束
+                // 检查确认密码
+                if ($re_psd === "") {
+                    $msg = '请重复输入密码!';
+                } elseif ($psd !== $re_psd) {
+                    $msg = '两次输入的密码不相同!';
+                }
+            }
+        }
+
+        return $msg;
+    }

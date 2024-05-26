@@ -18,7 +18,16 @@
             if ($auth >= 0) {
                 echo get_user_info($conn, $uname);
             } 
-        }
+        } else if ($_POST['ctnt' == "user-list"]) {
+            if ($auth >= 2) {
+                echo get_user_list($conn, $uname, $_POST);
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
+            }
+        } 
     } else if ($_POST['oper'] == 'post'){
         if ($_POST['ctnt'] == 'user-info') {
             if ($auth >= 1) {
@@ -31,7 +40,7 @@
             }
         } else if ($_POST['ctnt'] == 'acct-info') {
             if ($auth >= 1) {
-                echo alter_acct_info($conn, $uname);
+                echo alter_acct_info($conn, $uname, $_POST);
             }
         }
     }

@@ -13,8 +13,165 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.appendChild(para1);
         box.appendChild(para2);
     },
+    "查询馆藏": async function (uname_auth, box) {
+        box.innerHTML = "";
+        var book_list_div = document.createElement("div");
+        var search_book_div = document.createElement("div");
+
+        book_list_div.setAttribute("id", "book-list-div");
+        search_book_div.setAttribute("class", "search_book_div");
+        var book_select_lable = document.createElement("lable");
+        var lable_text = document.createTextNode("搜索的属性")
+        book_select_lable.appendChild(lable_text);
+        search_book_div.appendChild(book_select_lable);
+
+        var book_select = document.createElement("select");
+        book_select.setAttribute("id", "book-selector");
+        book_select.setAttribute("title", "属性选择");
+        var select_option = ["book-id","书名"];
+        select_option.forEach(function(item) {
+            var option = document.createElement("option");
+            option.setAttribute("class", "book-select-option");
+            var text = document.createTextNode(item);
+            option.appendChild(text);
+            book_select.appendChild(option);
+        });
+
+        var search_ctnt = document.createElement("input");
+        search_ctnt.setAttribute("id", "search-ctnt");
+        search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        var search_btn = document.createElement("input");
+        search_btn.setAttribute("type", "button");
+        search_btn.setAttribute("value", "搜索");
+        search_book_div.appendChild(book_select);
+        search_book_div.appendChild(search_ctnt);
+        search_book_div.appendChild(search_btn);
+        
+
+        var rst_ls_table = document.createElement("table");
+        rst_ls_table.setAttribute("id", "rst-ls-table");
+        var rst_ls_h = document.createElement("thead");
+        var tr_ls = ["book-id", "书名", "入库时间", "当前状态", "标的价格"];
+        var h_tr = document.createElement("tr");
+        tr_ls.forEach(function(item) {
+            var td = document.createElement("td");
+            var text = document.createElement("a");
+            var text_ctnt = document.createTextNode(item);
+            var sorter = document.createElement("a");
+            text.appendChild(text_ctnt);
+            sorter.setAttribute("class", "book-ls-sorter");
+            sorter.innerHTML += ``;
+            td.appendChild(text);
+            td.appendChild(sorter);
+            h_tr.appendChild(td);
+        });
+        rst_ls_h.appendChild(h_tr);
+        rst_ls_table.appendChild(rst_ls_h);
+        var rst_ls_body = document.createElement("tbody");
+        
+        rst_ls_table.appendChild(rst_ls_body);
+        book_list_div.appendChild(search_book_div);
+        book_list_div.appendChild(rst_ls_table);
+
+        box.appendChild(book_list_div);
+    },
+    "借书/还书": async function (uname_auth, box) {
+        box.innerHTML = '';
+    },
     "借阅记录": async function (uname_auth, box) { // 
         box.innerHTML = '';
+    },
+    "用户列表": async function (uname_auth, box) {
+        box.innerHTML = "";
+        var user_list_div = document.createElement("div");
+        var search_user_div = document.createElement("div");
+
+        user_list_div.setAttribute("id", "user-list-div");
+        search_user_div.setAttribute("class", "search_user_div");
+        var user_select_lable = document.createElement("lable");
+        var lable_text = document.createTextNode("搜索的属性")
+        user_select_lable.appendChild(lable_text);
+        search_user_div.appendChild(user_select_lable);
+
+        var user_select = document.createElement("select");
+        user_select.setAttribute("id", "user-selector");
+        user_select.setAttribute("title", "属性选择");
+        var select_option = ["UUID", "账号", "用户名", "姓名", "卡号"];
+        select_option.forEach(function(item) {
+            var option = document.createElement("option");
+            option.setAttribute("class", "user-select-option");
+            var text = document.createTextNode(item);
+            option.appendChild(text);
+            user_select.appendChild(option);
+        });
+
+        var search_ctnt = document.createElement("input");
+        search_ctnt.setAttribute("id", "search-ctnt");
+        search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        var search_btn = document.createElement("input");
+        search_btn.setAttribute("type", "button");
+        search_btn.setAttribute("value", "搜索");
+        search_user_div.appendChild(user_select);
+        search_user_div.appendChild(search_ctnt);
+        search_user_div.appendChild(search_btn);
+        
+
+        var rst_ls_table = document.createElement("table");
+        rst_ls_table.setAttribute("id", "rst-ls-table");
+        var rst_ls_h = document.createElement("thead");
+        var tr_ls = ["UUID", "账号", "用户名","姓名", "卡号", "权限"];
+        var tr_dict = {
+            "UUID":``, 
+            "Username":``, 
+            "姓名":``, 
+            "权限":``
+        };
+        var h_tr = document.createElement("tr");
+        tr_ls.forEach(function(item) {
+            var td = document.createElement("td");
+            var text = document.createElement("a");
+            var text_ctnt = document.createTextNode(item);
+            var sorter = document.createElement("a");
+            text.appendChild(text_ctnt);
+            sorter.setAttribute("class", "user-ls-sorter");
+            sorter.innerHTML += ``;
+            td.appendChild(text);
+            td.appendChild(sorter);
+            h_tr.appendChild(td);
+        });
+        rst_ls_h.appendChild(h_tr);
+        rst_ls_table.appendChild(rst_ls_h);
+        var rst_ls_body = document.createElement("tbody");
+        
+        rst_ls_table.appendChild(rst_ls_body);
+        user_list_div.appendChild(search_user_div);
+        user_list_div.appendChild(rst_ls_table);
+
+        box.appendChild(user_list_div);
+
+        search_btn.addEventListener(function () {
+            var selector = document.querySelector("#user-selector");
+            var ctnt = document.querySelector("#search-ctnt");
+            var data = {
+                "oper": "get",
+                "ctnt": "user-list",
+                "select": selector.selectedOptions[0].textContent,
+                "ctnt": ctnt.value
+            };
+            $.ajax({
+                type: "POST",
+                async: true,
+                data:data,
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    console.log(msg);
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+        });
     },
     "我的信息": async function (uname_auth, box) {
         box.innerHTML = '';
@@ -156,7 +313,9 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_ctnt.setAttribute("id", `input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
             input_ctnt.setAttribute("placeholder", Object.keys(info_list)[i]);
-            input_ctnt.setAttribute("value", data_rcv[Object.values(info_list)[i]]);
+            if (data_rcv[Object.values(info_list)[i]] != undefined) {
+                input_ctnt.setAttribute("value", data_rcv[Object.values(info_list)[i]]);
+            }
             input_tag.appendChild(tag_ctnt);
             input_div.appendChild(input_tag);
             input_div.appendChild(input_ctnt);
@@ -276,8 +435,47 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 '密码': 'password',
                 '再次输入': 're-password'
             };
-            inputs = this.fatherElement.querySelectorAll("input");
+            var data = {
+                'oper': "post",
+                'ctnt': 'acct-info'
+            };
+            inputs = this.parentElement.querySelectorAll("input.info-input-ctnt");
+
+            var msg = info_check(inputs[0].value, inputs[1].value, inputs[2].value);
+            if (msg == "true") {
+                data['username'] = inputs[0].value;
+                data['password'] = encryptPassword(inputs[1].value);
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: '../php/mainpage_backend.php',
+                    dataType: "json",
+                    async: true,
+                    success: function (res) {
+                        console.log(res);
+                        if (res['status'] == 0) {
+                            alert("修改密码成功!");
+                        } else {
+                            alert(res['msg']);
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res);
+                        alert("修改密码失败");
+                    }
+                })
+            } else {
+                alert(msg);
+            }
+
+            // 
         });
         box.appendChild(change_info_box);
+    },
+    "帮助文档": async function (uname_auth, box) {
+        box.innerHTML = '';
+    },
+    "项目介绍": async function (uname_auth, box) {
+        box.innerHTML = '<iframe src="../html/project_info.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
     }
 }

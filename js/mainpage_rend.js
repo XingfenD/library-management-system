@@ -66,10 +66,10 @@ async function rending(title) {
             }
         },
         "关于": {
-            "系统信息": {
-                "authority": 0,
-                "icon": `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 8H4V38H19L24 43L29 38H44V8Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 23V32" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/><path d="M24 16V17" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/></svg>`
-            },
+            // "系统信息": {
+            //     "authority": 0,
+            //     "icon": `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 8H4V38H19L24 43L29 38H44V8Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 23V32" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/><path d="M24 16V17" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/></svg>`
+            // },
             "帮助文档": {
                 "authority": 0,
                 "icon": `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M39 4H11C9.89543 4 9 4.89543 9 6V42C9 43.1046 9.89543 44 11 44H39C40.1046 44 41 43.1046 41 42V6C41 4.89543 40.1046 4 39 4Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 30L31 30" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 36H24" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="12" width="14" height="10" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`
@@ -132,8 +132,8 @@ function rend_hori_bar(btn_info_lst, uname_auth) { // rend the content actually
                 slider.setAttribute("style", `left:${-133 * (slider.parentElement.childElementCount - 1 - Number(this.getAttribute("id").substr(8)))}px`)
             });
             if (hori_btn_func.hasOwnProperty(key)) {
-                a.addEventListener("click", function() {
-                    hori_btn_func[key](uname_auth, box); // params
+                a.addEventListener("click", async function() {
+                    await hori_btn_func[key](uname_auth, box); // params
                 });
             }
 

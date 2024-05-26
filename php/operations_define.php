@@ -1,5 +1,35 @@
 <?php
     header('Content-type:text/json;charset=utf-8');
+    // require_once "./logout_backend.php";
+
+    function info_check($uname, $psd, $re_psd) {
+        $username_pattern = '/^\w{2,16}$/';
+        $msg = "true";
+    
+        if ($uname === "") { // 检查用户名
+            $msg = "用户名不能为空";
+        } elseif (strlen($uname) < 2 || strlen($uname) > 16) {
+            $msg = "用户名长度应该在2~16之间";
+        } elseif (!preg_match($username_pattern, $uname)) {
+            $msg = "用户名应该仅由字母、数字、下划线组成";
+        } else { // 检查用户名结束
+            // 检查密码
+            if ($psd === "") {
+                $msg = '密码不能为空!';
+            } elseif (strlen($psd) < 6 || strlen($psd) > 16) {
+                $msg = '密码长度应该在6~16之间';
+            } else { // 检查密码结束
+                // 检查确认密码
+                if ($re_psd === "") {
+                    $msg = '请重复输入密码!';
+                } elseif ($psd !== $re_psd) {
+                    $msg = '两次输入的密码不相同!';
+                }
+            }
+        }
+    
+        return $msg;
+    }
 
     function get_user_info($conn, $username) {
         $sql = "SELECT * FROM user_info WHERE user_id = (SELECT uuid FROM user WHERE username = '{$username}')";
@@ -41,4 +71,37 @@
         $sql = $sql."WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')";
         $conn->query($sql);
         // return $sql;
+    }
+
+    function alter_acct_info($conn, $uname, $data) {
+        $privateKey = file_get_contents('../private/key-pair/private_key.pem');
+        $rt_msg = array(
+            "status" => 0,
+            "msg" => "success"
+        );
+
+        if ($uname != $data['username']) {
+            $uname_search = "SELECT username FROM user WHERE username='{$username}'";
+            $rst_uname_search = $conn->query($uname_search);
+            if ($rst_uname_search->num_rows > 0) {
+                $rt_msg['status'] = 1;
+                $rt_msg['msg'] = 'Duplicated Account';
+                return json_encode($rt_msg);
+            }
+        }
+        $decryptedPassword = '';
+        openssl_private_decrypt(base64_decode($data["password"]), $decryptedPassword, $privateKey);
+        $msg = info_check($data['username'], $decryptedPassword, $decryptedPassword);
+        if ($msg != "true") {
+            $rt_msg['status'] = 1;
+            $rt_msg['msg'] = $msg;
+            return json_encode($rt_msg);
+        }
+        $sql = "UPDATE user SET username='".$data["username"]."', password='".password_hash($decryptedPassword, PASSWORD_BCRYPT)."' WHERE username='".$uname."'";
+        $conn->query($sql);
+        return json_encode($rt_msg);
+    }
+    
+    function get_user_list($conn, $uname, $data) {
+        
     }
