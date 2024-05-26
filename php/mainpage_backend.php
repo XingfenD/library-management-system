@@ -18,9 +18,10 @@
             if ($auth >= 0) {
                 echo get_user_info($conn, $uname);
             } 
-        } else if ($_POST['ctnt' == "user-list"]) {
+        } else if ($_POST['ctnt'] == "user-list") {
             if ($auth >= 2) {
-                echo get_user_list($conn, $uname, $_POST);
+                // echo "yuanshen";
+                echo json_encode(get_user_list($conn, $uname, $_POST));
             } else {
                 echo json_encode(array(
                     "status"=> -1,
@@ -40,7 +41,14 @@
             }
         } else if ($_POST['ctnt'] == 'acct-info') {
             if ($auth >= 1) {
-                echo alter_acct_info($conn, $uname, $_POST);
+                echo json_encode(array(
+                    "status"=> 0,
+                    "msg"=> alter_acct_info($conn, $auth, $_POST)
+                ));
+            }
+        } else if ($_POST['ctnt'] == 'change-info') {
+            if ($auth >= 2) {
+                echo change_user_info($conn, $auth, $_POST);
             }
         }
     }

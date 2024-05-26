@@ -103,5 +103,57 @@
     }
     
     function get_user_list($conn, $uname, $data) {
+        $select_dict = array(
+            "UUID"=> "uuid",
+            "账号" => "username",
+            "姓名"=> "uname",
+            "卡号"=> "card_number"
+        );
+        $sql = 
+        "SELECT user.uuid, user.username, user_info.u_name, user_info.card_number, user.authority, user_info.u_tele, user_info.u_email
+        FROM user 
+        LEFT JOIN user_info
+        ON user.uuid = user_info.user_id
+        WHERE ".$select_dict[$data['select']]." LIKE '%".$data['input']."%'";
+        $rst = $conn->query($sql);
+        $rt = [];
+        $iter = 0;
+        if ($rst->num_rows > 0) {
+            while ($row = $rst->fetch_assoc()) {
+                $rt[$iter] = array(
+                    "UUID"=> $row["uuid"],
+                    "账号" => $row["username"],
+                    "姓名"=> $row["u_name"],
+                    "卡号"=> $row["card_number"],
+                    "权限"=> $row["authority"],
+                    "联系电话"=> $row["u_tele"],
+                    "邮箱"=> $row["u_email"]
+                );
+                $iter++;
+            }
+        }
         
+        return $rt;
+    }
+
+    function change_user_info($conn, $auth, $data) {
+        $dict = Array(
+            "姓名" => "u_name",
+            "卡号" => "card_number",
+            "权限" => "authority",
+            "联系电话" => "u_tele",
+            "邮箱" => "u_email"
+        );
+        if ($auth <= (int)($conn->query("SELECT authority FROM user WHERE uuid=".$data['uuid']))->fetch_assoc()['authority']) {
+            return "Your authority is not enough to do this";
+        } else {
+            if ($dict[$data['select']] == "authority") {
+                if ((int)$data['set_ctnt'] >= $auth) {
+                    return "Your authority is not enough to do this";
+                }
+                $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE uuid=".$data['uuid']);
+            } else {
+                $conn->query("UPDATE user_info SET ".$dict[$data['select']]."='".$data['set_ctnt']."' WHERE user_id=".$data['uuid']);
+            }
+        }
     }

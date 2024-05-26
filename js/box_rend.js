@@ -68,12 +68,65 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         rst_ls_h.appendChild(h_tr);
         rst_ls_table.appendChild(rst_ls_h);
         var rst_ls_body = document.createElement("tbody");
-        
+        rst_ls_body.setAttribute("id", "book-ls-body");
         rst_ls_table.appendChild(rst_ls_body);
         book_list_div.appendChild(search_book_div);
         book_list_div.appendChild(rst_ls_table);
 
         box.appendChild(book_list_div);
+
+        search_btn.addEventListener("click", async function () {
+            var selector = document.querySelector("#book-selector");
+            var ctnt = document.querySelector("#search-ctnt");
+            var data = {
+                "oper": "get",
+                "ctnt": "book-list",
+                "select": selector.selectedOptions[0].textContent,
+                "input": ctnt.value
+            };
+            var rcv;
+            await $.ajax({
+                type: "POST",
+                async: true,
+                data:data,
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    rcv = msg;
+                    console.log(msg);
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+
+            var tbody = document.querySelector("#book-ls-body");
+            tbody.innerHTML = '';
+            rcv.forEach(item => {
+                // 创建新的表格行
+                let row = document.createElement('tr');
+            
+                // 遍历字典中的键值对
+                for (let key in item) {
+                    if (item.hasOwnProperty(key)) {
+                        // 创建新的单元格
+                        let cell = document.createElement('td');
+                        // 将键值对的值设置为单元格的文本内容
+                        if (item[key] != null) {
+                            cell.textContent = item[key];
+                        } else {
+                            cell.textContent = "未设置";
+                        }
+
+                        // 将单元格添加到表格行中
+                        row.appendChild(cell);
+                    }
+                }
+            
+                // 将新的表格行添加到tbody中
+                tbody.appendChild(row);
+            });
+        });
     },
     "借书/还书": async function (uname_auth, box) {
         box.innerHTML = '';
@@ -96,7 +149,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var user_select = document.createElement("select");
         user_select.setAttribute("id", "user-selector");
         user_select.setAttribute("title", "属性选择");
-        var select_option = ["UUID", "账号", "用户名", "姓名", "卡号"];
+        var select_option = ["UUID", "账号", "姓名", "卡号"];
         select_option.forEach(function(item) {
             var option = document.createElement("option");
             option.setAttribute("class", "user-select-option");
@@ -119,13 +172,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var rst_ls_table = document.createElement("table");
         rst_ls_table.setAttribute("id", "rst-ls-table");
         var rst_ls_h = document.createElement("thead");
-        var tr_ls = ["UUID", "账号", "用户名","姓名", "卡号", "权限"];
-        var tr_dict = {
-            "UUID":``, 
-            "Username":``, 
-            "姓名":``, 
-            "权限":``
-        };
+        var tr_ls = ["UUID", "账号", "姓名", "卡号", "权限", "联系电话", "邮箱"];
         var h_tr = document.createElement("tr");
         tr_ls.forEach(function(item) {
             var td = document.createElement("td");
@@ -142,35 +189,147 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         rst_ls_h.appendChild(h_tr);
         rst_ls_table.appendChild(rst_ls_h);
         var rst_ls_body = document.createElement("tbody");
-        
+        rst_ls_body.setAttribute("id", "user-ls-body")
         rst_ls_table.appendChild(rst_ls_body);
         user_list_div.appendChild(search_user_div);
         user_list_div.appendChild(rst_ls_table);
 
         box.appendChild(user_list_div);
 
-        search_btn.addEventListener(function () {
+        search_btn.addEventListener("click", async function () {
             var selector = document.querySelector("#user-selector");
             var ctnt = document.querySelector("#search-ctnt");
             var data = {
                 "oper": "get",
                 "ctnt": "user-list",
                 "select": selector.selectedOptions[0].textContent,
-                "ctnt": ctnt.value
+                "input": ctnt.value
             };
-            $.ajax({
+            var rcv;
+            await $.ajax({
                 type: "POST",
                 async: true,
                 data:data,
                 dataType:"json",
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
+                    rcv = msg;
                     console.log(msg);
                 },
                 error: function(msg) {
                     console.log(msg);
                 }
             });
+
+            var tbody = document.querySelector("#user-ls-body");
+            tbody.innerHTML = '';
+            rcv.forEach(item => {
+                // 创建新的表格行
+                let row = document.createElement('tr');
+            
+                // 遍历字典中的键值对
+                for (let key in item) {
+                    if (item.hasOwnProperty(key)) {
+                        // 创建新的单元格
+                        let cell = document.createElement('td');
+                        // 将键值对的值设置为单元格的文本内容
+                        if (item[key] != null) {
+                            cell.textContent = item[key];
+                        } else {
+                            cell.textContent = "未设置";
+                        }
+
+                        // 将单元格添加到表格行中
+                        row.appendChild(cell);
+                    }
+                }
+            
+                // 将新的表格行添加到tbody中
+                tbody.appendChild(row);
+            });
+        });
+        // 创建一个新的 div 元素
+        var newDiv = document.createElement("div");
+
+        // 创建 label 元素
+        var label1 = document.createElement("label");
+        label1.textContent = "修改uuid为";
+
+        // 创建 input 元素
+        var input1 = document.createElement("input");
+        input1.setAttribute("type", "text");
+        // input1.setAttribute("id", "uuid-input");
+
+        // 创建第二个 label 元素
+        var label2 = document.createElement("label");
+        label2.textContent = "的用户的";
+
+        // 创建 select 元素
+        var select = document.createElement("select");
+        // select.setAttribute("id", "change-info-select");
+        // 创建 select 中的选项
+        var options = ["姓名", "卡号", "权限", "联系电话", "邮箱"];
+        options.forEach(function(optionText) {
+            var option = document.createElement("option");
+            option.textContent = optionText;
+            select.appendChild(option);
+        });
+
+        // 创建第三个 label 元素
+        var label3 = document.createElement("label");
+        label3.textContent = "为";
+
+        // 创建第二个 input 元素
+        var input2 = document.createElement("input");
+        input2.setAttribute("type", "text");
+        // input2.setAttribute("id", "changed-info-input")
+
+        // 创建 button 元素
+        var button = document.createElement("input");
+        button.setAttribute("type", "button");
+        button.setAttribute("value", "修改");
+
+        // 将所有元素添加到新创建的 div 元素中
+        newDiv.appendChild(label1);
+        newDiv.appendChild(input1);
+        newDiv.appendChild(label2);
+        newDiv.appendChild(select);
+        newDiv.appendChild(label3);
+        newDiv.appendChild(input2);
+        newDiv.appendChild(button);
+
+        // 将新创建的 div 元素添加到 box 元素中
+        box.appendChild(newDiv);
+
+        button.addEventListener("click", function() {
+            (function(input1, input2, select){
+                if (/^\d{12}$/.test(input1.value)) {
+                    var data = {
+                        "oper":"post",
+                        "ctnt":"change-info",
+                        "uuid": input1.value,
+                        "select": select.selectedOptions[0].textContent,
+                        "set_ctnt": input2.value
+                    }
+                    $.ajax({
+                        type: "POST",
+                        async: true,
+                        data:data,
+                        dataType:"json",
+                        url: "../php/mainpage_backend.php",
+                        success: function (msg) {
+                            rcv = msg;
+                            console.log(msg);
+                        },
+                        error: function(msg) {
+                            console.log(msg);
+                        }
+                    });
+                } else {
+                    alert("请输入12位数字的uuid!");
+                }
+            })(input1, input2, select);
+
         });
     },
     "我的信息": async function (uname_auth, box) {
