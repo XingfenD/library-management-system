@@ -130,12 +130,245 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "借书/还书": async function (uname_auth, box) {
         box.innerHTML = '';
+        var command_div = document.createElement("div");
+        command_div.id= "comm-div";
+        var label = document.createElement('label');
+        label.textContent = '书本uuid为';
+
+        // 创建并添加input[type="text"]
+        var inputText = document.createElement('input');
+        inputText.type = 'text';
+        
+        // 创建并添加select
+        var select = document.createElement('select');
+
+        // 创建并添加option - 借书
+        var optionBorrow = document.createElement('option');
+        optionBorrow.value = 'borrow';
+        optionBorrow.textContent = '借书';
+        select.appendChild(optionBorrow);
+
+        // 创建并添加option - 还书
+        var optionReturn = document.createElement('option');
+        optionReturn.value = 'return';
+        optionReturn.textContent = '还书';
+        select.appendChild(optionReturn);
+
+        
+        // 创建并添加input[type="button"]
+        var inputButton = document.createElement('input');
+        inputButton.type = 'button';
+        inputButton.value = '提交';
+
+        command_div.appendChild(select);
+        command_div.appendChild(label);
+        command_div.appendChild(inputText);
+        command_div.appendChild(inputButton);
+
+        inputButton.addEventListener("click", async function () {
+            var select = document.querySelector("select");
+            var ctnt = document.querySelector("#comm-div input[type='text']");
+            var data = {
+                "oper": "post",
+                "ctnt": "br-book",
+                "select": select.selectedOptions[0].textContent,
+                "input": ctnt.value
+            };
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                data:data,
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    rcv = msg;
+                    console.log(msg);
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+        });
+
+        box.appendChild(command_div);
     },
     "借阅记录": async function (uname_auth, box) { // 
-        box.innerHTML = '';
+        box.innerHTML = "";
+        var rcd_list_div = document.createElement("div");
+        var search_rcd_div = document.createElement("div");
+
+        rcd_list_div.setAttribute("id", "rcd-list-div");
+        search_rcd_div.setAttribute("class", "search_rcd_div");
+        var rcd_select_lable = document.createElement("lable");
+        var lable_text = document.createTextNode("搜索的属性")
+        rcd_select_lable.appendChild(lable_text);
+        search_rcd_div.appendChild(rcd_select_lable);
+
+        var rcd_select = document.createElement("select");
+        rcd_select.setAttribute("id", "rcd-selector");
+        rcd_select.setAttribute("title", "属性选择");
+        var select_option = ["订单编号","book-id", "书名", "UUID","账号", "姓名", "卡号"];
+        select_option.forEach(function(item) {
+            var option = document.createElement("option");
+            option.setAttribute("class", "rcd-select-option");
+            var text = document.createTextNode(item);
+            option.appendChild(text);
+            rcd_select.appendChild(option);
+        });
+
+        var search_ctnt = document.createElement("input");
+        search_ctnt.setAttribute("id", "search-ctnt");
+        search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        var search_btn = document.createElement("input");
+        search_btn.setAttribute("type", "button");
+        search_btn.setAttribute("value", "搜索");
+        search_rcd_div.appendChild(rcd_select);
+        search_rcd_div.appendChild(search_ctnt);
+        search_rcd_div.appendChild(search_btn);
+        
+
+        var rst_ls_table = document.createElement("table");
+        rst_ls_table.setAttribute("id", "rst-ls-table");
+        var rst_ls_h = document.createElement("thead");
+        var tr_ls = ["订单编号", "书名", "书本编号", "用户名", "姓名", "用户编号", "操作类型"];
+        var h_tr = document.createElement("tr");
+        tr_ls.forEach(function(item) {
+            var td = document.createElement("td");
+            var text = document.createElement("a");
+            var text_ctnt = document.createTextNode(item);
+            var sorter = document.createElement("a");
+            text.appendChild(text_ctnt);
+            sorter.setAttribute("class", "rcd-ls-sorter");
+            sorter.innerHTML += ``;
+            td.appendChild(text);
+            td.appendChild(sorter);
+            h_tr.appendChild(td);
+        });
+        rst_ls_h.appendChild(h_tr);
+        rst_ls_table.appendChild(rst_ls_h);
+        var rst_ls_body = document.createElement("tbody");
+        rst_ls_body.setAttribute("id", "rcd-ls-body");
+        rst_ls_table.appendChild(rst_ls_body);
+        if (uname_auth['authority'] >= 2) {
+            rcd_list_div.appendChild(search_rcd_div);
+        }
+        rcd_list_div.appendChild(rst_ls_table);
+
+        box.appendChild(rcd_list_div);
+
+        async function request() {
+            var selector = document.querySelector("#rcd-selector");
+            var ctnt = document.querySelector("#search-ctnt");
+            var data = {
+                "oper": "get",
+                "ctnt": "rcd-list",
+                "select": "账号",
+                "input": "self"
+            };
+            if (selector != undefined) {
+                data['select'] = selector.selectedOptions[0].textContent,
+                data['input'] = ctnt.value
+            }
+
+            var rcv;
+            await $.ajax({
+                type: "POST",
+                async: true,
+                data:data,
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    rcv = msg;
+                    console.log(msg);
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+            });
+
+            var tbody = document.querySelector("#rcd-ls-body");
+            tbody.innerHTML = '';
+            rcv.forEach(item => {
+                // 创建新的表格行
+                let row = document.createElement('tr');
+            
+                // 遍历字典中的键值对
+                for (let key in item) {
+                    if (item.hasOwnProperty(key)) {
+                        // 创建新的单元格
+                        let cell = document.createElement('td');
+                        // 将键值对的值设置为单元格的文本内容
+                        if (item[key] != null) {
+                            cell.textContent = item[key];
+                        } else {
+                            cell.textContent = "未设置";
+                        }
+
+                        // 将单元格添加到表格行中
+                        row.appendChild(cell);
+                    }
+                }
+            
+                // 将新的表格行添加到tbody中
+                tbody.appendChild(row);
+            });
+        };
+        request();
+        search_btn.addEventListener("click", request);
     },
     "图书入库": async function (uname_auth, box) {
         box.innerHTML = '';
+        var book_info = ['书名', '价格'];
+        var book_info_form = document.createElement("form");
+        book_info_form.id = "book-in-form";
+        for (var i = 0; i < book_info.length; i++) {
+            var a_row = document.createElement("div");
+            a_row.className = "book-info-row";
+            a_row.id = "book-info-row" + i;
+            var label = document.createElement("label");
+            label.textContent = book_info[i] + ":";
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = "book-info-input" + i;
+            a_row.appendChild(label);
+            a_row.appendChild(input);
+            book_info_form.appendChild(a_row);
+        }
+        var btn = document.createElement("input");
+        btn.type = "button";
+        btn.id = "book_info_btn";
+        book_info_form.appendChild(btn);
+        box.appendChild(book_info_form);
+        btn.value = "入库";
+
+        btn.addEventListener("click", function () {
+            (function (form, info_ls) {
+                var data = {
+                    'oper':'post',
+                    'ctnt':'book-list'
+                };
+                var inputs = form.querySelectorAll("input[type='text']");
+                for (var i = 0; i < inputs.length; i++) {
+                    data[info_ls[i]] = inputs[i].value;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    data:data,
+                    dataType:"json",
+                    url: "../php/mainpage_backend.php",
+                    success: function (msg) {
+                        rcv = msg;
+                        console.log(msg);
+                    },
+                    error: function(msg) {
+                        console.log(msg);
+                    }
+                });
+            }) (book_info_form, book_info);
+        });
     },
     "用户列表": async function (uname_auth, box) {
         box.innerHTML = "";

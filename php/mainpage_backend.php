@@ -37,6 +37,15 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
+        } else if ($_POST['ctnt'] == "rcd-list") {
+            if (($auth == 1 && $_POST['input'] == 'self') || $auth >= 2) {
+                echo json_encode(get_rcd_list($conn, $uname, $_POST));
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
+            }
         }
     } else if ($_POST['oper'] == 'post'){
         if ($_POST['ctnt'] == 'user-info') {
@@ -58,6 +67,19 @@
         } else if ($_POST['ctnt'] == 'change-info') {
             if ($auth >= 2) {
                 echo change_user_info($conn, $auth, $_POST);
+            }
+        } else if ($_POST['ctnt'] == 'br-book') {
+            if ($auth >= 1) {
+                echo br_book($conn, $_POST);
+            }
+        } else if ($_POST['ctnt'] == 'book-list') {
+            if ($auth >= 2) {
+                echo json_encode(book_store($conn, $_POST));
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
             }
         }
     }

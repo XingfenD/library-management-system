@@ -193,3 +193,84 @@
 
         return $rt;
     }
+
+    function br_book($conn, $data) {
+        if ($data['select'] == '借书') {
+            $status = $conn->query("SELECT status FROM book_index WHERE book_ind='".$data['input']."'")->fetch_assoc()['status'];
+            if ($status == "0") {
+                return json_encode(Array(
+                    "status"=> 2,
+                    "msg"=> "该书已经借出!"
+                ));
+            }
+        } else if ($data['select'] == '还书') {
+            $status = $conn->query("SELECT status FROM book_index WHERE book_ind='".$data['input']."'")->fetch_assoc()['status'];
+            if ($status == "1") {
+                return json_encode(Array(
+                    "status"=> 2,
+                    "msg"=> "该书尚未借出!"
+                ));
+            }
+        } else {
+            return json_encode(Array(
+                "status"=> 1,
+                "msg"=> "Unknown Operation"
+            ));
+        }
+    }
+
+    function get_rcd_list($conn, $uname,$data) {
+        $dict = Array(
+            "订单编号" => "rec_ind",
+            "book-id" => "book_ind",
+            "书名" => "book_name",
+            "UUID" => "uuid",
+            "账号" => "username",
+            "姓名" => "u_name",
+            "卡号" => "card_number"
+        );
+        if ($data['input'] == 'self' && $data['select'] == '账号') {
+            $data['input'] = $uname;
+        }
+        $sql = "SELECT b_r_record.rec_ind, book_index.book_name, b_r_record.borrowed_book_ind, user.username, user_info.u_name, user.uuid, b_r_record.is_borrow
+        FROM b_r_record
+        LEFT JOIN book_index
+        ON b_r_record.borrowed_book_ind = book_index.book_ind
+        LEFT JOIN user
+        ON b_r_record.borrower_uid = user.uuid
+        LEFT JOIN user_info
+        ON b_r_record.borrower_uid = user_info.user_id
+        WHERE ".$dict[$data['select']]." LIKE '%".$data['input']."%'";
+
+
+        $rst = $conn->query($sql);
+        $rt = [];
+        $iter = 0;
+        if ($rst->num_rows > 0) {
+            while ($row = $rst->fetch_assoc()) {
+                $rt[$iter] = array(
+                    "订单编号"=> $row["rec_ind"],
+                    "书名" => $row["book_name"],
+                    "书本编号"=> $row["borrowed_book_ind"],
+                    "用户名"=> $row["username"],
+                    "姓名"=> $row["u_name"],
+                    "用户编号"=> $row["uuid"],
+                    "当前状态"=> ($row["is_borrow"] == "1")?"借出":"还书",
+                );
+                $iter++;
+            }
+        }
+
+        return $rt;
+    }
+
+    function book_store($conn, $data) {
+        $dict = Array(
+            "书名"=>"book_name",
+            "价格"=> "price"
+        );
+        $storage_time = date("YmdHis");
+        $cnt = sprintf("%010d", 1 + (int)($conn->query("SELECT COUNT(*) AS cnt FROM book_index"))->fetch_assoc()["cnt"]);
+        $conn->query("INSERT INTO `book_index` (`book_ind`, `book_name`, `status`, `storage_time`) VALUES ('{$cnt}', '{$data['书名']}', 1, {$storage_time})");
+        $conn->query("INSERT INTO `book_info` (`book_index`, `price`) VALUES ('{$cnt}', {$data['价格']})");
+    }
