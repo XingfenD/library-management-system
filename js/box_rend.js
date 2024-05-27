@@ -28,7 +28,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var book_select = document.createElement("select");
         book_select.setAttribute("id", "book-selector");
         book_select.setAttribute("title", "属性选择");
-        var select_option = ["book-id","书名"];
+        var select_option = ["book-id","书名", "入库时间"];
         select_option.forEach(function(item) {
             var option = document.createElement("option");
             option.setAttribute("class", "book-select-option");
@@ -132,6 +132,9 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.innerHTML = '';
     },
     "借阅记录": async function (uname_auth, box) { // 
+        box.innerHTML = '';
+    },
+    "图书入库": async function (uname_auth, box) {
         box.innerHTML = '';
     },
     "用户列表": async function (uname_auth, box) {

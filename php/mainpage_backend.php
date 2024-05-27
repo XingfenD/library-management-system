@@ -28,7 +28,16 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
-        } 
+        } else if ($_POST['ctnt'] == "book-list") {
+            if ($auth >= 1) {
+                echo json_encode(get_book_list($conn, $_POST));
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
+            }
+        }
     } else if ($_POST['oper'] == 'post'){
         if ($_POST['ctnt'] == 'user-info') {
             if ($auth >= 1) {

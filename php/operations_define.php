@@ -144,10 +144,13 @@
             "联系电话" => "u_tele",
             "邮箱" => "u_email"
         );
+
+        // 设置用户的当前权限不能大于等于当前用户的权限
         if ($auth <= (int)($conn->query("SELECT authority FROM user WHERE uuid=".$data['uuid']))->fetch_assoc()['authority']) {
             return "Your authority is not enough to do this";
         } else {
             if ($dict[$data['select']] == "authority") {
+                // 修改后的权限不能大于等于当前用户的权限
                 if ((int)$data['set_ctnt'] >= $auth) {
                     return "Your authority is not enough to do this";
                 }
@@ -156,4 +159,37 @@
                 $conn->query("UPDATE user_info SET ".$dict[$data['select']]."='".$data['set_ctnt']."' WHERE user_id=".$data['uuid']);
             }
         }
+    }
+
+    function get_book_list($conn, $data) {
+        $dict = Array(
+            "book-id" => "book_ind",
+            "书名" => "book_name",
+            "入库时间" => "storage_time",
+            "当前状态" => "status",
+            "标的价格" => "price"
+        );
+        $sql = "SELECT book_index.book_ind, book_index.book_name, book_index.storage_time, book_index.status, book_info.price
+                FROM book_index
+                LEFT JOIN book_info
+                ON book_index.book_ind=book_info.book_index
+                WHERE ".$dict[$data['select']]." LIKE '%".$data['input']."%'";
+
+        $rst = $conn->query($sql);
+        $rt = [];
+        $iter = 0;
+        if ($rst->num_rows > 0) {
+            while ($row = $rst->fetch_assoc()) {
+                $rt[$iter] = array(
+                    "book-id"=> $row["book_ind"],
+                    "书名" => $row["book_name"],
+                    "入库时间"=> $row["storage_time"],
+                    "当前状态"=> ($row["status"] == "1")?"可借阅":"已借出",
+                    "标的价格"=> $row["price"]
+                );
+                $iter++;
+            }
+        }
+
+        return $rt;
     }
