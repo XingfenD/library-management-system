@@ -86,6 +86,15 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
+        } else if ($_POST['ctnt'] == 'sql') {
+            if ($auth >= 3) {
+                echo json_encode(sql_execute($conn, $_POST));
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
+            }
         }
     }
     $conn->close();

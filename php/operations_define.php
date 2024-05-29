@@ -138,7 +138,7 @@
                 $iter++;
             }
         }
-        
+        $stmt->close();
         return $rt;
     }
 
@@ -200,7 +200,7 @@
                 $iter++;
             }
         }
-
+        $stmt->close();
         return $rt;
     }
 
@@ -328,12 +328,70 @@
     }
 
     function book_store($conn, $data) {
+        if ($data['书名'] == "" || $data['价格'] == "") {
+            return Array(
+                "status"=>4,
+                "msg"=> "The input cannot be null!"
+            );
+        }
         $dict = Array(
-            "书名"=>"book_name",
-            "价格"=> "price"
+            "书名" => "book_name",
+            "价格" => "price"
         );
         $storage_time = date("YmdHis");
         $cnt = sprintf("%010d", 1 + (int)($conn->query("SELECT COUNT(*) AS cnt FROM book_index"))->fetch_assoc()["cnt"]);
-        $conn->query("INSERT INTO `book_index` (`book_ind`, `book_name`, `status`, `storage_time`) VALUES ('{$cnt}', '{$data['书名']}', 1, {$storage_time})");
-        $conn->query("INSERT INTO `book_info` (`book_index`, `price`) VALUES ('{$cnt}', {$data['价格']})");
+        
+        // 预处理语句防止 SQL 注入
+        // 插入到 book_index 表
+        $stmt1 = $conn->prepare("INSERT INTO `book_index` (`book_ind`, `book_name`, `status`, `storage_time`) VALUES (?, ?, ?, ?)");
+        if ($stmt1) {
+            $book_name = $data['书名'];
+            $status = 1;
+            $stmt1->bind_param("ssis", $cnt, $book_name, $status, $storage_time);
+            $stmt1->execute();
+            $stmt1->close();
+        } else {
+            return Array(
+                "status"=>3,
+                "msg"=>"预处理语句初始化失败"
+            );
+        }
+    
+        // 插入到 book_info 表
+        $stmt2 = $conn->prepare("INSERT INTO `book_info` (`book_index`, `price`) VALUES (?, ?)");
+        if ($stmt2) {
+            $price = $data['价格'];
+            $stmt2->bind_param("sd", $cnt, $price);
+            $stmt2->execute();
+            $stmt2->close();
+        } else {
+            return Array(
+                "status"=>3,
+                "msg"=>"预处理语句初始化失败"
+            );
+        }
+
+        return Array(
+            "status"=>0,
+            "msg"=>"success"
+        );
+    }
+    
+    function sql_execute($conn, $data) {
+        $sql = $data['input'];
+        $stmt = mysqli_prepare($conn, $sql);
+        if (mysqli_stmt_execute($stmt) == true) {
+            $rst = mysqli_stmt_get_result($stmt);
+            $iter = 0;
+            if ($rst->num_rows > 0) {
+                while ($row = $rst->fetch_assoc()) {
+                    $rt[$iter] = $row;
+                    $iter++;
+                }
+            }
+
+            return $rt;
+        } else {
+            return $mysqli_stmt_error($stmt);
+        }
     }

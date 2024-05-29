@@ -128,8 +128,40 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             });
         });
     },
-    "借书/还书": async function (uname_auth, box) {
-        box.innerHTML = '';
+    "借阅记录": async function (uname_auth, box) { // 
+        box.innerHTML = "";
+        var rcd_list_div = document.createElement("div");
+        var search_rcd_div = document.createElement("div");
+
+        rcd_list_div.setAttribute("id", "rcd-list-div");
+        search_rcd_div.setAttribute("class", "search_rcd_div");
+        var rcd_select_lable = document.createElement("lable");
+        var lable_text = document.createTextNode("搜索的属性")
+        rcd_select_lable.appendChild(lable_text);
+        search_rcd_div.appendChild(rcd_select_lable);
+
+        var rcd_select = document.createElement("select");
+        rcd_select.setAttribute("id", "rcd-selector");
+        rcd_select.setAttribute("title", "属性选择");
+        var select_option = ["订单编号","book-id", "书名", "UUID","账号", "姓名", "卡号"];
+        select_option.forEach(function(item) {
+            var option = document.createElement("option");
+            option.setAttribute("class", "rcd-select-option");
+            var text = document.createTextNode(item);
+            option.appendChild(text);
+            rcd_select.appendChild(option);
+        });
+
+        var search_ctnt = document.createElement("input");
+        search_ctnt.setAttribute("id", "search-ctnt");
+        search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        var search_btn = document.createElement("input");
+        search_btn.setAttribute("type", "button");
+        search_btn.setAttribute("value", "搜索");
+        search_rcd_div.appendChild(rcd_select);
+        search_rcd_div.appendChild(search_ctnt);
+        search_rcd_div.appendChild(search_btn);
+        
         var command_div = document.createElement("div");
         command_div.id= "comm-div";
         var label = document.createElement('label');
@@ -184,6 +216,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 success: function (msg) {
                     rcv = msg;
                     alert(msg['msg']);
+                    request(true);
                     console.log(msg);
                 },
                 error: function(msg) {
@@ -197,42 +230,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         });
 
         box.appendChild(command_div);
-    },
-    "借阅记录": async function (uname_auth, box) { // 
-        box.innerHTML = "";
-        var rcd_list_div = document.createElement("div");
-        var search_rcd_div = document.createElement("div");
 
-        rcd_list_div.setAttribute("id", "rcd-list-div");
-        search_rcd_div.setAttribute("class", "search_rcd_div");
-        var rcd_select_lable = document.createElement("lable");
-        var lable_text = document.createTextNode("搜索的属性")
-        rcd_select_lable.appendChild(lable_text);
-        search_rcd_div.appendChild(rcd_select_lable);
-
-        var rcd_select = document.createElement("select");
-        rcd_select.setAttribute("id", "rcd-selector");
-        rcd_select.setAttribute("title", "属性选择");
-        var select_option = ["订单编号","book-id", "书名", "UUID","账号", "姓名", "卡号"];
-        select_option.forEach(function(item) {
-            var option = document.createElement("option");
-            option.setAttribute("class", "rcd-select-option");
-            var text = document.createTextNode(item);
-            option.appendChild(text);
-            rcd_select.appendChild(option);
-        });
-
-        var search_ctnt = document.createElement("input");
-        search_ctnt.setAttribute("id", "search-ctnt");
-        search_ctnt.setAttribute("placeholder", "请输入搜索内容");
-        var search_btn = document.createElement("input");
-        search_btn.setAttribute("type", "button");
-        search_btn.setAttribute("value", "搜索");
-        search_rcd_div.appendChild(rcd_select);
-        search_rcd_div.appendChild(search_ctnt);
-        search_rcd_div.appendChild(search_btn);
-        
-
+        // generate the table
         var rst_ls_table = document.createElement("table");
         rst_ls_table.setAttribute("id", "rst-ls-table");
         var rst_ls_h = document.createElement("thead");
@@ -344,7 +343,6 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         btn.type = "button";
         btn.id = "book_info_btn";
         book_info_form.appendChild(btn);
-        box.appendChild(book_info_form);
         btn.value = "入库";
 
         btn.addEventListener("click", function () {
@@ -355,7 +353,12 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 };
                 var inputs = form.querySelectorAll("input[type='text']");
                 for (var i = 0; i < inputs.length; i++) {
-                    data[info_ls[i]] = inputs[i].value;
+                    if (inputs[i].value == null) {
+                        alert("输入不能为空!");
+                        return;
+                    } else {
+                        data[info_ls[i]] = inputs[i].value;
+                    }
                 }
 
                 $.ajax({
@@ -366,6 +369,11 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     url: "../php/mainpage_backend.php",
                     success: function (msg) {
                         rcv = msg;
+                        if (msg['status'] == 0) {
+                            alert("入库成功!");
+                        } else {
+                            alert("Something went wrong");
+                        }
                         console.log(msg);
                     },
                     error: function(msg) {
@@ -375,6 +383,47 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 });
             }) (book_info_form, book_info);
         });
+
+        // // 创建一个按钮元素
+        // let button = document.createElement('input');
+        // button.setAttribute('type', 'button');
+        // button.setAttribute('value', '上传表格文件');
+        // button.addEventListener('click', function() {
+        //     // 创建一个文件输入框
+        //     alert('传入的表格应至少有两列, 列名分别为"书名"和"价格"!')
+        //     let file_input = document.createElement('input');
+        //     file_input.setAttribute('type', 'file');
+        //     file_input.setAttribute('accept', '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel');
+        //     file_input.addEventListener('change', function() {
+        //         // 创建一个 FormData 对象
+        //         let formData = new FormData();
+        //         // 将文件添加到 FormData 中
+        //         formData.append('file', file_input.files[0]);
+        //         // 使用 $.ajax 发送文件
+        //         $.ajax({
+        //             url: '../php/mainpage_backend.php',
+        //             type: 'POST',
+        //             data: formData,
+        //             processData: false,
+        //             contentType: false,
+        //             success: function(response) {
+        //                 console.log('文件上传成功', response);
+        //                 // 可以根据后端返回的数据做进一步处理
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.error('文件上传失败', error);
+        //                 // 可以根据错误情况做进一步处理
+        //             }
+        //         });
+        //     });
+        //     // 触发文件选择
+        //     file_input.click();
+        // });
+
+        // // 将按钮添加到表单中
+        // book_info_form.appendChild(button);
+        box.appendChild(book_info_form);
+
     },
     "用户列表": async function (uname_auth, box) {
         box.innerHTML = "";
@@ -879,5 +928,150 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "项目介绍": async function (uname_auth, box) {
         box.innerHTML = '<iframe src="../html/project_info.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
+    },
+    "仪表盘": async function (uname_auth, box) {
+        box.innerHTML = '';
+    },
+    "SQL执行": async function (uname_auth, box) {
+        box.innerHTML = '';
+        box = $(".box");
+        var search_div = $("<div>").attr("class", "search-div");
+        var label = $("<label>").text("SQL:");
+        // 创建input
+        var input = $("<input>", {type: "text", id: "sql-input", placeholder: "sql语句"});
+        // 创建button
+        var button = $("<input>").attr("type", "button").attr("value", "提交");
+
+
+        // add eventlistener
+        button.on("click", async function () {
+            var each_tr = document.querySelectorAll("tr");
+            each_tr.forEach(function(item) {
+                item.innerHTML = '';
+            })
+            var data_rcv;
+            await $.ajax({
+                type: "POST",
+                data: {
+                    'oper': "post",
+                    'ctnt': "sql",
+                    'input': $("#sql-input").val()
+                },
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                async:true,
+                success:function (msg) {
+                    console.log(msg);
+                    data_rcv = msg;
+                },
+                error:function (msg) {
+                    console.log(msg);
+                    alert("Something went wrong");
+                }
+            });
+            
+            // judge the data
+            var thead = $("thead");
+            var tbody = $("tbody");
+
+            // 向thead中添加tr标签，tr标签内的td为字典的键
+            var keys = Object.keys(data_rcv[0]);
+            var theadTr = $("<tr></tr>");
+            keys.forEach(function(key) {
+                theadTr.append("<td>" + key + "</td>");
+            });
+            thead.append(theadTr);
+
+            // 向tbody中添加多个tr标签，tr标签内的td为字典的值
+            data_rcv.forEach(function(item) {
+                var tbodyTr = $("<tr></tr>");
+                keys.forEach(function(key) {
+                    tbodyTr.append("<td>" + item[key] + "</td>");
+                });
+                tbody.append(tbodyTr);
+            });
+        });
+        // 添加元素到box中
+        search_div.append(label);
+        search_div.append(input);
+        search_div.append(button);
+
+        box.append(search_div);
+
+        var rst_ls_table = $("<table>", { id: "rst-ls-table" });
+        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
+        var head_tr = $("<tr>");
+        var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
+        rst_ls_h.append(head_tr);
+        rst_ls_table.append(rst_ls_h);
+        rst_ls_table.append(rst_ls_body);
+        search_div.append(rst_ls_table);
+
+
+    },
+    "备份与恢复": async function (uname_auth, box) {
+        box.innerHTML = '';
+        box = $(".box");
+
+        // button1 备份
+        var backup_div = $("<div>", {id:"backup-div"});
+        var input = $('<input>', {type:"text", placeholder:"请输入数据库备份名"});
+        var button = $('<input>', {type: "button", value:"备份"});
+
+
+        backup_div.append(input);
+        backup_div.append(button);
+        box.append(backup_div);
+
+        // table
+        var rst_ls_table = $("<table>", { id: "rst-ls-table" });
+        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
+        var head_tr = $("<tr>");
+        var c_name = ["备份名称", "创建时间"];
+        c_name.forEach(function (item) {
+            head_tr.append($(`<td><a>${item}</a></td>`))
+        });
+        var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
+        rst_ls_h.append(head_tr);
+        rst_ls_table.append(rst_ls_h);
+        rst_ls_table.append(rst_ls_body);
+        box.append(rst_ls_table);
+        
+        // button2 恢复
+        if (uname_auth['authority'] >= 4) {
+            var restore_div = $("<div>", {id:"backup-div"});
+            var restore_input = $("<input>",{type:"text", placeholder:"请输入要恢复成的数据库备份名"});
+            var restore_button = $('<input>', {type: "button", value:"恢复"});
+
+
+            restore_div.append(restore_input);
+            restore_div.append(restore_button);
+            box.append(restore_div);
+
+            restore_button.on("click", function () {
+                (function (input) {
+                    $.ajax({
+                        data: {
+                            "oper": "restore",
+                            "input": input.val()
+                        },
+                        async: true,
+                        dataType: "json",
+                        url: "../php/backup_restore.php",
+                        type: "POST",
+                        success: function() {
+
+                        },
+                        error: function() {
+
+                        }
+                    }); 
+                })(restore_input)
+            });
+        }
+
+
+        
+        
     }
 }

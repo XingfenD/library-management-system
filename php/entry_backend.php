@@ -95,7 +95,7 @@
             $rt_msg['msg'] = 'Log in successfully';
             $_SESSION['username'] = $username;
             if ($_POST['request'] == 'signup') {
-                $_SESSION['authority'] = 19;
+                $_SESSION['authority'] = 1;
             } else {
                 $_SESSION['authority'] = (int)$user_account['authority'];
             }
