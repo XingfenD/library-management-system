@@ -67,10 +67,15 @@
         } else if ($_POST['ctnt'] == 'change-info') {
             if ($auth >= 2) {
                 echo change_user_info($conn, $auth, $_POST);
+            } else {
+                echo json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
             }
         } else if ($_POST['ctnt'] == 'br-book') {
             if ($auth >= 1) {
-                echo br_book($conn, $_POST);
+                echo json_encode(br_book($conn, $uname,$_POST));
             }
         } else if ($_POST['ctnt'] == 'book-list') {
             if ($auth >= 2) {

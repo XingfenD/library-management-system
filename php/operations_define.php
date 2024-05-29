@@ -194,29 +194,78 @@
         return $rt;
     }
 
-    function br_book($conn, $data) {
+    function br_book($conn, $uname, $data) {
         if ($data['select'] == '借书') {
             $status = $conn->query("SELECT status FROM book_index WHERE book_ind='".$data['input']."'")->fetch_assoc()['status'];
             if ($status == "0") {
-                return json_encode(Array(
+                return Array(
                     "status"=> 2,
                     "msg"=> "该书已经借出!"
-                ));
+                );
+            } else {
+                $date = date("YmdHis");
+                $cnt = (int)$conn->query("SELECT COUNT(rec_ind) AS cnt FROM b_r_record WHERE rec_ind LIKE '".$date."%'")->fetch_assoc()['cnt'] + 1;
+                $idx = sprintf("%s%04d", $date, $cnt);
+                $uuid = $conn->query("SELECT uuid FROM user WHERE username='{$uname}'")->fetch_assoc()['uuid'];
+                $conn->query("INSERT INTO `b_r_record` (`rec_ind`, `borrowed_book_ind`, `borrower_uid`, `is_borrow`) VALUES ('{$idx}', '{$data['input']}', '{$uuid}', 1)");
+                $rst = $conn->query("SELECT is_borrow FROM b_r_record WHERE borrowed_book_ind='".$data['input']."' ORDER BY rec_ind desc");
+                if ($rst->num_rows == 0) {
+                    $conn->query("UPDATE book_index SET status=0 WHERE book_ind='{$data['input']}'");
+                    return Array(
+                        'status'=> 0,
+                        'msg'=> '借阅成功'
+                    );
+                } else if ($rst->fetch_assoc()['is_borrow'] == '1') {
+                    $conn->query("UPDATE book_index SET status=0 WHERE book_ind='{$data['input']}'");
+                    return Array(
+                        'status'=> 0,
+                        'msg'=> '借阅成功'
+                    );
+                } else {
+                    return Array(
+                        'status'=> 3,
+                        'msg'=> 'error'
+                    );
+                }
             }
         } else if ($data['select'] == '还书') {
             $status = $conn->query("SELECT status FROM book_index WHERE book_ind='".$data['input']."'")->fetch_assoc()['status'];
             if ($status == "1") {
-                return json_encode(Array(
+                return Array(
                     "status"=> 2,
                     "msg"=> "该书尚未借出!"
-                ));
+                );
+            } else {
+                $date = date("YmdHis");
+                $cnt = (int)$conn->query("SELECT COUNT(rec_ind) AS cnt FROM b_r_record WHERE rec_ind LIKE '".$date."%'")->fetch_assoc()['cnt'] + 1;
+                $idx = sprintf("%s%04d", $date, $cnt);
+                $uuid = $conn->query("SELECT uuid FROM user WHERE username='{$uname}'")->fetch_assoc()['uuid'];
+                $conn->query("INSERT INTO `b_r_record` (`rec_ind`, `borrowed_book_ind`, `borrower_uid`, `is_borrow`) VALUES ('{$idx}', '{$data['input']}', '{$uuid}', 0)");
+                if ($conn->query("SELECT is_borrow FROM b_r_record WHERE borrowed_book_ind='".$data['input']."' ORDER BY rec_ind desc")->fetch_assoc()['is_borrow'] == 0) {
+                    $conn->query("UPDATE book_index SET status=1 WHERE book_ind='{$data['input']}'");
+                    return Array(
+                        'status'=> 0,
+                        'msg'=> '还书成功'
+                    );
+                } else {
+                    return Array(
+                        'status'=> 3,
+                        'msg'=> 'error'
+                    );
+                }
             }
+
         } else {
-            return json_encode(Array(
+            return Array(
                 "status"=> 1,
                 "msg"=> "Unknown Operation"
-            ));
+            );
         }
+
+        return Array(
+            "status"=> 2,
+            "msg"=> "Operation failed"
+        );
     }
 
     function get_rcd_list($conn, $uname,$data) {

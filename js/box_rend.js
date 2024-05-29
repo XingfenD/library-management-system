@@ -183,10 +183,15 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
                     rcv = msg;
+                    alert(msg['msg']);
                     console.log(msg);
                 },
                 error: function(msg) {
+                    alert("Something went wrong");
                     console.log(msg);
+                    // var str_array = msg['responseText'].split('\n');
+                    // var msg_json = $.parseJSON(str_array[str_array.length - 1]);
+                    // alert(msg_json['msg']);
                 }
             });
         });
@@ -257,7 +262,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
 
         box.appendChild(rcd_list_div);
 
-        async function request() {
+        async function request(load) {
             var selector = document.querySelector("#rcd-selector");
             var ctnt = document.querySelector("#search-ctnt");
             var data = {
@@ -266,7 +271,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 "select": "账号",
                 "input": "self"
             };
-            if (selector != undefined) {
+            if (selector != undefined && load != true) {
                 data['select'] = selector.selectedOptions[0].textContent,
                 data['input'] = ctnt.value
             }
@@ -314,7 +319,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 tbody.appendChild(row);
             });
         };
-        request();
+        request(true);
         search_btn.addEventListener("click", request);
     },
     "图书入库": async function (uname_auth, box) {
@@ -364,6 +369,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         console.log(msg);
                     },
                     error: function(msg) {
+                        alert("Something went wrong");
                         console.log(msg);
                     }
                 });
@@ -558,6 +564,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                             console.log(msg);
                         },
                         error: function(msg) {
+                            alert("Something went wrong");
                             console.log(msg);
                         }
                     });
