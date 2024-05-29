@@ -114,8 +114,14 @@
         FROM user 
         LEFT JOIN user_info
         ON user.uuid = user_info.user_id
-        WHERE ".$select_dict[$data['select']]." LIKE '%".$data['input']."%'";
-        $rst = $conn->query($sql);
+        WHERE ".$select_dict[$data['select']]." LIKE ?";
+
+        $stmt = mysqli_prepare($conn, $sql);
+        $like_input = '%'.$data['input'].'%';
+        mysqli_stmt_bind_param($stmt, 's', $like_input);
+
+        mysqli_stmt_execute($stmt);
+        $rst = mysqli_stmt_get_result($stmt);
         $rt = [];
         $iter = 0;
         if ($rst->num_rows > 0) {
@@ -173,9 +179,13 @@
                 FROM book_index
                 LEFT JOIN book_info
                 ON book_index.book_ind=book_info.book_index
-                WHERE ".$dict[$data['select']]." LIKE '%".$data['input']."%'";
+                WHERE ".$dict[$data['select']]." LIKE ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        $like_input = '%'.$data['input'].'%';
+        mysqli_stmt_bind_param($stmt, 's', $like_input);
 
-        $rst = $conn->query($sql);
+        mysqli_stmt_execute($stmt);
+        $rst = mysqli_stmt_get_result($stmt);
         $rt = [];
         $iter = 0;
         if ($rst->num_rows > 0) {
@@ -289,10 +299,14 @@
         ON b_r_record.borrower_uid = user.uuid
         LEFT JOIN user_info
         ON b_r_record.borrower_uid = user_info.user_id
-        WHERE ".$dict[$data['select']]." LIKE '%".$data['input']."%'";
+        WHERE ".$dict[$data['select']]." LIKE ?";
 
+        $stmt = mysqli_prepare($conn, $sql);
+        $like_input = '%'.$data['input'].'%';
+        mysqli_stmt_bind_param($stmt, 's', $like_input);
 
-        $rst = $conn->query($sql);
+        mysqli_stmt_execute($stmt);
+        $rst = mysqli_stmt_get_result($stmt);
         $rt = [];
         $iter = 0;
         if ($rst->num_rows > 0) {
