@@ -2,10 +2,10 @@ table {
     width: max-content;
     border-collapse: collapse;
   }
-  table, th, td {
+  table, td {
     border: 1px solid #D1D7DD;
   }
-  th, td {
+  thead td, td {
     padding: 8px;
     text-align: left;
   }

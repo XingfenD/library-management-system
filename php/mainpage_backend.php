@@ -46,15 +46,20 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
-        } else if ($_POST['ctnt'] == 'backup_list') {
+        } else if ($_POST['ctnt'] == 'backup-list') {
             if ($auth >= 3) {
-                echo json_encode(get_backup_list($conn));
+                echo json_encode(get_backup_list());
             } else {
                 echo json_encode(array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
+        } else {
+            echo json_encode(array(
+                "status"=> -2,
+                "msg"=> "Unknown operation!"
+            ));
         }
     } else if ($_POST['oper'] == 'post'){
         if ($_POST['ctnt'] == 'user-info') {
@@ -104,6 +109,16 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
+        } else {
+            echo json_encode(array(
+                "status"=> -2,
+                "msg"=> "Unknown operation!"
+            ));
         }
+    } else {
+        echo json_encode(array(
+            "status"=> -2,
+            "msg"=> "Unknown operation!"
+        ));
     }
     $conn->close();

@@ -396,6 +396,24 @@
         }
     }
 
-    function get_backup_list($conn) {
+    function get_backup_list() {
+        // 定义备份文件目录路径
+        $backup_dir = '../private/backup';
         
+        // 检查目录是否存在
+        if (!is_dir($backup_dir)) {
+            return [];
+        }
+        
+        // 扫描目录中的文件和目录
+        $files = scandir($backup_dir);
+        
+        // 过滤掉 "." 和 ".." 目录
+        $backup_files = array_filter($files, function($file) use ($backup_dir) {
+            return $file !== '.' && $file !== '..' && is_file($backup_dir . '/' . $file);
+        });
+        
+        // 返回文件名数组
+        return array_values($backup_files);
     }
+    

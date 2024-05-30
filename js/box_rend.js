@@ -1,6 +1,7 @@
 const hori_btn_func = { // 设置按钮功能同时渲染box
     "推荐": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "recommend";
         var para1 = document.createElement("a");
         para1.setAttribute("class", "text title");
         var text1 = document.createTextNode(`你好`);
@@ -15,6 +16,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "查询馆藏": async function (uname_auth, box) {
         box.innerHTML = "";
+        box.id = "search-book";
         var book_list_div = document.createElement("div");
         var search_book_div = document.createElement("div");
 
@@ -40,6 +42,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_ctnt = document.createElement("input");
         search_ctnt.setAttribute("id", "search-ctnt");
         search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        search_ctnt.type="text";
         var search_btn = document.createElement("input");
         search_btn.setAttribute("type", "button");
         search_btn.setAttribute("value", "搜索");
@@ -130,6 +133,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "借阅记录": async function (uname_auth, box) { // 
         box.innerHTML = "";
+        box.id = "rcd-list";
         var rcd_list_div = document.createElement("div");
         var search_rcd_div = document.createElement("div");
 
@@ -155,6 +159,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_ctnt = document.createElement("input");
         search_ctnt.setAttribute("id", "search-ctnt");
         search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        search_ctnt.type="text";
         var search_btn = document.createElement("input");
         search_btn.setAttribute("type", "button");
         search_btn.setAttribute("value", "搜索");
@@ -323,6 +328,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "图书入库": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "book-storage";
         var book_info = ['书名', '价格'];
         var book_info_form = document.createElement("form");
         book_info_form.id = "book-in-form";
@@ -427,6 +433,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "用户列表": async function (uname_auth, box) {
         box.innerHTML = "";
+        box.id = "user-list";
         var user_list_div = document.createElement("div");
         var search_user_div = document.createElement("div");
 
@@ -452,6 +459,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_ctnt = document.createElement("input");
         search_ctnt.setAttribute("id", "search-ctnt");
         search_ctnt.setAttribute("placeholder", "请输入搜索内容");
+        search_ctnt.type = "text";
         var search_btn = document.createElement("input");
         search_btn.setAttribute("type", "button");
         search_btn.setAttribute("value", "搜索");
@@ -626,6 +634,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "我的信息": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "my-info"
         var info_card = document.createElement("div");
         var user_box = document.createElement("div");
         var user_pic = document.createElement("img");
@@ -709,6 +718,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "修改信息": async function (uname_auth, box) { // 
         box.innerHTML = '';
+        box.id = "change-info";
         var change_info_box = document.createElement("div");
         change_info_box.setAttribute("id", "info-input");
         var info_list = {
@@ -925,15 +935,19 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     },
     "帮助文档": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "help";
     },
     "项目介绍": async function (uname_auth, box) {
         box.innerHTML = '<iframe src="../html/project_info.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
+        box.id = "project-info";
     },
     "仪表盘": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "dash-board";
     },
     "SQL执行": async function (uname_auth, box) {
         box.innerHTML = '';
+        box.id = "sql-execute";
         box = $(".box");
         var search_div = $("<div>").attr("class", "search-div");
         var label = $("<label>").text("SQL:");
@@ -1010,6 +1024,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
 
     },
     "备份与恢复": async function (uname_auth, box) {
+        box.id = "backup-restore"
         box.innerHTML = '';
         box = $(".box");
 
@@ -1023,55 +1038,153 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         backup_div.append(button);
         box.append(backup_div);
 
-        // table
-        var rst_ls_table = $("<table>", { id: "rst-ls-table" });
-        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
-        var head_tr = $("<tr>");
-        var c_name = ["备份名称", "创建时间"];
-        c_name.forEach(function (item) {
-            head_tr.append($(`<td><a>${item}</a></td>`))
-        });
-        var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
-        rst_ls_h.append(head_tr);
-        rst_ls_table.append(rst_ls_h);
-        rst_ls_table.append(rst_ls_body);
-        box.append(rst_ls_table);
-        
-        // button2 恢复
-        if (uname_auth['authority'] >= 4) {
-            var restore_div = $("<div>", {id:"backup-div"});
-            var restore_input = $("<input>",{type:"text", placeholder:"请输入要恢复成的数据库备份名"});
-            var restore_button = $('<input>', {type: "button", value:"恢复"});
 
+        async function write_to_table() {
+            var data_rcv;
+            await $.ajax({
+                type: "POST",
+                data: {
+                    'oper': "get",
+                    'ctnt': "backup-list",
+                },
+                dataType:"json",
+                url: "../php/mainpage_backend.php",
+                async:true,
+                success:function (msg) {
+                    console.log(msg);
+                    data_rcv = msg
+                },
+                error:function (msg) {
+                    console.log(msg);
+                    alert("Something went wrong");
+                }
+            });
+            var rst_ls_body = document.querySelector("#rst-ls-body");
+            rst_ls_body.innerHTML = '';
+            data_rcv.forEach(function(item) {
+                var tr = document.createElement("tr");
+                tr.innerHTML = `<td><a>${item}</a></td>`;
+                rst_ls_body.append(tr);
+            });
+        };
 
-            restore_div.append(restore_input);
-            restore_div.append(restore_button);
-            box.append(restore_div);
-
-            restore_button.on("click", function () {
-                (function (input) {
+        button.on("click", function () {
+            (function (input) {
+                if (input.val() != "") {
                     $.ajax({
                         data: {
-                            "oper": "restore",
+                            "oper": "backup",
                             "input": input.val()
                         },
                         async: true,
                         dataType: "json",
                         url: "../php/backup_restore.php",
                         type: "POST",
-                        success: function() {
-
+                        success: function(msg) {
+                            console.log(msg);
+                            alert(msg);
                         },
-                        error: function() {
-
+                        error: function(msg) {
+                            console.log(msg);
                         }
-                    }); 
-                })(restore_input)
+                    });
+                    write_to_table();
+
+                } else {
+                    alert("备份名称不能为空!");
+                }
+            })(input);
+        });
+
+        // table
+        var rst_ls_table = $("<table>", { id: "rst-ls-table" });
+        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
+        var head_tr = $("<tr>");
+        head_tr.append($(`<td><a>备份名称</a></td>`))
+        var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
+        rst_ls_h.append(head_tr);
+        rst_ls_table.append(rst_ls_h);
+        rst_ls_table.append(rst_ls_body);
+        box.append(rst_ls_table);
+
+        await write_to_table();
+        
+        
+        if (uname_auth['authority'] >= 4) {
+            // button2&3 恢复/删除
+            var r_d_div = $("<div>", {id:"r-d-div"});
+            var r_d_select = $("<select>", {title: "r-d-select", placeholder: "在这里选择备份文件名"});
+            var restore_button = $('<input>', {type: "button", value:"恢复"});
+            var delete_button = $('<input>', {type: "button", value:"删除"});
+
+            r_d_div.append(r_d_select);
+            r_d_div.append(restore_button);
+            r_d_div.append(delete_button);
+            box.append(r_d_div);
+
+            function flash_select() {
+                (function (select) {
+                    a = document.querySelectorAll("tbody td a");
+                    select.empty();
+                    a.forEach(function (item) {
+                        var option = $("<option>").text(item.textContent);
+                        select.append(option);
+                    });
+                })(r_d_select);
+            };
+            flash_select();
+            r_d_select.on("click", flash_select);
+
+            restore_button.on("click", function () {
+                (function (select) {
+                    var r = confirm(`确认恢复至备份文件${select.val()}吗?\n恢复之前建议先备份当前状态!`);
+                    if (r == true) {
+                        $.ajax({
+                            data: {
+                                "oper": "restore",
+                                "input": select.val()
+                            },
+                            async: true,
+                            dataType: "json",
+                            url: "../php/backup_restore.php",
+                            type: "POST",
+                            success: function(msg) {
+                                console.log(msg);
+                                alert("恢复成功！");
+                            },
+                            error: function(msg) {
+                                console.log(msg);
+                            }
+                        }); 
+                    }
+                })(r_d_select)
+            });
+
+            delete_button.on("click", function () {
+                (function (select) {
+                    var r = confirm(`确认删除备份文件${select.val()}吗?`);
+                    if (r == true) {
+                        $.ajax({
+                            data: {
+                                "oper": "delete",
+                                "input": select.val()
+                            },
+                            async: true,
+                            dataType: "json",
+                            url: "../php/backup_restore.php",
+                            type: "POST",
+                            success: function(msg) {
+                                console.log(msg);
+                                flash_select();
+                            },
+                            error: function(msg) {
+                                console.log(msg);
+                            }
+                        });
+                        write_to_table();
+                    }
+                })(r_d_select)
             });
         }
-
-
-        
-        
     }
 }

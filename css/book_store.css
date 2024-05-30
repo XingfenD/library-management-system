@@ -1,4 +1,21 @@
-#book-in-form {
-    width:fit-content;
+#book-storage #book-in-form {
     margin: 0 auto;
+    padding: 20px;
+    display: block;
+    width: 61.8%;
+    border-width: 1px 1px;
+    border: solid aquamarine;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+#book-storage .book-info-row {
+    display: block;
+    width: fit-content;
+    height: 40px;
+    margin: 0 auto;
+}
+#book-storage input[type="button"] {
+    display: block;
+    width: 62px;
+    margin: 0 auto;
+    /* margin-top: 20px; */
 }
