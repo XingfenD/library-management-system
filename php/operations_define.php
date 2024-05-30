@@ -395,3 +395,7 @@
             return $mysqli_stmt_error($stmt);
         }
     }
+
+    function get_backup_list($conn) {
+        
+    }
