@@ -1,6 +1,5 @@
 <?php
     header('Content-type:text/json;charset=utf-8');
-    // require_once "./logout_backend.php";
 
     function info_check($uname, $psd, $re_psd) {
         $username_pattern = '/^\w{2,16}$/';
@@ -70,7 +69,6 @@
         }
         $sql = $sql."WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')";
         $conn->query($sql);
-        // return $sql;
     }
 
     function alter_acct_info($conn, $uname, $data) {

@@ -20,7 +20,6 @@
             } 
         } else if ($_POST['ctnt'] == "user-list") {
             if ($auth >= 2) {
-                // echo "yuanshen";
                 echo json_encode(get_user_list($conn, $uname, $_POST));
             } else {
                 echo json_encode(array(
@@ -64,7 +63,6 @@
     } else if ($_POST['oper'] == 'post'){
         if ($_POST['ctnt'] == 'user-info') {
             if ($auth >= 1) {
-                // echo json_encode($_POST);
                 alter_user_info($conn, $uname, $_POST);
                 echo json_encode(array(
                     "status"=> 0,

@@ -227,9 +227,6 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 error: function(msg) {
                     alert("Something went wrong");
                     console.log(msg);
-                    // var str_array = msg['responseText'].split('\n');
-                    // var msg_json = $.parseJSON(str_array[str_array.length - 1]);
-                    // alert(msg_json['msg']);
                 }
             });
         });
@@ -390,44 +387,6 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             }) (book_info_form, book_info);
         });
 
-        // // 创建一个按钮元素
-        // let button = document.createElement('input');
-        // button.setAttribute('type', 'button');
-        // button.setAttribute('value', '上传表格文件');
-        // button.addEventListener('click', function() {
-        //     // 创建一个文件输入框
-        //     alert('传入的表格应至少有两列, 列名分别为"书名"和"价格"!')
-        //     let file_input = document.createElement('input');
-        //     file_input.setAttribute('type', 'file');
-        //     file_input.setAttribute('accept', '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel');
-        //     file_input.addEventListener('change', function() {
-        //         // 创建一个 FormData 对象
-        //         let formData = new FormData();
-        //         // 将文件添加到 FormData 中
-        //         formData.append('file', file_input.files[0]);
-        //         // 使用 $.ajax 发送文件
-        //         $.ajax({
-        //             url: '../php/mainpage_backend.php',
-        //             type: 'POST',
-        //             data: formData,
-        //             processData: false,
-        //             contentType: false,
-        //             success: function(response) {
-        //                 console.log('文件上传成功', response);
-        //                 // 可以根据后端返回的数据做进一步处理
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error('文件上传失败', error);
-        //                 // 可以根据错误情况做进一步处理
-        //             }
-        //         });
-        //     });
-        //     // 触发文件选择
-        //     file_input.click();
-        // });
-
-        // // 将按钮添加到表单中
-        // book_info_form.appendChild(button);
         box.appendChild(book_info_form);
 
     },
