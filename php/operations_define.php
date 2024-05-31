@@ -482,3 +482,38 @@
 
         return $rt;
     }
+
+    function get_requests_count($conn) {
+        // 获取当前时间
+        $current_time = time();
+    
+        // 定义查询的时间范围（近五个小时）
+        $hours_range = 5;
+    
+        // 创建一个空数组来存储结果
+        $visit_counts = array();
+    
+        // 循环查询每个小时的访问次数
+        for ($i = 0; $i < $hours_range; $i++) {
+            $start_time = date('YmdHis', $current_time - ($i + 1) * 3600);
+            $end_time = date('YmdHis', $current_time - $i * 3600);
+            
+            $sql = "SELECT COUNT(*) as visit_count FROM request_rcd WHERE time >= ? AND time < ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ss", $start_time, $end_time);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            // 获取访问次数
+            $row = $result->fetch_assoc();
+            $visit_count = $row['visit_count'];
+            
+            // 将结果存储在数组中
+            $visit_counts[$i] = $visit_count;
+    
+            $stmt->close();
+        }
+    
+        // 返回结果数组
+        return $visit_counts;
+    }

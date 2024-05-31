@@ -71,13 +71,22 @@
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
+        } else if ($_POST['ctnt'] == 'request-list') {
+            if ($auth >= 3) {
+                echo json_encode(get_requests_count($conn)); // 查询一周内注册用户
+            } else {
+                return json_encode(array(
+                    "status"=> -1,
+                    "msg"=> "you don't have the authority to do this!"
+                ));
+            }
         } else {
             echo json_encode(array(
                 "status"=> -2,
                 "msg"=> "Unknown operation!"
             ));
         }
-    } else if ($_POST['oper'] == 'post'){
+    } else if ($_POST['oper'] == 'post') {
         if ($_POST['ctnt'] == 'user-info') { // 修改个人信息
             if ($auth >= 1) {
                 alter_user_info($conn, $uname, $_POST);

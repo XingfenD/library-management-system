@@ -100,6 +100,53 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             var block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
             block4.append($(`<label>`).text("近期请求次数").attr("class", "sheet-label"));
             box.append(block4);
+            block4.append($("<canvas>", {id :"request-chart"}));
+            $.ajax({
+                type: "POST",
+                async: true,
+                dataType: "json",
+                data: {
+                    "oper": "get",
+                    "ctnt": "request-list"
+                },
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    console.log(msg);
+                    labels = ['一小时内', '两小时', '三小时', '四小时', '五小时'];
+                    var ctx = document.getElementById('request-chart').getContext('2d');
+
+                    // 创建 Chart.js 折线图
+                    var myLineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '近五个小时内访问数',
+                                data: msg,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'black',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    display: false // 禁用图例
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+
+            })
         }
     },
     "推荐": async function (uname_auth, box) {

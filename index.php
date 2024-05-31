@@ -101,6 +101,7 @@
     <div class="content"></div>
 </body>
 <script src="./js/jsencrypt.min.js"></script>
+<script src="./js/chart.js"></script>
 <script src="./js/entry.js"></script>
 <script src="./js/mainpage_rend.js"></script>
 <script src="./js/mainpage.js"></script>

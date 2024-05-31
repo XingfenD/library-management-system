@@ -71,3 +71,8 @@
     top :35%;
 }
 
+#block4 canvas {
+    height: 250px !important;
+    width: 500px !important;
+    margin: 0 auto;
+}
