@@ -265,7 +265,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -455,7 +455,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -641,7 +641,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -726,6 +726,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         dataType:"json",
                         url: "../php/mainpage_backend.php",
                         success: function (msg) {
+                            alert("修改成功!");
                             rcv = msg;
                             console.log(msg);
                         },
@@ -805,7 +806,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             var info_tag = document.createElement("a");
             var info_content = document.createElement("a");
             var info_tag_text = document.createTextNode(info_list[i] + ':');
-            if (ctnt_list[i] == undefined) {
+            if (ctnt_list[i] == undefined || ctnt_list[i] == '') {
                 var info_cont_text = document.createTextNode("未设置");
             } else {
                 var info_cont_text = document.createTextNode(ctnt_list[i]);

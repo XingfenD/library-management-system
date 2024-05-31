@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `LMS_DB`.`user_info` (
   `u_tele` VARCHAR(45) NULL,
   `u_email` VARCHAR(45) NULL,
   `u_address` VARCHAR(45) NULL,
-  PRIMARY KEY (`card_number`),
   INDEX `user_info-user_uuid_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `user_info-user_uuid`
     FOREIGN KEY (`user_id`)

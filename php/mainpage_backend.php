@@ -104,7 +104,7 @@
             }
         } else if ($_POST['ctnt'] == 'change-info') { // 管理员修改用户信息
             if ($auth >= 2) {
-                echo change_user_info($conn, $auth, $_POST);
+                echo json_encode(change_user_info($conn, $auth, $_POST));
             } else {
                 echo json_encode(array(
                     "status"=> -1,

@@ -62,13 +62,23 @@
         foreach ($info_list as $iter => $item) {
             openssl_private_decrypt(base64_decode($data[$item]), $sql_list[$item], $privateKey);
         }
+        if ($conn->query("SELECT * FROM user WHERE username=(SELECT uuid FROM user WHERE username = '{$username}')")->num_rows > 0) {
+            $sql = "UPDATE user_info SET ";
+            foreach ($sql_list as $iter => $item) {
+                $sql = $sql.$iter."='".$item."'".array(",", " ")[$iter == "u_address"];
+            }
+            $sql = $sql."WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')";
+            $conn->query($sql);
+        } else {
+            $sql1 = "INSERT INTO user_info (user_id, ";
+            $sql2 = ") VALUES ((SELECT uuid FROM user WHERE username = '{$username}'),";
 
-        $sql = "UPDATE user_info SET ";
-        foreach ($sql_list as $iter => $item) {
-            $sql = $sql.$iter."='".$item."'".array(",", " ")[$iter == "u_address"];
+            for ($i = 0; $i < count($sql_list); $i++) {
+                $sql1 = $sql1.array_keys($sql_list)[$i].array(",", " ")[$i == count($sql_list) - 1];
+                $sql2 = $sql2."'".array_values($sql_list)[$i]."'".array(",", ")")[$i == count($sql_list) - 1];
+            }
+            $conn->query($sql1.$sql2);
         }
-        $sql = $sql."WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')";
-        $conn->query($sql);
     }
 
     function alter_acct_info($conn, $uname, $data) {
@@ -158,9 +168,42 @@
                 if ((int)$data['set_ctnt'] >= $auth) {
                     return "Your authority is not enough to do this";
                 }
-                $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE uuid=".$data['uuid']);
+                $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE user_id=".$data['uuid']);
             } else {
-                $conn->query("UPDATE user_info SET ".$dict[$data['select']]."='".$data['set_ctnt']."' WHERE user_id=".$data['uuid']);
+                if ($conn->query("SELECT * FROM user_info WHERE user_id=".$data['uuid'])->num_rows > 0) {
+                    $conn->query("UPDATE user_info SET ".$dict[$data['select']]."='".$data['set_ctnt']."' WHERE user_id=".$data['uuid']);
+                    return Array(
+                        "status"=> 0,
+                        "msg"=> "Update successfully"
+                    );
+                } else {
+                    $sql_list = array(
+                        "u_name" => "",
+                        "card_number" => "",
+                        "u_tele" => "",
+                        "u_email" => "",
+                        "u_address" => ""
+                    );
+                    $dict = Array(
+                        "姓名" => "u_name",
+                        "卡号" => "card_number",
+                        "权限" => "authority",
+                        "联系电话" => "u_tele",
+                        "邮箱" => "u_email"
+                    );
+                    $sql_list[$dict[$data['select']]] = $data['set_ctnt'];
+                    $sql1 = "INSERT INTO user_info (user_id, ";
+                    $sql2 = ") VALUES (".$data['uuid'].",";
+        
+                    for ($i = 0; $i < count($sql_list); $i++) {
+                        $sql1 = $sql1.array_keys($sql_list)[$i].array(",", " ")[$i == count($sql_list) - 1];
+                        $sql2 = $sql2."'".array_values($sql_list)[$i]."'".array(",", ")")[$i == count($sql_list) - 1];
+                    }
+                    $conn->query($sql1.$sql2);
+                }
+
+
+                
             }
         }
     }
