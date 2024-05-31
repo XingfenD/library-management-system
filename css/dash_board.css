@@ -51,7 +51,7 @@
     margin-bottom: 0px;
 }
 
-#dash-board td:nth-child(even) {
+#dash-board #block2 td:nth-child(even) {
     background-color: wheat;
 }
 
