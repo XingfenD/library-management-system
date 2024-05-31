@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `LMS_DB`.`user_info` (
   `u_tele` VARCHAR(45) NULL,
   `u_email` VARCHAR(45) NULL,
   `u_address` VARCHAR(45) NULL,
-  PRIMARY KEY (`card_number`),
   INDEX `user_info-user_uuid_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `user_info-user_uuid`
     FOREIGN KEY (`user_id`)
@@ -108,6 +107,23 @@ CREATE TABLE IF NOT EXISTS `LMS_DB`.`book_info` (
   CONSTRAINT `book_info-book_index-book_ind`
     FOREIGN KEY (`book_ind`)
     REFERENCES `LMS_DB`.`book_index` (`book_ind`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LMS_DB`.`request_rcd`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `LMS_DB`.`request_rcd` ;
+
+CREATE TABLE IF NOT EXISTS `LMS_DB`.`request_rcd` (
+  `request_id` VARCHAR(20) NULL,
+  `ip` VARCHAR(15) NULL,
+  `time` VARCHAR(19) NULL,
+  CONSTRAINT `request_user`
+    FOREIGN KEY (`request_id`)
+    REFERENCES `LMS_DB`.`user` (`uuid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

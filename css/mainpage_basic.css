@@ -15,8 +15,9 @@ body {
 }
 .box {
     width: 100%;
+    height: 613px;
     position: relative;
-    margin-top: 41px;
+    margin-top: 40px;
 }
 .text {
     display: block;

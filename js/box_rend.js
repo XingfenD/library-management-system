@@ -115,7 +115,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -305,7 +305,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -491,7 +491,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         // 创建新的单元格
                         let cell = document.createElement('td');
                         // 将键值对的值设置为单元格的文本内容
-                        if (item[key] != null) {
+                        if (item[key] != null && item[key] != '') {
                             cell.textContent = item[key];
                         } else {
                             cell.textContent = "未设置";
@@ -576,6 +576,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         dataType:"json",
                         url: "../php/mainpage_backend.php",
                         success: function (msg) {
+                            alert("修改成功!");
                             rcv = msg;
                             console.log(msg);
                         },
@@ -655,7 +656,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             var info_tag = document.createElement("a");
             var info_content = document.createElement("a");
             var info_tag_text = document.createTextNode(info_list[i] + ':');
-            if (ctnt_list[i] == undefined) {
+            if (ctnt_list[i] == undefined || ctnt_list[i] == '') {
                 var info_cont_text = document.createTextNode("未设置");
             } else {
                 var info_cont_text = document.createTextNode(ctnt_list[i]);
@@ -732,6 +733,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_tag.setAttribute("class", `info-input-tag`);
             input_ctnt.setAttribute("id", `input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
+            input_ctnt.type = "text";
             input_ctnt.setAttribute("placeholder", Object.keys(info_list)[i]);
             if (data_rcv[Object.values(info_list)[i]] != undefined) {
                 input_ctnt.setAttribute("value", data_rcv[Object.values(info_list)[i]]);
@@ -779,6 +781,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_ctnt.setAttribute("id", `acct-input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
             input_ctnt.setAttribute("placeholder", Object.keys(acct_list)[i]);
+            input_ctnt.type = "text";
             input_tag.appendChild(tag_ctnt);
             input_div.appendChild(input_tag);
             input_div.appendChild(input_ctnt);
@@ -893,16 +896,12 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.appendChild(change_info_box);
     },
     "帮助文档": async function (uname_auth, box) {
-        box.innerHTML = '<iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
+        box.innerHTML = '<iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe><iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
         box.id = "help";
     },
     "项目介绍": async function (uname_auth, box) {
         box.innerHTML = '<iframe src="../html/project_info.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
         box.id = "project-info";
-    },
-    "仪表盘": async function (uname_auth, box) {
-        box.innerHTML = '';
-        box.id = "dash-board";
     },
     "SQL执行": async function (uname_auth, box) {
         box.innerHTML = '';
