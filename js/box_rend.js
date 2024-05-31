@@ -1,5 +1,5 @@
 const hori_btn_func = { // 设置按钮功能同时渲染box
-    "推荐": async function (uname_auth, box) {
+    "欢迎页": async function (uname_auth, box) {
         box.innerHTML = '';
         box.id = "recommend";
         var para1 = document.createElement("a");
