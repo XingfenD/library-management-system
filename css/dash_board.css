@@ -38,6 +38,23 @@
     background-color: #00ffff;
 }
 
+#dash-board .sheet-label {
+    display: block;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#dash-board table {
+    width: 80%;
+    margin: 15px auto;
+    margin-bottom: 0px;
+}
+
+#dash-board td:nth-child(even) {
+    background-color: wheat;
+}
+
 #block1 p:nth-child(1) {
     position: relative;
     top :30%;
@@ -53,3 +70,4 @@
     font-size: 25px;
     top :35%;
 }
+

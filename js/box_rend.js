@@ -4,31 +4,103 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.id = "dash-board";
         var box = $("#dash-board");
 
+        // block1
         var block1 = $("<div>", {id: "block1", class: "block", type: "left-float"});
         var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
         block1.append($(`<p>欢迎回来</p>`));
         block1.append($(`<p>${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
-        // block
         box.append(block1);
 
-
+        // block2
         var block2 = $("<div>", {id: "block2", class: "block", type: "right-float"});
-        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
-        block2.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
-        // block
+        block2.append($(`<label>`).text("近期新增图书").attr("class", "sheet-label"));
+        
+        var table_2 = $("<table>");
+        var table_head = ["书籍编号", "书名", "入库日期"];
+        var tr = $("<tr>");
+        table_head.forEach(function (item) {
+            tr.append($("<td>").text(item));
+        });
+        table_2.append(tr);
+        block2.append(table_2);
         box.append(block2);
 
-        var block3 = $("<div>", {id: "block3", class: "block", type: "left-float"});
-        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
-        block3.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
-        // block
-        box.append(block3);
+        $.ajax({
+            type: "POST",
+            async: true,
+            dataType: "json",
+            data: {
+                "oper": "get",
+                "ctnt": "book-in-week"
+            },
+            url: "../php/mainpage_backend.php",
+            success: function (msg) {
+                console.log(msg);
+                var table = $("table").eq(0);
+                msg.forEach(function (item) {
+                    var tr = $("<tr>");
+                    tr.append($("<td>").text(item['书籍编号']));
+                    tr.append($("<td>").text(item['书名']));
+                    tr.append($("<td>").text(item['入库日期']));
+                    table.append(tr);
+                })
+            },
+            error: function(msg) {
+                console.log(msg);
+            }
 
-        var block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
-        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
-        block4.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
-        // block
-        box.append(block4);
+        })
+
+
+        // block3
+        if (uname_auth['authority'] >= 2) {
+            var block3 = $("<div>", {id: "block3", class: "block", type: "left-float"});
+            block3.append($(`<label>`).text("近期注册用户").attr("class", "sheet-label"));
+            box.append(block3);
+
+            var table_3 = $("<table>");
+            var table_head_3 = ["uuid", "用户名", "注册时间"];
+            var tr_3 = $("<tr>");
+            table_head_3.forEach(function (item) {
+                tr_3.append($("<td>").text(item));
+            });
+            table_3.append(tr_3);
+            block3.append(table_3);
+            box.append(block3);
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                dataType: "json",
+                data: {
+                    "oper": "get",
+                    "ctnt": "user-in-week"
+                },
+                url: "../php/mainpage_backend.php",
+                success: function (msg) {
+                    console.log(msg);
+                    var table = $("table").eq(1);
+                    msg.forEach(function (item) {
+                        var tr = $("<tr>");
+                        tr.append($("<td>").text(item['uuid']));
+                        tr.append($("<td>").text(item['用户名']));
+                        tr.append($("<td>").text(item['注册日期']));
+                        table.append(tr);
+                    })
+                },
+                error: function(msg) {
+                    console.log(msg);
+                }
+
+            })
+        }
+
+        // block4
+        if (uname_auth['authority'] >= 3) {
+            var block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
+            block4.append($(`<label>`).text("近期请求次数").attr("class", "sheet-label"));
+            box.append(block4);
+        }
     },
     "推荐": async function (uname_auth, box) {
         box.innerHTML = '';

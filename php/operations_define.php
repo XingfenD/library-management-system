@@ -415,3 +415,70 @@
         return array_values($backup_files);
     }
     
+    function get_week_book($conn) {
+        $sql = "SELECT book_ind, book_name, storage_time
+                FROM book_index
+                WHERE STR_TO_DATE(storage_time, '%Y%m%d%H%i%s') >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
+                ORDER BY STR_TO_DATE(storage_time, '%Y%m%d%H%i%s') DESC
+                LIMIT 4;";
+
+        $rst = $conn->query($sql);
+        $rt = [];
+        function convertStorageTime($storageTime) {
+            // 检查输入是否为14位数字字符串
+            if (!preg_match('/^\d{14}$/', $storageTime)) {
+                return false; // 输入格式不正确
+            }
+            
+            // 提取年份、月份和日期部分
+            $year = substr($storageTime, 0, 4);
+            $month = substr($storageTime, 4, 2);
+            $day = substr($storageTime, 6, 2);
+            
+            // 返回转换后的格式
+            return "{$year}年{$month}月{$day}日";
+        }
+
+        while ($item = $rst->fetch_assoc()) {
+            $rt[] = Array(
+                "书籍编号"=>$item['book_ind'],
+                "书名"=>$item['book_name'],
+                "入库日期"=> convertStorageTime($item['storage_time'])
+            );
+        }
+
+        return $rt;
+    }
+
+    function get_week_user($conn) {
+        $sql = "SELECT uuid, username 
+                FROM user 
+                WHERE STR_TO_DATE(SUBSTRING(uuid, 1, 8), '%Y%m%d') BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+                ORDER BY STR_TO_DATE(SUBSTRING(uuid, 1, 8), '%Y%m%d') DESC 
+                LIMIT 4;";
+
+        $rst = $conn->query($sql);
+        $rt = [];
+        function convertSignupTime($uuid) {
+            // 提取日期部分
+            $year = substr($uuid, 0, 4);
+            $month = substr($uuid, 4, 2);
+            $day = substr($uuid, 6, 2);
+            
+            // 将日期部分格式化
+            $formattedDate = "{$year}年{$month}月{$day}日";
+            
+            return $formattedDate;
+        }
+        
+
+        while ($item = $rst->fetch_assoc()) {
+            $rt[] = Array(
+                "uuid"=>$item['uuid'],
+                "用户名"=>$item['username'],
+                "注册日期"=> convertSignupTime($item['uuid'])
+            );
+        }
+
+        return $rt;
+    }
