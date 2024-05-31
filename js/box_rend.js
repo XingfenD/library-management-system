@@ -1,4 +1,35 @@
 const hori_btn_func = { // 设置按钮功能同时渲染box
+    "仪表盘": async function (uname_auth, box) {
+        box.innerHTML = '';
+        box.id = "dash-board";
+        var box = $("#dash-board");
+
+        var block1 = $("<div>", {id: "block1", class: "block", type: "left-float"});
+        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
+        block1.append($(`<p>欢迎回来</p>`));
+        block1.append($(`<p>${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
+        // block
+        box.append(block1);
+
+
+        var block2 = $("<div>", {id: "block2", class: "block", type: "right-float"});
+        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
+        block2.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
+        // block
+        box.append(block2);
+
+        var block3 = $("<div>", {id: "block3", class: "block", type: "left-float"});
+        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
+        block3.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
+        // block
+        box.append(block3);
+
+        var block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
+        var auth_list = ["游客", "普通用户", "管理员","中级管理员", "超级管理员"];
+        block4.append($(`<p>欢迎回来, ${auth_list[uname_auth['authority']]}: ${uname_auth['username']}</p>`));
+        // block
+        box.append(block4);
+    },
     "推荐": async function (uname_auth, box) {
         box.innerHTML = '';
         box.id = "recommend";
@@ -732,6 +763,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_tag.setAttribute("class", `info-input-tag`);
             input_ctnt.setAttribute("id", `input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
+            input_ctnt.type = "text";
             input_ctnt.setAttribute("placeholder", Object.keys(info_list)[i]);
             if (data_rcv[Object.values(info_list)[i]] != undefined) {
                 input_ctnt.setAttribute("value", data_rcv[Object.values(info_list)[i]]);
@@ -779,6 +811,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_ctnt.setAttribute("id", `acct-input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
             input_ctnt.setAttribute("placeholder", Object.keys(acct_list)[i]);
+            input_ctnt.type = "text";
             input_tag.appendChild(tag_ctnt);
             input_div.appendChild(input_tag);
             input_div.appendChild(input_ctnt);
@@ -899,10 +932,6 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
     "项目介绍": async function (uname_auth, box) {
         box.innerHTML = '<iframe src="../html/project_info.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
         box.id = "project-info";
-    },
-    "仪表盘": async function (uname_auth, box) {
-        box.innerHTML = '';
-        box.id = "dash-board";
     },
     "SQL执行": async function (uname_auth, box) {
         box.innerHTML = '';
