@@ -13,6 +13,12 @@
         $uname = $_SESSION['username'];
     }
 
+    $ip = $_SERVER['REMOTE_ADDR'];
+    // 插入访问记录
+    $sql_rcd = "INSERT INTO request_rcd (`request_id`, `ip`, `time`) VALUES ((SELECT uuid FROM user WHERE username='".$uname."'), '".$ip."', '".date("YmdHis")."')";
+    $conn->query($sql_rcd);
+    // echo $sql_rcd;
+
     if ($_POST['oper'] == 'get') {
         if ($_POST['ctnt'] == 'user-info') { // 查询个人信息
             if ($auth >= 0) {
