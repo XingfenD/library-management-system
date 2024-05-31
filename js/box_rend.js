@@ -893,7 +893,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.appendChild(change_info_box);
     },
     "帮助文档": async function (uname_auth, box) {
-        box.innerHTML = '';
+        box.innerHTML = '<iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
         box.id = "help";
     },
     "项目介绍": async function (uname_auth, box) {
