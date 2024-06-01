@@ -168,7 +168,7 @@
                 if ((int)$data['set_ctnt'] >= $auth) {
                     return "Your authority is not enough to do this";
                 }
-                $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE user_id=".$data['uuid']);
+                $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE uuid=".$data['uuid']);
             } else {
                 if ($conn->query("SELECT * FROM user_info WHERE user_id=".$data['uuid'])->num_rows > 0) {
                     $conn->query("UPDATE user_info SET ".$dict[$data['select']]."='".$data['set_ctnt']."' WHERE user_id=".$data['uuid']);
