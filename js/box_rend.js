@@ -726,7 +726,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         dataType:"json",
                         url: "../php/mainpage_backend.php",
                         success: function (msg) {
-                            alert("修改成功!");
+                            alert(msg);
                             rcv = msg;
                             console.log(msg);
                         },
