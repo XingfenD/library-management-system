@@ -62,7 +62,7 @@
         foreach ($info_list as $iter => $item) {
             openssl_private_decrypt(base64_decode($data[$item]), $sql_list[$item], $privateKey);
         }
-        if ($conn->query("SELECT * FROM user WHERE username=(SELECT uuid FROM user WHERE username = '{$username}')")->num_rows > 0) {
+        if ($conn->query("SELECT * FROM user_info WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')")->num_rows > 0) {
             $sql = "UPDATE user_info SET ";
             foreach ($sql_list as $iter => $item) {
                 $sql = $sql.$iter."='".$item."'".array(",", " ")[$iter == "u_address"];
