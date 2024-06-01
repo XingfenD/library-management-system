@@ -575,14 +575,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         data:data,
                         dataType:"json",
                         url: "../php/mainpage_backend.php",
-                        success: function (msg) {
-                            alert(msg);
-                            rcv = msg;
-                            console.log(msg);
+                        success: function (mes) {
+                            alert(mes['msg']);
+                            rcv = mes;
+                            console.log(mes);
                         },
-                        error: function(msg) {
+                        error: function(mes) {
                             alert("Something went wrong");
-                            console.log(msg);
+                            console.log(mes);
                         }
                     });
                 } else {
