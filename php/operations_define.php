@@ -161,12 +161,18 @@
 
         // 设置用户的当前权限不能大于等于当前用户的权限
         if ($auth <= (int)($conn->query("SELECT authority FROM user WHERE uuid=".$data['uuid']))->fetch_assoc()['authority']) {
-            return "Your authority is not enough to do this";
+            return Array(
+                "status"=> -1,
+                "msg"=> "you don't have the authority to do this!"
+            );
         } else {
             if ($dict[$data['select']] == "authority") {
                 // 修改后的权限不能大于等于当前用户的权限
                 if ((int)$data['set_ctnt'] >= $auth) {
-                    return "Your authority is not enough to do this";
+                    return Array(
+                        "status"=> -1,
+                        "msg"=> "you don't have the authority to do this!"
+                    );
                 }
                 $conn->query("UPDATE user SET authority=".$data['set_ctnt']." WHERE uuid=".$data['uuid']);
             } else {
@@ -177,7 +183,7 @@
                         "msg"=> "Update successfully"
                     );
                 } else {
-                    $sql_list = array(
+                    $sql_list = Array(
                         "u_name" => "",
                         "card_number" => "",
                         "u_tele" => "",

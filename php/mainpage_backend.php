@@ -28,7 +28,7 @@
             if ($auth >= 2) {
                 echo json_encode(get_user_list($conn, $uname, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -37,7 +37,7 @@
             if ($auth >= 1) {
                 echo json_encode(get_book_list($conn, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -46,7 +46,7 @@
             if (($auth == 1 && $_POST['input'] == 'self') || $auth >= 2) { // 普通用户只能查询自己的借阅记录
                 echo json_encode(get_rcd_list($conn, $uname, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -55,7 +55,7 @@
             if ($auth >= 3) {
                 echo json_encode(get_backup_list());
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -66,7 +66,7 @@
             if ($auth >= 2) {
                 echo json_encode(get_week_user($conn)); // 查询一周内注册用户
             } else {
-                return json_encode(array(
+                return json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -75,13 +75,13 @@
             if ($auth >= 3) {
                 echo json_encode(get_requests_count($conn)); // 查询一周内注册用户
             } else {
-                return json_encode(array(
+                return json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
         } else {
-            echo json_encode(array(
+            echo json_encode(Array(
                 "status"=> -2,
                 "msg"=> "Unknown operation!"
             ));
@@ -90,14 +90,14 @@
         if ($_POST['ctnt'] == 'user-info') { // 修改个人信息
             if ($auth >= 1) {
                 alter_user_info($conn, $uname, $_POST);
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> 0,
                     "msg"=> "status"
                 ));
             }
         } else if ($_POST['ctnt'] == 'acct-info') { // 修改账户
             if ($auth >= 1) {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> 0,
                     "msg"=> alter_acct_info($conn, $auth, $_POST)
                 ));
@@ -106,7 +106,7 @@
             if ($auth >= 2) {
                 echo json_encode(change_user_info($conn, $auth, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -119,7 +119,7 @@
             if ($auth >= 2) {
                 echo json_encode(book_store($conn, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
@@ -128,19 +128,19 @@
             if ($auth >= 4) {
                 echo json_encode(sql_execute($conn, $_POST));
             } else {
-                echo json_encode(array(
+                echo json_encode(Array(
                     "status"=> -1,
                     "msg"=> "you don't have the authority to do this!"
                 ));
             }
         } else {
-            echo json_encode(array(
+            echo json_encode(Array(
                 "status"=> -2,
                 "msg"=> "Unknown operation!"
             ));
         }
     } else {
-        echo json_encode(array(
+        echo json_encode(Array(
             "status"=> -2,
             "msg"=> "Unknown operation!"
         ));
