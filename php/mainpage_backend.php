@@ -73,7 +73,7 @@
             if ($auth >= 1) {
                 echo json_encode(Array(
                     "status"=> 0,
-                    "msg"=> alter_acct_info($conn, $auth, $_POST)
+                    "msg"=> alter_acct_info($conn, $uname, $_POST)
                 ));
             }
         } else if ($_POST['ctnt'] == 'change-info') {

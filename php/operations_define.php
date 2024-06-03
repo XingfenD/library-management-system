@@ -89,7 +89,7 @@
         );
 
         if ($uname != $data['username']) {
-            $uname_search = "SELECT username FROM user WHERE username='{$username}'";
+            $uname_search = "SELECT username FROM user WHERE username='{$uname}'";
             $rst_uname_search = $conn->query($uname_search);
             if ($rst_uname_search->num_rows > 0) {
                 $rt_msg['status'] = 1;
