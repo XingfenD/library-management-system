@@ -89,7 +89,7 @@
         );
 
         if ($uname != $data['username']) {
-            $uname_search = "SELECT username FROM user WHERE username='{$username}'";
+            $uname_search = "SELECT username FROM user WHERE username='{$uname}'";
             $rst_uname_search = $conn->query($uname_search);
             if ($rst_uname_search->num_rows > 0) {
                 $rt_msg['status'] = 1;
@@ -106,6 +106,7 @@
             return json_encode($rt_msg);
         }
         $sql = "UPDATE user SET username='".$data["username"]."', password='".password_hash($decryptedPassword, PASSWORD_BCRYPT)."' WHERE username='".$uname."'";
+        echo $sql;
         $conn->query($sql);
         return json_encode($rt_msg);
     }

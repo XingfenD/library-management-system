@@ -923,6 +923,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_div.setAttribute("class", `info-input-div`);
             input_tag.setAttribute("id", `acct-input-tag${i}`);
             input_tag.setAttribute("class", `info-input-tag`);
+            input_ctnt.type = "text";
             if (Object.keys(acct_list)[i] != '用户名') {
                 input_ctnt.setAttribute("type", "password");
             } else {
@@ -931,7 +932,6 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             input_ctnt.setAttribute("id", `acct-input-ctnt${i}`);
             input_ctnt.setAttribute("class", `info-input-ctnt`);
             input_ctnt.setAttribute("placeholder", Object.keys(acct_list)[i]);
-            input_ctnt.type = "text";
             input_tag.appendChild(tag_ctnt);
             input_div.appendChild(input_tag);
             input_div.appendChild(input_ctnt);
