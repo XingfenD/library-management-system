@@ -106,7 +106,6 @@
             return json_encode($rt_msg);
         }
         $sql = "UPDATE user SET username='".$data["username"]."', password='".password_hash($decryptedPassword, PASSWORD_BCRYPT)."' WHERE username='".$uname."'";
-        echo $sql;
         $conn->query($sql);
         return json_encode($rt_msg);
     }
