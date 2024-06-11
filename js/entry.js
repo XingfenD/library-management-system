@@ -122,16 +122,7 @@ function info_check(uname, psd, re_psd) {
 }
 
 function encryptPassword(password) {
-    const publicKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA63YuVyfywbFxetYN0O2i
-hy69PiWnmeBfCKfYaSmrBqXFR3BmppwNHZfnXEpFuEOuXOPzjSf2cXrYRZ/wfrgJ
-KtnJnF0PEmt8bYnSikkp2gPnoWJSe83maL/2QgDVO7Q/6lNNvSfrfFBjBCZluMWP
-P9JGDmZkwZBu7hMlPU8XEO7LRthC1baSMR6pRTifxS7IJTuRd4PwkE1fpVv8aSZp
-UN/+tvfTBokCZJ90+qVBBKR6LkS/jXwK2NU/tlcaQ+chHn0atrEOkybzbkAMMnBw
-EpqgGvZregsKIPM7I84Y3KI2lbRXDmbmNNsj5nmWVfcJWb45DjkAfl5EY0s6COBD
-RwIDAQAB
------END PUBLIC KEY-----
-`;
+    const publicKey = ``;
     const encrypt = new JSEncrypt();
     encrypt.setPublicKey(publicKey);
     return encrypt.encrypt(password);
