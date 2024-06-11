@@ -89,6 +89,8 @@ cd private/key-pair
 
 ```bash
 # generate the rsa key-pair
+
+# run these commands in the directory /var/www/html/private/key-pair !!
 openssl genrsa -out ./private_key.pem 2048
 openssl rsa -in ./private_key.pem -pubout -out ./public_key.pub
 ```
@@ -99,6 +101,15 @@ Open the public_key.pub file and copy all the content:
 # paste the content to the varible publicKey in /var/www/html/js/entry.js line 125
 vim /var/www/html/js/entry.js
 # Over write the previous publicKey
+```
+
+If you don't want to do the step above, you can also run the commands below instead:
+
+```bash
+# this may auto write the public key into the js file
+cd /var/www/html
+sudo chmod +x insert_pub_key.sh
+./insert_pub_key.sh
 ```
 
 Create the account config file:
