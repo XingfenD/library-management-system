@@ -1,8 +1,8 @@
 <?php
+    session_start();
     header('Content-type:text/json;charset=utf-8');
     require_once '../private/mysql-conn-config.php';
 
-    session_start();
     $auth = 0;
     $uname = 'visitor';
     if (isset($_SESSION['username'])) {

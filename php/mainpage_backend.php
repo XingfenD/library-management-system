@@ -1,11 +1,11 @@
 <?php
+    session_start();
     header('Content-type:text/json;charset=utf-8');
     require_once "operations_define.php";
     require_once '../private/mysql-conn-config.php';
 
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    session_start();
     $auth = 0;
     $uname = 'visitor';
     if (isset($_SESSION['username'])) {

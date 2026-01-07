@@ -10,7 +10,7 @@ function log_in_send() {
         const data = { // construct the json data
             "request": "login",
             "username": uname,
-            "password": encryptPassword(psd)
+            "password": psd
         };
 
         $.ajax({
@@ -60,7 +60,7 @@ function sign_up_send() {
         const data = { // construct the json data
             "request": "signup",
             "username": uname,
-            "password": encryptPassword(psd)
+            "password": psd
         };
 
         $.ajax({
@@ -119,11 +119,4 @@ function info_check(uname, psd, re_psd) {
     }
 
     return msg;
-}
-
-function encryptPassword(password) {
-    const publicKey = ``;
-    const encrypt = new JSEncrypt();
-    encrypt.setPublicKey(publicKey);
-    return encrypt.encrypt(password);
 }

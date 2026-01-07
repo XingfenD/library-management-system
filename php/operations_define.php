@@ -4,7 +4,7 @@
     function info_check($uname, $psd, $re_psd) {
         $username_pattern = '/^\w{2,16}$/';
         $msg = "true";
-    
+
         if ($uname === "") { // 检查用户名
             $msg = "用户名不能为空";
         } elseif (strlen($uname) < 2 || strlen($uname) > 16) {
@@ -26,7 +26,7 @@
                 }
             }
         }
-    
+
         return $msg;
     }
 
@@ -60,7 +60,7 @@
             "u_address" => ""
         );
         foreach ($info_list as $iter => $item) {
-            openssl_private_decrypt(base64_decode($data[$item]), $sql_list[$item], $privateKey);
+            $sql_list[$item] = $data[$item];
         }
         if ($conn->query("SELECT * FROM user_info WHERE user_id=(SELECT uuid FROM user WHERE username = '{$username}')")->num_rows > 0) {
             $sql = "UPDATE user_info SET ";
@@ -82,7 +82,6 @@
     }
 
     function alter_acct_info($conn, $uname, $data) {
-        $privateKey = file_get_contents('../private/key-pair/private_key.pem');
         $rt_msg = array(
             "status" => 0,
             "msg" => "success"
@@ -97,19 +96,18 @@
                 return json_encode($rt_msg);
             }
         }
-        $decryptedPassword = '';
-        openssl_private_decrypt(base64_decode($data["password"]), $decryptedPassword, $privateKey);
-        $msg = info_check($data['username'], $decryptedPassword, $decryptedPassword);
+        $password = $data["password"];
+        $msg = info_check($data['username'], $password, $password);
         if ($msg != "true") {
             $rt_msg['status'] = 1;
             $rt_msg['msg'] = $msg;
             return json_encode($rt_msg);
         }
-        $sql = "UPDATE user SET username='".$data["username"]."', password='".password_hash($decryptedPassword, PASSWORD_BCRYPT)."' WHERE username='".$uname."'";
+        $sql = "UPDATE user SET username='".$data["username"]."', password='".password_hash($password, PASSWORD_BCRYPT)."' WHERE username='".$uname."'";
         $conn->query($sql);
         return json_encode($rt_msg);
     }
-    
+
     function get_user_list($conn, $uname, $data) {
         $select_dict = array(
             "UUID"=> "uuid",
@@ -117,9 +115,9 @@
             "姓名"=> "uname",
             "卡号"=> "card_number"
         );
-        $sql = 
+        $sql =
         "SELECT user.uuid, user.username, user_info.u_name, user_info.card_number, user.authority, user_info.u_tele, user_info.u_email
-        FROM user 
+        FROM user
         LEFT JOIN user_info
         ON user.uuid = user_info.user_id
         WHERE ".$select_dict[$data['select']]." LIKE ?";
@@ -200,7 +198,7 @@
                     $sql_list[$dict[$data['select']]] = $data['set_ctnt'];
                     $sql1 = "INSERT INTO user_info (user_id, ";
                     $sql2 = ") VALUES (".$data['uuid'].",";
-        
+
                     for ($i = 0; $i < count($sql_list); $i++) {
                         $sql1 = $sql1.array_keys($sql_list)[$i].array(",", " ")[$i == count($sql_list) - 1];
                         $sql2 = $sql2."'".array_values($sql_list)[$i]."'".array(",", ")")[$i == count($sql_list) - 1];
@@ -384,7 +382,7 @@
         );
         $storage_time = date("YmdHis");
         $cnt = sprintf("%010d", 1 + (int)($conn->query("SELECT COUNT(*) AS cnt FROM book_index"))->fetch_assoc()["cnt"]);
-        
+
         // 预处理语句防止 SQL 注入
         // 插入到 book_index 表
         $stmt1 = $conn->prepare("INSERT INTO `book_index` (`book_ind`, `book_name`, `status`, `storage_time`) VALUES (?, ?, ?, ?)");
@@ -400,7 +398,7 @@
                 "msg"=>"预处理语句初始化失败"
             );
         }
-    
+
         // 插入到 book_info 表
         $stmt2 = $conn->prepare("INSERT INTO `book_info` (`book_index`, `price`) VALUES (?, ?)");
         if ($stmt2) {
@@ -420,7 +418,7 @@
             "msg"=>"success"
         );
     }
-    
+
     function sql_execute($conn, $data) {
         $sql = $data['input'];
         $stmt = mysqli_prepare($conn, $sql);
@@ -443,20 +441,20 @@
     function get_backup_list() {
         // 定义备份文件目录路径
         $backup_dir = '../private/backup';
-        
+
         // 检查目录是否存在
         if (!is_dir($backup_dir)) {
             return [];
         }
-        
+
         // 扫描目录中的文件和目录
         $files = scandir($backup_dir);
-        
+
         // 过滤掉 "." 和 ".." 目录
         $backup_files = array_filter($files, function($file) use ($backup_dir) {
             return $file !== '.' && $file !== '..' && is_file($backup_dir . '/' . $file);
         });
-        
+
         // 返回文件名数组
         return array_values($backup_files);
     }

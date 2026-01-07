@@ -831,7 +831,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 return true;
             }) (inputs)) {
                 inputs.forEach(function(item) {
-                    data[info_list[item.getAttribute("placeholder")]] = encryptPassword(item.value); // encrypt the infomation
+                    data[info_list[item.getAttribute("placeholder")]] = item.value;
                 });
                 $.ajax({
                     type: "POST",
@@ -867,7 +867,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             var msg = info_check(inputs[0].value, inputs[1].value, inputs[2].value);
             if (msg == "true") {
                 data['username'] = inputs[0].value;
-                data['password'] = encryptPassword(inputs[1].value);
+                data['password'] = inputs[1].value;
                 $.ajax({
                     type: "POST",
                     data: data,
