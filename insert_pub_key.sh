@@ -2,7 +2,7 @@
 
 # 定义文件路径
 file1="./js/entry.js"
-file2="./private/key-pair/public_key.pem"
+file2="./private/key-pair/public_key.pub"
 line_number=125
 column_number=24
 

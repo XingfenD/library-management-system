@@ -84,7 +84,7 @@ service apache2 restart # restart the apache2 service
 cd /var/www/html
 sudo mkdir private
 sudo mkdir private/key-pair
-cd private/key-pair 
+cd private/key-pair
 ```
 
 ```bash

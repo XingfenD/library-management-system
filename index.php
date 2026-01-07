@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<?php 
+<?php
     session_start();
     if (!isset($_SESSION['username'])) {
         echo '<script>alert("未登录请先登录");</script>';
@@ -10,6 +9,7 @@
         $authority = $_SESSION['authority'];
     }
 ?>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
