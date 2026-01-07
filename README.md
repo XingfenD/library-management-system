@@ -12,13 +12,30 @@ If you want to deploy this project locally, here is my development environment f
 
 Before you proceed with the following steps, ensure that you have already set up the aforementioned environment.
 
-## Download the project
+## Clone the project
 
-After downloading the zip, you should unzip it firstly:
+Clone the project from the repository:
 
 ```bash
-unzip library-management-system-master.zip
+git clone https://github.com/xingfend/library-management-system.git library-management-system-master
 ```
+
+## Start with Docker
+
+To start the project with Docker, you can run the following commands in the Linux bash.
+
+```bash
+cd library-management-system-master
+docker-compose up -d
+```
+
+Then you can access the project in your browser with the following url:
+
+```url
+http://localhost:80
+```
+
+## Start the project
 
 Move the project files to the default http server directory:
 
@@ -28,7 +45,7 @@ sudo mv * /var/www/html # move the files to the http server directory
 mv /var/www/html/index.html /var/www/html/index.html.backup
 ```
 
-## Set up the database structure
+### Set up the database structure
 
 The sql script of the database used in this project is list in the root directory `./LMS_DB_SETUP.sql`.
 
@@ -47,7 +64,7 @@ Replace the three varibles with your mysql username, your mysql password and the
 SOURCE path_to_LMS_DB_SETUP.sql
 ```
 
-## Create mysql user
+### Create mysql user
 
 ```sql
 CREATE user 'LMS'@'localhost' identified by 'LBS-mysql-admin-password';
@@ -56,7 +73,7 @@ GRANT all on LMS_DB.* to 'LMS'@'localhost';
 
 The SQL Script will defaultly create a **root** user for the system, which is identified by password **123456**, please change it in the system after the configuration.
 
-## Configure the apache2
+### Configure the apache2
 
 The configuration file paths for Apache2 may vary depending on the version or the operating system. Consequently, the specific operations for this step may vary from person to person.
 
@@ -77,40 +94,7 @@ Add the below content to the configuration file:
 service apache2 restart # restart the apache2 service
 ```
 
-## Create the directory and file
-
-```bash
-# create the private directory
-cd /var/www/html
-sudo mkdir private
-sudo mkdir private/key-pair
-cd private/key-pair
-```
-
-```bash
-# generate the rsa key-pair
-
-# run these commands in the directory /var/www/html/private/key-pair !!
-openssl genrsa -out ./private_key.pem 2048
-openssl rsa -in ./private_key.pem -pubout -out ./public_key.pub
-```
-
-Open the public_key.pub file and copy all the content:
-
-```bash
-# paste the content to the varible publicKey in /var/www/html/js/entry.js line 125
-vim /var/www/html/js/entry.js
-# Over write the previous publicKey
-```
-
-If you don't want to do the step above, you can also run the commands below instead:
-
-```bash
-# this may auto write the public key into the js file
-cd /var/www/html
-sudo chmod +x insert_pub_key.sh
-./insert_pub_key.sh
-```
+### Create the directory and file
 
 Create the account config file:
 
@@ -131,13 +115,11 @@ Write the follow content into the mysql-conn-config.php:
     define('DB_NAME', 'LMS_DB');
 ```
 
-## Grant user authority
+### Grant user authority
 
 If this step is not carried out, the project will not be able to operate normally.
 
 ```bash
 sudo chmod -R 755 /var/www/html/private/backup
 sudo chown -R www-data:www-data /var/www/html/private/backup
-sudo chmod -R 755 /var/www/html/private/key-pair
-sudo chown -R www-data:www-data /var/www/html/private/key-pair
 ```
