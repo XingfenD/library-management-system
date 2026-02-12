@@ -14,12 +14,12 @@ function log_in_send() {
         };
 
         $.ajax({
-            type:"POST",
-            url:"../php/entry_backend.php", // the corresponding back-end script
+            type: "POST",
+            url: "../php/entry_backend.php", // the corresponding back-end script
             data: data,
-            async:true,
-            dataType:"json",
-            success:function(res) {  // if get the return successfully
+            async: true,
+            dataType: "json",
+            success: function (res) {  // if get the return successfully
                 console.log(res);
                 if (res['status'] != 0) {
                     alert(res['msg']);
@@ -28,7 +28,7 @@ function log_in_send() {
                     window.location.replace('../index.php');
                 }
             },
-            error:function(res) { // if failed
+            error: function (res) { // if failed
                 if (res == undefined) {
                     alert("The server responsed nothing");
                 } else {
@@ -52,7 +52,7 @@ function sign_up_send() {
     var re_psd = document.getElementById('password2').value;
 
     var msg = info_check(uname, psd, re_psd);
-    
+
     if (msg != 'true') {
         alert(msg);
     } else {
@@ -64,12 +64,12 @@ function sign_up_send() {
         };
 
         $.ajax({
-            type:"POST",
-            url:"../php/entry_backend.php", // the corresponding back-end script
+            type: "POST",
+            url: "../php/entry_backend.php", // the corresponding back-end script
             data: data,
-            async:true,
-            dataType:"json",
-            success:function(res) {  // if get the return successfully
+            async: true,
+            dataType: "json",
+            success: function (res) {  // if get the return successfully
                 console.log(res);
                 if (res['status'] != 0) {
                     alert(res['msg']);
@@ -78,7 +78,7 @@ function sign_up_send() {
                     window.location.replace('../index.php');
                 }
             },
-            error:function(res) { // if failed
+            error: function (res) { // if failed
                 if (res == undefined) {
                     alert("The server responsed nothing");
                 } else {
@@ -93,9 +93,9 @@ function sign_up_send() {
 }
 
 function info_check(uname, psd, re_psd) {
-    var patt=/^\w{2,16}$/;
-    var msg="true";
-    
+    var patt = /^\w{2,16}$/;
+    var msg = "true";
+
     if (uname === "") { // check the username
         msg = "用户名不能为空";
     } else if (uname.length < 2 || uname.length > 16) {

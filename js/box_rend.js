@@ -30,8 +30,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var book_select = document.createElement("select");
         book_select.setAttribute("id", "book-selector");
         book_select.setAttribute("title", "属性选择");
-        var select_option = ["book-id","书名", "入库时间"];
-        select_option.forEach(function(item) {
+        var select_option = ["book-id", "书名", "入库时间"];
+        select_option.forEach(function (item) {
             var option = document.createElement("option");
             option.setAttribute("class", "book-select-option");
             var text = document.createTextNode(item);
@@ -42,21 +42,21 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_ctnt = document.createElement("input");
         search_ctnt.setAttribute("id", "search-ctnt");
         search_ctnt.setAttribute("placeholder", "请输入搜索内容");
-        search_ctnt.type="text";
+        search_ctnt.type = "text";
         var search_btn = document.createElement("input");
         search_btn.setAttribute("type", "button");
         search_btn.setAttribute("value", "搜索");
         search_book_div.appendChild(book_select);
         search_book_div.appendChild(search_ctnt);
         search_book_div.appendChild(search_btn);
-        
+
 
         var rst_ls_table = document.createElement("table");
         rst_ls_table.setAttribute("id", "rst-ls-table");
         var rst_ls_h = document.createElement("thead");
         var tr_ls = ["book-id", "书名", "入库时间", "当前状态", "标的价格"];
         var h_tr = document.createElement("tr");
-        tr_ls.forEach(function(item) {
+        tr_ls.forEach(function (item) {
             var td = document.createElement("td");
             var text = document.createElement("a");
             var text_ctnt = document.createTextNode(item);
@@ -91,14 +91,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             await $.ajax({
                 type: "POST",
                 async: true,
-                data:data,
-                dataType:"json",
+                data: data,
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
                     rcv = msg;
                     console.log(msg);
                 },
-                error: function(msg) {
+                error: function (msg) {
                     console.log(msg);
                 }
             });
@@ -108,7 +108,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             rcv.forEach(item => {
                 // 创建新的表格行
                 let row = document.createElement('tr');
-            
+
                 // 遍历字典中的键值对
                 for (let key in item) {
                     if (item.hasOwnProperty(key)) {
@@ -125,7 +125,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         row.appendChild(cell);
                     }
                 }
-            
+
                 // 将新的表格行添加到tbody中
                 tbody.appendChild(row);
             });
@@ -147,8 +147,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var rcd_select = document.createElement("select");
         rcd_select.setAttribute("id", "rcd-selector");
         rcd_select.setAttribute("title", "属性选择");
-        var select_option = ["订单编号","book-id", "书名", "UUID","账号", "姓名", "卡号"];
-        select_option.forEach(function(item) {
+        var select_option = ["订单编号", "book-id", "书名", "UUID", "账号", "姓名", "卡号"];
+        select_option.forEach(function (item) {
             var option = document.createElement("option");
             option.setAttribute("class", "rcd-select-option");
             var text = document.createTextNode(item);
@@ -159,23 +159,23 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_ctnt = document.createElement("input");
         search_ctnt.setAttribute("id", "search-ctnt");
         search_ctnt.setAttribute("placeholder", "请输入搜索内容");
-        search_ctnt.type="text";
+        search_ctnt.type = "text";
         var search_btn = document.createElement("input");
         search_btn.setAttribute("type", "button");
         search_btn.setAttribute("value", "搜索");
         search_rcd_div.appendChild(rcd_select);
         search_rcd_div.appendChild(search_ctnt);
         search_rcd_div.appendChild(search_btn);
-        
+
         var command_div = document.createElement("div");
-        command_div.id= "comm-div";
+        command_div.id = "comm-div";
         var label = document.createElement('label');
         label.textContent = '书本uuid为';
 
         // 创建并添加input[type="text"]
         var inputText = document.createElement('input');
         inputText.type = 'text';
-        
+
         // 创建并添加select
         var select = document.createElement('select');
 
@@ -191,7 +191,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         optionReturn.textContent = '还书';
         select.appendChild(optionReturn);
 
-        
+
         // 创建并添加input[type="button"]
         var inputButton = document.createElement('input');
         inputButton.type = 'button';
@@ -215,8 +215,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             $.ajax({
                 type: "POST",
                 async: true,
-                data:data,
-                dataType:"json",
+                data: data,
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
                     rcv = msg;
@@ -224,7 +224,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     request(true);
                     console.log(msg);
                 },
-                error: function(msg) {
+                error: function (msg) {
                     alert("Something went wrong");
                     console.log(msg);
                 }
@@ -239,7 +239,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var rst_ls_h = document.createElement("thead");
         var tr_ls = ["订单编号", "书名", "书本编号", "用户名", "姓名", "用户编号", "操作类型"];
         var h_tr = document.createElement("tr");
-        tr_ls.forEach(function(item) {
+        tr_ls.forEach(function (item) {
             var td = document.createElement("td");
             var text = document.createElement("a");
             var text_ctnt = document.createTextNode(item);
@@ -274,21 +274,21 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             };
             if (selector != undefined && load != true) {
                 data['select'] = selector.selectedOptions[0].textContent,
-                data['input'] = ctnt.value
+                    data['input'] = ctnt.value
             }
 
             var rcv;
             await $.ajax({
                 type: "POST",
                 async: true,
-                data:data,
-                dataType:"json",
+                data: data,
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
                     rcv = msg;
                     console.log(msg);
                 },
-                error: function(msg) {
+                error: function (msg) {
                     console.log(msg);
                 }
             });
@@ -298,7 +298,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             rcv.forEach(item => {
                 // 创建新的表格行
                 let row = document.createElement('tr');
-            
+
                 // 遍历字典中的键值对
                 for (let key in item) {
                     if (item.hasOwnProperty(key)) {
@@ -315,7 +315,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         row.appendChild(cell);
                     }
                 }
-            
+
                 // 将新的表格行添加到tbody中
                 tbody.appendChild(row);
             });
@@ -351,8 +351,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         btn.addEventListener("click", function () {
             (function (form, info_ls) {
                 var data = {
-                    'oper':'post',
-                    'ctnt':'book-list'
+                    'oper': 'post',
+                    'ctnt': 'book-list'
                 };
                 var inputs = form.querySelectorAll("input[type='text']");
                 for (var i = 0; i < inputs.length; i++) {
@@ -367,8 +367,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 $.ajax({
                     type: "POST",
                     async: true,
-                    data:data,
-                    dataType:"json",
+                    data: data,
+                    dataType: "json",
                     url: "../php/mainpage_backend.php",
                     success: function (msg) {
                         rcv = msg;
@@ -379,12 +379,12 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         }
                         console.log(msg);
                     },
-                    error: function(msg) {
+                    error: function (msg) {
                         alert("Something went wrong");
                         console.log(msg);
                     }
                 });
-            }) (book_info_form, book_info);
+            })(book_info_form, book_info);
         });
 
         box.appendChild(book_info_form);
@@ -407,7 +407,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         user_select.setAttribute("id", "user-selector");
         user_select.setAttribute("title", "属性选择");
         var select_option = ["UUID", "账号", "姓名", "卡号"];
-        select_option.forEach(function(item) {
+        select_option.forEach(function (item) {
             var option = document.createElement("option");
             option.setAttribute("class", "user-select-option");
             var text = document.createTextNode(item);
@@ -425,14 +425,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         search_user_div.appendChild(user_select);
         search_user_div.appendChild(search_ctnt);
         search_user_div.appendChild(search_btn);
-        
+
 
         var rst_ls_table = document.createElement("table");
         rst_ls_table.setAttribute("id", "rst-ls-table");
         var rst_ls_h = document.createElement("thead");
         var tr_ls = ["UUID", "账号", "姓名", "卡号", "权限", "联系电话", "邮箱"];
         var h_tr = document.createElement("tr");
-        tr_ls.forEach(function(item) {
+        tr_ls.forEach(function (item) {
             var td = document.createElement("td");
             var text = document.createElement("a");
             var text_ctnt = document.createTextNode(item);
@@ -467,14 +467,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             await $.ajax({
                 type: "POST",
                 async: true,
-                data:data,
-                dataType:"json",
+                data: data,
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
                 success: function (msg) {
                     rcv = msg;
                     console.log(msg);
                 },
-                error: function(msg) {
+                error: function (msg) {
                     console.log(msg);
                 }
             });
@@ -484,7 +484,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             rcv.forEach(item => {
                 // 创建新的表格行
                 let row = document.createElement('tr');
-            
+
                 // 遍历字典中的键值对
                 for (let key in item) {
                     if (item.hasOwnProperty(key)) {
@@ -501,7 +501,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         row.appendChild(cell);
                     }
                 }
-            
+
                 // 将新的表格行添加到tbody中
                 tbody.appendChild(row);
             });
@@ -527,7 +527,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         // select.setAttribute("id", "change-info-select");
         // 创建 select 中的选项
         var options = ["姓名", "卡号", "权限", "联系电话", "邮箱"];
-        options.forEach(function(optionText) {
+        options.forEach(function (optionText) {
             var option = document.createElement("option");
             option.textContent = optionText;
             select.appendChild(option);
@@ -559,12 +559,12 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         // 将新创建的 div 元素添加到 box 元素中
         box.appendChild(newDiv);
 
-        button.addEventListener("click", function() {
-            (function(input1, input2, select){
+        button.addEventListener("click", function () {
+            (function (input1, input2, select) {
                 if (/^\d{12}$/.test(input1.value)) {
                     var data = {
-                        "oper":"post",
-                        "ctnt":"change-info",
+                        "oper": "post",
+                        "ctnt": "change-info",
                         "uuid": input1.value,
                         "select": select.selectedOptions[0].textContent,
                         "set_ctnt": input2.value
@@ -572,15 +572,15 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     $.ajax({
                         type: "POST",
                         async: true,
-                        data:data,
-                        dataType:"json",
+                        data: data,
+                        dataType: "json",
                         url: "../php/mainpage_backend.php",
                         success: function (mes) {
                             alert(mes['msg']);
                             rcv = mes;
                             console.log(mes);
                         },
-                        error: function(mes) {
+                        error: function (mes) {
                             alert("Something went wrong");
                             console.log(mes);
                         }
@@ -610,14 +610,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         await $.ajax({
             type: "POST",
             data: data_send,
-            dataType:"json",
+            dataType: "json",
             url: "../php/mainpage_backend.php",
-            async:true,
-            success:function (msg) {
+            async: true,
+            success: function (msg) {
                 console.log(msg);
                 data_rcv = msg;
             },
-            error:function (msg) {
+            error: function (msg) {
                 console.log(msg);
             }
         });
@@ -626,7 +626,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
 
         var tip = document.createTextNode("(头像功能暂未实现)");
         var person_name = document.createTextNode(uname_auth['username']); // <-
-        
+
         user_pic.setAttribute("src", "../image/none_avatar.png");
         user_pic.setAttribute("alt", ".none_avatar");
         user_pic.setAttribute("height", "300");
@@ -662,7 +662,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 var info_cont_text = document.createTextNode(ctnt_list[i]);
             }
             info_tag.setAttribute("class", "info-tag");
-            info_tag.setAttribute("id",`info-tag${i}`);
+            info_tag.setAttribute("id", `info-tag${i}`);
             info_content.setAttribute("class", "info_ctnt");
             info_content.setAttribute("id", `info_ctnt${i}`);
             lst_div.setAttribute("class", "info-div");
@@ -708,14 +708,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 'oper': "get",
                 'ctnt': "user-info"
             },
-            dataType:"json",
+            dataType: "json",
             url: "../php/mainpage_backend.php",
-            async:true,
-            success:function (msg) {
+            async: true,
+            success: function (msg) {
                 console.log(msg);
                 data_rcv = msg;
             },
-            error:function (msg) {
+            error: function (msg) {
                 console.log(msg);
             }
         });
@@ -788,7 +788,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             acct_info_form.appendChild(input_div);
         }
         acct_info_form.appendChild(acct_info_btn);
-        
+
 
         // add event listenner
         self_info_btn.addEventListener("click", function () {
@@ -829,8 +829,8 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     }
                 }
                 return true;
-            }) (inputs)) {
-                inputs.forEach(function(item) {
+            })(inputs)) {
+                inputs.forEach(function (item) {
                     data[info_list[item.getAttribute("placeholder")]] = item.value;
                 });
                 $.ajax({
@@ -891,12 +891,11 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                 alert(msg);
             }
 
-            // 
         });
         box.appendChild(change_info_box);
     },
     "帮助文档": async function (uname_auth, box) {
-        box.innerHTML = '<iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe><iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
+        box.innerHTML = '<iframe src="../html/help.html" title="项目介绍" style="height:605px; width:99%; margin:0 auto;"></iframe>'
         box.id = "help";
     },
     "项目介绍": async function (uname_auth, box) {
@@ -910,7 +909,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         var search_div = $("<div>").attr("class", "search-div");
         var label = $("<label>").text("SQL:");
         // 创建input
-        var input = $("<input>", {type: "text", id: "sql-input", placeholder: "sql语句"});
+        var input = $("<input>", { type: "text", id: "sql-input", placeholder: "sql语句" });
         // 创建button
         var button = $("<input>").attr("type", "button").attr("value", "提交");
 
@@ -918,7 +917,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         // add eventlistener
         button.on("click", async function () {
             var each_tr = document.querySelectorAll("tr");
-            each_tr.forEach(function(item) {
+            each_tr.forEach(function (item) {
                 item.innerHTML = '';
             })
             var data_rcv;
@@ -929,19 +928,19 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     'ctnt': "sql",
                     'input': $("#sql-input").val()
                 },
-                dataType:"json",
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
-                async:true,
-                success:function (msg) {
+                async: true,
+                success: function (msg) {
                     console.log(msg);
                     data_rcv = msg;
                 },
-                error:function (msg) {
+                error: function (msg) {
                     console.log(msg);
                     alert("Something went wrong");
                 }
             });
-            
+
             // judge the data
             var thead = $("thead");
             var tbody = $("tbody");
@@ -949,15 +948,15 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
             // 向thead中添加tr标签，tr标签内的td为字典的键
             var keys = Object.keys(data_rcv[0]);
             var theadTr = $("<tr></tr>");
-            keys.forEach(function(key) {
+            keys.forEach(function (key) {
                 theadTr.append("<td>" + key + "</td>");
             });
             thead.append(theadTr);
 
             // 向tbody中添加多个tr标签，tr标签内的td为字典的值
-            data_rcv.forEach(function(item) {
+            data_rcv.forEach(function (item) {
                 var tbodyTr = $("<tr></tr>");
-                keys.forEach(function(key) {
+                keys.forEach(function (key) {
                     tbodyTr.append("<td>" + item[key] + "</td>");
                 });
                 tbody.append(tbodyTr);
@@ -971,7 +970,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.append(search_div);
 
         var rst_ls_table = $("<table>", { id: "rst-ls-table" });
-        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
+        var rst_ls_h = $("<thead>", { id: "rst-ls-head" });
         var head_tr = $("<tr>");
         var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
         rst_ls_h.append(head_tr);
@@ -987,9 +986,9 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box = $(".box");
 
         // button1 备份
-        var backup_div = $("<div>", {id:"backup-div"});
-        var input = $('<input>', {type:"text", placeholder:"请输入数据库备份名"});
-        var button = $('<input>', {type: "button", value:"备份"});
+        var backup_div = $("<div>", { id: "backup-div" });
+        var input = $('<input>', { type: "text", placeholder: "请输入数据库备份名" });
+        var button = $('<input>', { type: "button", value: "备份" });
 
 
         backup_div.append(input);
@@ -1005,21 +1004,21 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                     'oper': "get",
                     'ctnt': "backup-list",
                 },
-                dataType:"json",
+                dataType: "json",
                 url: "../php/mainpage_backend.php",
-                async:true,
-                success:function (msg) {
+                async: true,
+                success: function (msg) {
                     console.log(msg);
                     data_rcv = msg
                 },
-                error:function (msg) {
+                error: function (msg) {
                     console.log(msg);
                     alert("Something went wrong");
                 }
             });
             var rst_ls_body = document.querySelector("#rst-ls-body");
             rst_ls_body.innerHTML = '';
-            data_rcv.forEach(function(item) {
+            data_rcv.forEach(function (item) {
                 var tr = document.createElement("tr");
                 tr.innerHTML = `<td><a>${item}</a></td>`;
                 rst_ls_body.append(tr);
@@ -1038,11 +1037,11 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                         dataType: "json",
                         url: "../php/backup_restore.php",
                         type: "POST",
-                        success: function(msg) {
+                        success: function (msg) {
                             console.log(msg);
                             alert(msg);
                         },
-                        error: function(msg) {
+                        error: function (msg) {
                             console.log(msg);
                         }
                     });
@@ -1056,7 +1055,7 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
 
         // table
         var rst_ls_table = $("<table>", { id: "rst-ls-table" });
-        var rst_ls_h = $("<thead>", {id: "rst-ls-head"});
+        var rst_ls_h = $("<thead>", { id: "rst-ls-head" });
         var head_tr = $("<tr>");
         head_tr.append($(`<td><a>备份名称</a></td>`))
         var rst_ls_body = $("<tbody>", { id: "rst-ls-body" });
@@ -1066,14 +1065,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
         box.append(rst_ls_table);
 
         await write_to_table();
-        
-        
+
+
         if (uname_auth['authority'] >= 4) {
             // button2&3 恢复/删除
-            var r_d_div = $("<div>", {id:"r-d-div"});
-            var r_d_select = $("<select>", {title: "r-d-select", placeholder: "在这里选择备份文件名"});
-            var restore_button = $('<input>', {type: "button", value:"恢复"});
-            var delete_button = $('<input>', {type: "button", value:"删除"});
+            var r_d_div = $("<div>", { id: "r-d-div" });
+            var r_d_select = $("<select>", { title: "r-d-select", placeholder: "在这里选择备份文件名" });
+            var restore_button = $('<input>', { type: "button", value: "恢复" });
+            var delete_button = $('<input>', { type: "button", value: "删除" });
 
             r_d_div.append(r_d_select);
             r_d_div.append(restore_button);
@@ -1106,14 +1105,14 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                             dataType: "json",
                             url: "../php/backup_restore.php",
                             type: "POST",
-                            success: function(msg) {
+                            success: function (msg) {
                                 console.log(msg);
                                 alert("恢复成功！");
                             },
-                            error: function(msg) {
+                            error: function (msg) {
                                 console.log(msg);
                             }
-                        }); 
+                        });
                     }
                 })(r_d_select)
             });
@@ -1131,11 +1130,11 @@ const hori_btn_func = { // 设置按钮功能同时渲染box
                             dataType: "json",
                             url: "../php/backup_restore.php",
                             type: "POST",
-                            success: function(msg) {
+                            success: function (msg) {
                                 console.log(msg);
                                 flash_select();
                             },
-                            error: function(msg) {
+                            error: function (msg) {
                                 console.log(msg);
                             }
                         });
