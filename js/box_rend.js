@@ -39,13 +39,13 @@ var hori_btn_func = {
         var auth_list = ["游客", "普通用户", "管理员", "中级管理员", "超级管理员"];
 
         // block1：欢迎信息
-        var $block1 = $("<div>", {id: "block1", class: "block", type: "left-float"});
+        var $block1 = $("<div>", {id: "block1", class: "block"}).attr("data-float", "left");
         $block1.append($("<p>").text("欢迎回来"));
         $block1.append($("<p>").text(auth_list[user.authority] + ": " + user.username));
         $box.append($block1);
 
         // block2：近期新增图书
-        var $block2 = $("<div>", {id: "block2", class: "block", type: "right-float"});
+        var $block2 = $("<div>", {id: "block2", class: "block"}).attr("data-float", "right");
         $block2.append($("<label>", {class: "sheet-label"}).text("近期新增图书"));
         var $table2 = $("<table>");
         var $tr2 = $("<tr>");
@@ -66,7 +66,7 @@ var hori_btn_func = {
 
         // block3：近期注册用户（权限 >= 2）
         if (user.authority >= 2) {
-            var $block3 = $("<div>", {id: "block3", class: "block", type: "left-float"});
+            var $block3 = $("<div>", {id: "block3", class: "block"}).attr("data-float", "left");
             $block3.append($("<label>", {class: "sheet-label"}).text("近期注册用户"));
             var $table3 = $("<table>");
             var $tr3 = $("<tr>");
@@ -88,7 +88,7 @@ var hori_btn_func = {
 
         // block4：近期请求次数折线图（权限 >= 3）
         if (user.authority >= 3) {
-            var $block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
+            var $block4 = $("<div>", {id: "block4", class: "block"}).attr("data-float", "right");
             $block4.append($("<label>", {class: "sheet-label"}).text("近期请求次数"));
             var $canvas = $("<canvas>", {id: "request-chart"});
             $block4.append($canvas);

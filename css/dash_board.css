@@ -1,25 +1,22 @@
-/* #dash-board {
-    padding-top: 2%;
-} */
+#dash-board {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1%;
+    padding: 1%;
+    box-sizing: border-box;
+    height: 100%;
+}
+
 #dash-board .block {
-
-    position: relative;
-    margin:1% 1%;
-    display: block;
     width: 48%;
-    height: 46%;
-
+    height: 280px;
+    box-sizing: border-box;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-#dash-board .block[type="right-float"] {
-    float: right;
-
-}
-
-#dash-board .block[type="left-float"] {
-    float: left;
-
+#dash-board .block[data-float="right"] {
+    margin-left: auto;
 }
 
 #dash-board #block1 {
@@ -27,7 +24,7 @@
 }
 
 #dash-board #block2 {
-    background-color:antiquewhite;
+    background-color: antiquewhite;
 }
 
 #dash-board #block3 {
@@ -47,8 +44,7 @@
 
 #dash-board table {
     width: 80%;
-    margin: 15px auto;
-    margin-bottom: 0px;
+    margin: 15px auto 0;
 }
 
 #dash-board #block2 td:nth-child(even) {
@@ -57,7 +53,7 @@
 
 #block1 p:nth-child(1) {
     position: relative;
-    top :30%;
+    top: 30%;
     text-align: center;
     font-weight: bold;
     font-size: 30px;
@@ -66,13 +62,14 @@
 #block1 p:nth-child(2) {
     text-align: center;
     position: relative;
-    font-weight:lighter;
+    top: 35%;
+    font-weight: lighter;
     font-size: 25px;
-    top :35%;
 }
 
 #block4 canvas {
-    height: 250px !important;
-    width: 500px !important;
+    height: 230px !important;
+    width: 100% !important;
+    display: block;
     margin: 0 auto;
 }
