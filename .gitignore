@@ -1,7 +1,14 @@
-# backup files
+private/
+.vscode/
+.trae/
+.idea/
+.claude/
+temp/
+tmp/
+
+
 *.backup
-
-# files in directory ./private 
-/private/*
-
 temp.php
+CLAUDE.md
+.DS_Store
+nginx.conf
