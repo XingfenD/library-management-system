@@ -1,4 +1,5 @@
 <?php
+require_once 'bootstrap.php';
 session_start();
 header('Content-type:text/json;charset=utf-8');
 require_once '../private/mysql-conn-config.php';

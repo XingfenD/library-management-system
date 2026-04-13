@@ -47,7 +47,6 @@ function get_user_info($conn, $username)
 
 function alter_user_info($conn, $username, $data)
 {
-    $privateKey = file_get_contents('../private/key-pair/private_key.pem');
     $info_list = array(
         "姓名" => "u_name",
         "卡号" => "card_number",

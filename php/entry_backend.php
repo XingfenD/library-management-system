@@ -1,4 +1,5 @@
 <?php
+require_once 'bootstrap.php';
 session_start();
 header('Content-type:text/json;charset=utf-8');//这个类型声明非常关键
 require_once '../private/mysql-conn-config.php';
