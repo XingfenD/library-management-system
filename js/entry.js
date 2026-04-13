@@ -25,7 +25,7 @@ function log_in_send() {
                     alert(res['msg']);
                 } else {
                     alert("登录成功, 正在重定向...");
-                    window.location.replace('../index.php');
+                    window.location.replace('../index.html');
                 }
             },
             error: function (res) { // if failed
@@ -75,7 +75,7 @@ function sign_up_send() {
                     alert(res['msg']);
                 } else {
                     alert("注册成功, 正在重定向...");
-                    window.location.replace('../index.php');
+                    window.location.replace('../index.html');
                 }
             },
             error: function (res) { // if failed
