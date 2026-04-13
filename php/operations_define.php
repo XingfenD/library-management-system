@@ -469,3 +469,61 @@ function get_backup_list()
     // 返回文件名数组
     return array_values($backup_files);
 }
+
+function get_week_book($conn)
+{
+    $sql = "SELECT book_ind, book_name, storage_time
+            FROM book_index
+            WHERE STR_TO_DATE(storage_time, '%Y%m%d%H%i%s') >= DATE_SUB(NOW(), INTERVAL 1 WEEK)
+            ORDER BY STR_TO_DATE(storage_time, '%Y%m%d%H%i%s') DESC
+            LIMIT 4";
+    $rst = $conn->query($sql);
+    $rt = [];
+    while ($item = $rst->fetch_assoc()) {
+        $t = $item['storage_time'];
+        $rt[] = array(
+            "书籍编号" => $item['book_ind'],
+            "书名"     => $item['book_name'],
+            "入库日期" => substr($t,0,4)."年".substr($t,4,2)."月".substr($t,6,2)."日"
+        );
+    }
+    return $rt;
+}
+
+function get_week_user($conn)
+{
+    $sql = "SELECT uuid, username
+            FROM user
+            WHERE STR_TO_DATE(SUBSTRING(uuid, 1, 8), '%Y%m%d') BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()
+            ORDER BY STR_TO_DATE(SUBSTRING(uuid, 1, 8), '%Y%m%d') DESC
+            LIMIT 4";
+    $rst = $conn->query($sql);
+    $rt = [];
+    while ($item = $rst->fetch_assoc()) {
+        $u = $item['uuid'];
+        $rt[] = array(
+            "uuid"     => $u,
+            "用户名"   => $item['username'],
+            "注册日期" => substr($u,0,4)."年".substr($u,4,2)."月".substr($u,6,2)."日"
+        );
+    }
+    return $rt;
+}
+
+function get_requests_count($conn)
+{
+    $current_time = time();
+    $visit_counts = array();
+    for ($i = 0; $i < 5; $i++) {
+        $start_time = date('YmdHis', $current_time - ($i + 1) * 3600);
+        $end_time   = date('YmdHis', $current_time - $i * 3600);
+        $sql = "SELECT COUNT(*) as visit_count FROM request_rcd WHERE time >= ? AND time < ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $start_time, $end_time);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        $visit_counts[$i] = $row['visit_count'];
+        $stmt->close();
+    }
+    return $visit_counts;
+}

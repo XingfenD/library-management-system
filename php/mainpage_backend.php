@@ -14,6 +14,10 @@ if (isset($_SESSION['username'])) {
     $uname = $_SESSION['username'];
 }
 
+// 记录访问日志
+$ip = $_SERVER['REMOTE_ADDR'];
+$conn->query("INSERT INTO request_rcd (`request_id`, `ip`, `time`) VALUES ((SELECT uuid FROM user WHERE username='" . $uname . "'), '" . $ip . "', '" . date("YmdHis") . "')");
+
 if ($_POST['oper'] == 'get') {
     if ($_POST['ctnt'] == 'user-info') {
         if ($auth >= 0) {
@@ -23,68 +27,58 @@ if ($_POST['oper'] == 'get') {
         if ($auth >= 2) {
             echo json_encode(get_user_list($conn, $uname, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else if ($_POST['ctnt'] == "book-list") {
         if ($auth >= 1) {
             echo json_encode(get_book_list($conn, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else if ($_POST['ctnt'] == "rcd-list") {
         if (($auth == 1 && $_POST['input'] == 'self') || $auth >= 2) {
             echo json_encode(get_rcd_list($conn, $uname, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else if ($_POST['ctnt'] == 'backup-list') {
         if ($auth >= 3) {
             echo json_encode(get_backup_list());
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
+        }
+    } else if ($_POST['ctnt'] == 'book-in-week') {
+        echo json_encode(get_week_book($conn));
+    } else if ($_POST['ctnt'] == 'user-in-week') {
+        if ($auth >= 2) {
+            echo json_encode(get_week_user($conn));
+        } else {
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
+        }
+    } else if ($_POST['ctnt'] == 'request-list') {
+        if ($auth >= 3) {
+            echo json_encode(get_requests_count($conn));
+        } else {
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else {
-        echo json_encode(array(
-            "status" => -2,
-            "msg" => "Unknown operation!"
-        ));
+        echo json_encode(array("status" => -2, "msg" => "Unknown operation!"));
     }
 } else if ($_POST['oper'] == 'post') {
     if ($_POST['ctnt'] == 'user-info') {
         if ($auth >= 1) {
             alter_user_info($conn, $uname, $_POST);
-            echo json_encode(array(
-                "status" => 0,
-                "msg" => "status"
-            ));
+            echo json_encode(array("status" => 0, "msg" => "status"));
         }
     } else if ($_POST['ctnt'] == 'acct-info') {
         if ($auth >= 1) {
-            echo json_encode(array(
-                "status" => 0,
-                "msg" => alter_acct_info($conn, $uname, $_POST)
-            ));
+            echo json_encode(array("status" => 0, "msg" => alter_acct_info($conn, $uname, $_POST)));
         }
     } else if ($_POST['ctnt'] == 'change-info') {
         if ($auth >= 2) {
             echo json_encode(change_user_info($conn, $auth, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else if ($_POST['ctnt'] == 'br-book') {
         if ($auth >= 1) {
@@ -94,30 +88,18 @@ if ($_POST['oper'] == 'get') {
         if ($auth >= 2) {
             echo json_encode(book_store($conn, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else if ($_POST['ctnt'] == 'sql') {
-        if ($auth >= 3) {
+        if ($auth >= 4) {
             echo json_encode(sql_execute($conn, $_POST));
         } else {
-            echo json_encode(array(
-                "status" => -1,
-                "msg" => "you don't have the authority to do this!"
-            ));
+            echo json_encode(array("status" => -1, "msg" => "you don't have the authority to do this!"));
         }
     } else {
-        echo json_encode(array(
-            "status" => -2,
-            "msg" => "Unknown operation!"
-        ));
+        echo json_encode(array("status" => -2, "msg" => "Unknown operation!"));
     }
 } else {
-    echo json_encode(array(
-        "status" => -2,
-        "msg" => "Unknown operation!"
-    ));
+    echo json_encode(array("status" => -2, "msg" => "Unknown operation!"));
 }
 $conn->close();

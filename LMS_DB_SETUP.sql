@@ -113,6 +113,23 @@ CREATE TABLE IF NOT EXISTS `LMS_DB`.`book_info` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `LMS_DB`.`request_rcd`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `LMS_DB`.`request_rcd` ;
+
+CREATE TABLE IF NOT EXISTS `LMS_DB`.`request_rcd` (
+  `request_id` VARCHAR(20) NULL,
+  `ip` VARCHAR(15) NULL,
+  `time` VARCHAR(19) NULL,
+  CONSTRAINT `request_user`
+    FOREIGN KEY (`request_id`)
+    REFERENCES `LMS_DB`.`user` (`uuid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

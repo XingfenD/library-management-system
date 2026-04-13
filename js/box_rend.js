@@ -33,6 +33,90 @@ function loadTemplate(id) {
 
 var hori_btn_func = {
 
+    "仪表盘": async function (user, box) {
+        box.id = "dash-board";
+        var $box = $("#dash-board");
+        var auth_list = ["游客", "普通用户", "管理员", "中级管理员", "超级管理员"];
+
+        // block1：欢迎信息
+        var $block1 = $("<div>", {id: "block1", class: "block", type: "left-float"});
+        $block1.append($("<p>").text("欢迎回来"));
+        $block1.append($("<p>").text(auth_list[user.authority] + ": " + user.username));
+        $box.append($block1);
+
+        // block2：近期新增图书
+        var $block2 = $("<div>", {id: "block2", class: "block", type: "right-float"});
+        $block2.append($("<label>", {class: "sheet-label"}).text("近期新增图书"));
+        var $table2 = $("<table>");
+        var $tr2 = $("<tr>");
+        ["书籍编号", "书名", "入库日期"].forEach(function (h) { $tr2.append($("<td>").text(h)); });
+        $table2.append($tr2);
+        $block2.append($table2);
+        $box.append($block2);
+
+        apiPost({oper: "get", ctnt: "book-in-week"}).then(function (data) {
+            data.forEach(function (item) {
+                $table2.append($("<tr>").append(
+                    $("<td>").text(item["书籍编号"]),
+                    $("<td>").text(item["书名"]),
+                    $("<td>").text(item["入库日期"])
+                ));
+            });
+        });
+
+        // block3：近期注册用户（权限 >= 2）
+        if (user.authority >= 2) {
+            var $block3 = $("<div>", {id: "block3", class: "block", type: "left-float"});
+            $block3.append($("<label>", {class: "sheet-label"}).text("近期注册用户"));
+            var $table3 = $("<table>");
+            var $tr3 = $("<tr>");
+            ["uuid", "用户名", "注册时间"].forEach(function (h) { $tr3.append($("<td>").text(h)); });
+            $table3.append($tr3);
+            $block3.append($table3);
+            $box.append($block3);
+
+            apiPost({oper: "get", ctnt: "user-in-week"}).then(function (data) {
+                data.forEach(function (item) {
+                    $table3.append($("<tr>").append(
+                        $("<td>").text(item["uuid"]),
+                        $("<td>").text(item["用户名"]),
+                        $("<td>").text(item["注册日期"])
+                    ));
+                });
+            });
+        }
+
+        // block4：近期请求次数折线图（权限 >= 3）
+        if (user.authority >= 3) {
+            var $block4 = $("<div>", {id: "block4", class: "block", type: "right-float"});
+            $block4.append($("<label>", {class: "sheet-label"}).text("近期请求次数"));
+            var $canvas = $("<canvas>", {id: "request-chart"});
+            $block4.append($canvas);
+            $box.append($block4);
+
+            apiPost({oper: "get", ctnt: "request-list"}).then(function (data) {
+                var ctx = document.getElementById("request-chart").getContext("2d");
+                new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: ["一小时内", "两小时", "三小时", "四小时", "五小时"],
+                        datasets: [{
+                            label: "近五个小时内访问数",
+                            data: data,
+                            backgroundColor: "rgba(75, 192, 192, 0.2)",
+                            borderColor: "black",
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {legend: {display: false}},
+                        scales: {y: {beginAtZero: true}}
+                    }
+                });
+            });
+        }
+    },
+
     "查询馆藏": async function (user, box) {
         box.id = "search-book";
         box.appendChild(loadTemplate("tpl-search-book"));
@@ -70,10 +154,8 @@ var hori_btn_func = {
             fillTableBody(tbody, rcv);
         }
 
-        // 搜索按钮
         box.querySelector(".search-btn").addEventListener("click", function () { loadRecords(false); });
 
-        // 借还提交
         box.querySelector(".br-submit-btn").addEventListener("click", async function () {
             try {
                 var rcv = await apiPost({
@@ -122,7 +204,6 @@ var hori_btn_func = {
             fillTableBody(tbody, rcv);
         });
 
-        // 修改用户信息
         box.querySelector(".edit-btn").addEventListener("click", async function () {
             var uuid = box.querySelector(".edit-uuid").value;
             if (!/^\d{12}$/.test(uuid)) { alert("请输入12位数字的uuid!"); return; }
@@ -159,10 +240,8 @@ var hori_btn_func = {
         box.id = "change-info";
         box.appendChild(loadTemplate("tpl-change-info"));
 
-        // 填充当前用户名
         box.querySelector("#acct-input-ctnt0").value = user.username;
 
-        // 加载现有信息
         var data = await apiPost({ oper: "get", ctnt: "user-info" });
         var infoMap = { "姓名": "u_name", "卡号": "card_number", "联系电话": "u_tele", "电子邮箱": "u_email", "住址": "u_address" };
         var infoKeys = Object.values(infoMap);
@@ -172,10 +251,8 @@ var hori_btn_func = {
             }
         });
 
-        // 个人信息修改
         box.querySelector("#self-info-btn").addEventListener("click", async function () {
             var inputs = box.querySelectorAll("#self-info-form .info-input-ctnt");
-            // 校验
             for (var i = 0; i < inputs.length; i++) {
                 var ph = inputs[i].placeholder, val = inputs[i].value;
                 if (ph === "卡号" && !/^\d{13}$/.test(val)) { alert("校园卡号应为13位数字!"); return; }
@@ -192,7 +269,6 @@ var hori_btn_func = {
             }
         });
 
-        // 账户信息修改
         box.querySelector("#acct-info-btn").addEventListener("click", async function () {
             var inputs = box.querySelectorAll("#acct-info-form .info-input-ctnt");
             var msg = info_check(inputs[0].value, inputs[1].value, inputs[2].value);
@@ -237,7 +313,6 @@ var hori_btn_func = {
                 });
                 if (!data || data.length === 0) return;
 
-                // 动态表头
                 var keys = Object.keys(data[0]);
                 var tr = document.createElement("tr");
                 keys.forEach(function (k) {
@@ -260,7 +335,6 @@ var hori_btn_func = {
 
         var tbody = box.querySelector("#rst-ls-body");
 
-        // 加载备份列表
         async function loadBackupList() {
             try {
                 var data = await apiPost({ oper: "get", ctnt: "backup-list" });
@@ -273,7 +347,6 @@ var hori_btn_func = {
             } catch (e) { console.log(e); }
         }
 
-        // 备份按钮
         box.querySelector(".backup-btn").addEventListener("click", function () {
             var name = box.querySelector(".backup-name-input").value;
             if (!name) { alert("备份名称不能为空!"); return; }
@@ -289,7 +362,6 @@ var hori_btn_func = {
 
         await loadBackupList();
 
-        // Root 权限才显示恢复/删除
         if (user.authority >= 4) {
             var rdDiv = box.querySelector("#r-d-div");
             rdDiv.style.display = "";

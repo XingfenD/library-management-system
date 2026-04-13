@@ -16,6 +16,10 @@
             <li class="logo">
                 <svg width="50" height="50" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 6H22V42H32V6Z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/><path d="M42 6H32V42H42V6Z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/><path d="M10 6L18 7L14.5 42L6 41L10 6Z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/><path d="M37 18V15" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 18V15" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </li>
+            <li><a class="nav-btn" data-group="首页">
+                <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44365 41.5564C4.46243 37.5751 2 32.0751 2 26C2 13.8497 11.8497 4 24 4C36.1503 4 46 13.8497 46 26C46 32.0751 43.5376 37.5751 39.5564 41.5564" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.1005 35.8995C11.567 33.366 10 29.866 10 26C10 18.268 16.268 12 24 12" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/><path d="M24 26V18" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                首页
+            </a></li>
             <li><a class="nav-btn" data-group="书库">
                 <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 6H39C39 6 43 8 43 13C43 18 39 20 39 20H5C5 20 9 18 9 13C9 8 5 6 5 6Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M43 28H9C9 28 5 30 5 35C5 40 9 42 9 42H43C43 42 39 40 39 35C39 30 43 28 43 28Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 书库
@@ -48,6 +52,19 @@
 
     <!-- ==================== 主内容区：页面分组 ==================== -->
     <div class="content">
+
+        <!-- 首页 -->
+        <section class="page-group" data-group="首页" style="display:none">
+            <nav>
+                <ul class="nav-hori">
+                    <li><a class="hori-button" data-page="仪表盘">
+                        <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44365 41.5564C4.46243 37.5751 2 32.0751 2 26C2 13.8497 11.8497 4 24 4C36.1503 4 46 13.8497 46 26C46 32.0751 43.5376 37.5751 39.5564 41.5564" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.1005 35.8995C11.567 33.366 10 29.866 10 26C10 18.268 16.268 12 24 12" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/><path d="M24 26V18" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        仪表盘</a></li>
+                    <div class="hori-slider"></div>
+                </ul>
+            </nav>
+            <div class="box"></div>
+        </section>
 
         <!-- 书库 -->
         <section class="page-group" data-group="书库" style="display:none">
@@ -133,6 +150,7 @@
 
     <!-- 模板由 JS 从 html/templates.html 加载 -->
 
+    <script src="./js/chart.js"></script>
     <script src="./js/entry.js"></script>
     <script src="./js/box_rend.js"></script>
     <script src="./js/mainpage.js"></script>

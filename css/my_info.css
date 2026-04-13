@@ -108,6 +108,14 @@
     width: fit-content;
 }
 
+#change-info input[type="text"] {
+    border-radius: 0px;
+}
+
+#change-info input[type="password"] {
+    border-radius: 0px;
+}
+
 #change-info .info-input-div {
     margin-bottom: 15px;
 }
