@@ -9,6 +9,9 @@ tmp/
 
 *.backup
 temp.php
-CLAUDE.md
 .DS_Store
 nginx.conf
+
+# ai context files
+CLAUDE.md
+AGENTS.md
