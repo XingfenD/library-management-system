@@ -1,0 +1,16 @@
+<template id="tpl-search-book">
+    <div id="book-list-div">
+        <div class="search_book_div">
+            <label>搜索的属性</label>
+            <select id="book-selector" title="属性选择">
+                <option>book-id</option><option>书名</option><option>入库时间</option>
+            </select>
+            <input id="search-ctnt" placeholder="请输入搜索内容" type="text">
+            <input type="button" value="搜索" class="search-btn">
+        </div>
+        <table id="rst-ls-table">
+            <thead><tr><td>book-id</td><td>书名</td><td>入库时间</td><td>当前状态</td><td>标的价格</td></tr></thead>
+            <tbody id="book-ls-body"></tbody>
+        </table>
+    </div>
+</template>

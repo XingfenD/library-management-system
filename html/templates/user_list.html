@@ -1,0 +1,23 @@
+<template id="tpl-user-list">
+    <div id="user-list-div">
+        <div class="search_book_div">
+            <label>搜索的属性</label>
+            <select id="user-selector" title="属性选择">
+                <option>UUID</option><option>账号</option><option>姓名</option><option>卡号</option>
+            </select>
+            <input id="search-ctnt" placeholder="请输入搜索内容" type="text">
+            <input type="button" value="搜索" class="search-btn">
+        </div>
+        <table id="rst-ls-table">
+            <thead><tr><td>UUID</td><td>账号</td><td>姓名</td><td>卡号</td><td>权限</td><td>联系电话</td><td>邮箱</td></tr></thead>
+            <tbody id="user-ls-body"></tbody>
+        </table>
+    </div>
+    <div class="user-edit-div">
+        <label>修改uuid为</label><input type="text" class="edit-uuid">
+        <label>的用户的</label>
+        <select class="edit-field"><option>姓名</option><option>卡号</option><option>权限</option><option>联系电话</option><option>邮箱</option></select>
+        <label>为</label><input type="text" class="edit-value">
+        <input type="button" value="修改" class="edit-btn">
+    </div>
+</template>

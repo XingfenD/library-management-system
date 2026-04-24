@@ -1,0 +1,22 @@
+<template id="tpl-rcd-list">
+    <div id="comm-div">
+        <select><option value="borrow">借书</option><option value="return">还书</option></select>
+        <label>书本uuid为</label>
+        <input type="text" class="br-book-input">
+        <input type="button" value="提交" class="br-submit-btn">
+    </div>
+    <div id="rcd-list-div">
+        <div class="search_book_div rcd-search" style="display:none">
+            <label>搜索的属性</label>
+            <select id="rcd-selector" title="属性选择">
+                <option>订单编号</option><option>book-id</option><option>书名</option><option>UUID</option><option>账号</option><option>姓名</option><option>卡号</option>
+            </select>
+            <input id="search-ctnt" placeholder="请输入搜索内容" type="text">
+            <input type="button" value="搜索" class="search-btn">
+        </div>
+        <table id="rst-ls-table">
+            <thead><tr><td>订单编号</td><td>书名</td><td>书本编号</td><td>用户名</td><td>姓名</td><td>用户编号</td><td>操作类型</td></tr></thead>
+            <tbody id="rcd-ls-body"></tbody>
+        </table>
+    </div>
+</template>

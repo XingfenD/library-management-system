@@ -148,11 +148,29 @@
 
     </div>
 
-    <!-- 模板由 JS 从 html/templates.html 加载 -->
+    <!-- 页面模板按文件拆分在 html/templates/；脚本按注册表 / API / 渲染 / 页面控制器 / 启动层组织 -->
 
     <script src="./js/chart.js"></script>
     <script src="./js/entry.js"></script>
-    <script src="./js/box_rend.js"></script>
-    <script src="./js/mainpage.js"></script>
+    <script src="./js/page_registry.js"></script>
+    <script src="./js/api/http_client.js"></script>
+    <script src="./js/api/app_api.js"></script>
+    <script src="./js/api/dashboard_api.js"></script>
+    <script src="./js/api/library_api.js"></script>
+    <script src="./js/api/account_api.js"></script>
+    <script src="./js/api/system_api.js"></script>
+    <script src="./js/render/app_renderer.js"></script>
+    <script src="./js/render/table_renderer.js"></script>
+    <script src="./js/render/dashboard_renderer.js"></script>
+    <script src="./js/render/account_renderer.js"></script>
+    <script src="./js/render/library_renderer.js"></script>
+    <script src="./js/render/system_renderer.js"></script>
+    <script src="./js/pages/dashboard_page.js"></script>
+    <script src="./js/pages/library_pages.js"></script>
+    <script src="./js/pages/account_pages.js"></script>
+    <script src="./js/pages/system_pages.js"></script>
+    <script src="./js/template_loader.js"></script>
+    <script src="./js/navigation.js"></script>
+    <script src="./js/app_bootstrap.js"></script>
 </body>
 </html>

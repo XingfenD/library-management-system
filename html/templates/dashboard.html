@@ -1,0 +1,28 @@
+<template id="tpl-dashboard">
+    <div id="block1" class="block" data-float="left">
+        <p>欢迎回来</p>
+        <p class="welcome-user"></p>
+    </div>
+    <div id="block2" class="block" data-float="right">
+        <label class="sheet-label">近期新增图书</label>
+        <table>
+            <thead>
+                <tr><td>书籍编号</td><td>书名</td><td>入库日期</td></tr>
+            </thead>
+            <tbody class="book-in-week-body"></tbody>
+        </table>
+    </div>
+    <div id="block3" class="block" data-float="left" style="display:none">
+        <label class="sheet-label">近期注册用户</label>
+        <table>
+            <thead>
+                <tr><td>uuid</td><td>用户名</td><td>注册时间</td></tr>
+            </thead>
+            <tbody class="user-in-week-body"></tbody>
+        </table>
+    </div>
+    <div id="block4" class="block" data-float="right" style="display:none">
+        <label class="sheet-label">近期请求次数</label>
+        <canvas class="request-chart"></canvas>
+    </div>
+</template>

@@ -1,0 +1,15 @@
+<template id="tpl-backup-restore">
+    <div id="backup-div">
+        <input type="text" placeholder="请输入数据库备份名" class="backup-name-input">
+        <input type="button" value="备份" class="backup-btn">
+    </div>
+    <table id="rst-ls-table">
+        <thead id="rst-ls-head"><tr><td><a>备份名称</a></td></tr></thead>
+        <tbody id="rst-ls-body"></tbody>
+    </table>
+    <div id="r-d-div" style="display:none">
+        <select class="rd-select" title="r-d-select"></select>
+        <input type="button" value="恢复" class="restore-btn">
+        <input type="button" value="删除" class="delete-btn">
+    </div>
+</template>
