@@ -463,7 +463,9 @@ function get_backup_list()
 
     // 过滤掉 "." 和 ".." 目录
     $backup_files = array_filter($files, function ($file) use ($backup_dir) {
-        return $file !== '.' && $file !== '..' && is_file($backup_dir . '/' . $file);
+        return $file !== '.' && $file !== '..'
+            && is_file($backup_dir . '/' . $file)
+            && preg_match('/^backup_.*\.sql$/', $file);
     });
 
     // 返回文件名数组

@@ -1,5 +1,5 @@
-private/backup/*
-!private/backup/.gitkeep
+src/private/backup/*
+!src/private/backup/.gitkeep
 .vscode/
 .trae/
 .idea/
