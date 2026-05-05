@@ -12,7 +12,7 @@ hori_btn_func["用户列表"] = async function (user, box) {
     box.querySelector(".edit-btn").addEventListener("click", async function () {
         var uuid = box.querySelector(".edit-uuid").value;
         if (!/^\d{12}$/.test(uuid)) {
-            alert("请输入12位数字的uuid!");
+            showToast("请输入12位数字的uuid!");
             return;
         }
 
@@ -22,9 +22,9 @@ hori_btn_func["用户列表"] = async function (user, box) {
                 box.querySelector(".edit-field").selectedOptions[0].textContent,
                 box.querySelector(".edit-value").value
             );
-            alert(rcv.msg);
+            showToast(rcv.msg);
         } catch (e) {
-            alert("Something went wrong");
+            showToast("Something went wrong");
         }
     });
 };
@@ -51,15 +51,15 @@ hori_btn_func["修改信息"] = async function (user, box) {
             var value = inputs[i].value;
 
             if (placeholder === "卡号" && !/^\d{13}$/.test(value)) {
-                alert("校园卡号应为13位数字");
+                showToast("校园卡号应为13位数字");
                 return;
             }
             if (placeholder === "联系电话" && !/^\d{11}$/.test(value)) {
-                alert("电话号码应为11位数字");
+                showToast("电话号码应为11位数字");
                 return;
             }
             if (placeholder === "电子邮箱" && !/[\w]+(\.[\w]+)*@[\w]+(\.[\w])+/.test(value)) {
-                alert("邮箱格式非法!");
+                showToast("邮箱格式非法!");
                 return;
             }
         }
@@ -71,9 +71,9 @@ hori_btn_func["修改信息"] = async function (user, box) {
 
         try {
             await accountApi.updateUserInfo(postData);
-            alert("修改成功!");
+            showToast("修改成功!");
         } catch (e) {
-            alert("修改失败");
+            showToast("修改失败");
         }
     });
 
@@ -81,15 +81,15 @@ hori_btn_func["修改信息"] = async function (user, box) {
         var inputs = box.querySelectorAll("#acct-info-form .info-input-ctnt");
         var msg = info_check(inputs[0].value, inputs[1].value, inputs[2].value);
         if (msg !== "true") {
-            alert(msg);
+            showToast(msg);
             return;
         }
 
         try {
             var res = await accountApi.updateAccountInfo(inputs[0].value, inputs[1].value);
-            alert(res.status == 0 ? "修改密码成功!" : res.msg);
+            showToast(res.status == 0 ? "修改密码成功!" : res.msg);
         } catch (e) {
-            alert("修改密码失败");
+            showToast("修改密码失败");
         }
     });
 };

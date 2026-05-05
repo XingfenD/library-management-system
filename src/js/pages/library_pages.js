@@ -32,10 +32,10 @@ hori_btn_func["借阅记录"] = async function (user, box) {
                 box.querySelector("#comm-div select").selectedOptions[0].textContent,
                 box.querySelector(".br-book-input").value
             );
-            alert(rcv.msg);
+            showToast(rcv.msg);
             loadRecords(true);
         } catch (e) {
-            alert("Something went wrong");
+            showToast("Something went wrong");
         }
     });
 
@@ -48,15 +48,15 @@ hori_btn_func["图书入库"] = async function (user, box) {
         var price = box.querySelector("#book-info-input1").value;
 
         if (!name || !price) {
-            alert("输入不能为空!");
+            showToast("输入不能为空!");
             return;
         }
 
         try {
             var rcv = await libraryApi.storeBook(name, price);
-            alert(rcv.status == 0 ? "入库成功!" : "Something went wrong");
+            showToast(rcv.status == 0 ? "入库成功!" : "Something went wrong");
         } catch (e) {
-            alert("Something went wrong");
+            showToast("Something went wrong");
         }
     });
 };

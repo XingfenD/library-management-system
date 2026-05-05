@@ -9,7 +9,7 @@ hori_btn_func["SQL执行"] = async function (user, box) {
 
             systemRenderer.renderSqlResult(box, data);
         } catch (e) {
-            alert("Something went wrong");
+            showToast("Something went wrong");
         }
     });
 };
@@ -28,12 +28,12 @@ hori_btn_func["备份与恢复"] = async function (user, box) {
     box.querySelector(".backup-btn").addEventListener("click", function () {
         var name = box.querySelector(".backup-name-input").value;
         if (!name) {
-            alert("备份名称不能为空!");
+            showToast("备份名称不能为空!");
             return;
         }
 
         systemApi.backup(name).done(function (msg) {
-            alert(msg);
+            showToast(msg);
             loadBackupList();
         }).fail(function (msg) {
             console.log(msg);
@@ -60,7 +60,7 @@ hori_btn_func["备份与恢复"] = async function (user, box) {
             }
 
             systemApi.restore(rdSelect.value).done(function () {
-                alert("恢复成功");
+                showToast("恢复成功");
             }).fail(function (msg) {
                 console.log(msg);
             });

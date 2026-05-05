@@ -97,13 +97,13 @@ function bindLogout(sharedInfo, appUser) {
         try {
             var res = await appApi.logout(appUser.username);
             if (res.status == 0) {
-                alert("退出登录成功，正在重定向...");
+                showToast("退出登录成功，正在重定向...");
                 window.location.replace("./html/log_in.html");
             } else {
-                alert("退出登录失败");
+                showToast("退出登录失败");
             }
         } catch (e) {
-            alert("error");
+            showToast("error");
         }
     });
 }
