@@ -1,10 +1,12 @@
-private/
+private/backup/*
+!private/backup/.gitkeep
 .vscode/
 .trae/
 .idea/
 .claude/
 temp/
 tmp/
+deploy/logs/
 
 
 *.backup

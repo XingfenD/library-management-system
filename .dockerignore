@@ -1,4 +1,8 @@
-info.php
-LMS_DB_SETUP.sql
-Dockfile
-docker-compose.yml
+deploy/
+.git/
+README.md
+LICENSE
+CLAUDE.md
+AGENTS.md
+.gitignore
+.dockerignore

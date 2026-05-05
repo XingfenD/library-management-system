@@ -1,0 +1,35 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: lms-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_DATABASE: LMS_DB
+      MYSQL_USER: LMS
+      MYSQL_PASSWORD: LBS-mysql-admin-password
+    volumes:
+      - ./scripts/LMS_DB_SETUP.sql:/docker-entrypoint-initdb.d/01-setup.sql
+    networks:
+      - lms-network
+    restart: always
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.dev
+    image: lms-web:dev
+    container_name: lms-web
+    ports:
+      - "80:80"
+    volumes:
+      - ../src:/var/www/html
+      - ./logs:/var/log/apache2
+    depends_on:
+      - mysql
+    networks:
+      - lms-network
+    restart: always
+
+networks:
+  lms-network:
+    driver: bridge
