@@ -11,7 +11,3 @@ tmp/
 temp.php
 .DS_Store
 nginx.conf
-
-# ai context files
-CLAUDE.md
-AGENTS.md
